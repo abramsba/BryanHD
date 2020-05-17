@@ -1,0 +1,5 @@
+AddKeySection "Bryan Keybinds" BKeybinds
+AddMenuKey "Focus" +focusing
+
+alias +focusing "use focusin"
+alias -focusing "use focusout"

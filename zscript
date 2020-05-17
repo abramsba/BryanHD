@@ -1,0 +1,19 @@
+version "4.3"
+
+#include "source/constants.zs"
+#include "source/player.zs"
+#include "source/drops.zs"
+
+#include "source/input/focus.zs"
+
+#include "source/weapons/bullets.zs"
+#include "source/weapons/magazines.zs"
+#include "source/weapons/ammo.zs"
+
+#include "source/weapons/base.zs"
+//#include "source/weapons/bakm.zs"
+#include "source/weapons/bm16.zs"
+
+#include "source/weapons/m16.zs"
+#include "source/weapons/ak47.zs"
+//#include "source/weapons/akm.zs"
