@@ -4,11 +4,11 @@ GameInfo {
 }
 
 DoomEdNums {
-	19000 = M16_AssaultRifle
 	19001 = B556Mag
 	19002 = AK47_AssaultRifle
 	19003 = B776Mag
 	19005 = B762Mag
 	19007 = M16Spawner
 	19009 = B_M16
+	19010 = AKM_AssaultRifle
 }

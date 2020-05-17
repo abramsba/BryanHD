@@ -1,5 +1,5 @@
 
-class B_AKM : BBasicWeapon {
+class B_AKM : BHDWeapon {
 
 	default {
 		+hdweapon.fitsinbackpack
@@ -15,30 +15,36 @@ class B_AKM : BBasicWeapon {
 		tag                     "AKM";
 		inventory.icon          "AKMPA0";
 
-		BBasicWeapon.BHeatDrain         12;
-		BBasicWeapon.BBulletClass       "HDB_762";
-		BBasicWeapon.BAmmoClass         "B762Ammo";
-		BBasicWeapon.BMagazineClass     "B762Mag";
-		BBasicWeapon.BGunMass           6.2;
-		BBasicWeapon.BCookOff           30;
-		BBasicWeapon.BHeatLimit         255;
-		BBasicWeapon.BSpriteWithMag     "AKMPA0";
-		BBasicWeapon.BSpriteWithoutMag  "AKMPB0";
-		BBasicWeapon.BMagazineSprite    "AKMCA0";
-		BBasicWeapon.BWeaponBulk        90;
-		BBasicWeapon.BMagazineBulk      19;
-		BBasicWeapon.BBulletBulk        1;
-		BBasicWeapon.BMagazineCapacity  30;
-		BBasicWeapon.BarrelLength       25;
-		BBasicWeapon.BarrelWidth        1;
-		BBasicWeapon.BarrelDepth        3;
-		BBasicWeapon.BFireSound         "akm/fire";
-		BBasicWeapon.BChamberSound      "weapons/rifchamber";
-		BBasicWeapon.BBoltForwardSound  "akm/boltf";
-		BBasicWeapon.BBoltBackwardSound "akm/boltb";
-		BBasicWeapon.BClickSound        "weapons/rifleclick2";
-		BBasicWeapon.BLoadSound         "weapons/rifleload";
-		BBasicWeapon.BROF               2;
+		BHDWeapon.BHeatDrain         12;
+		BHDWeapon.BBulletClass       "HDB_762";
+		BHDWeapon.BAmmoClass         "B762Ammo";
+		BHDWeapon.BMagazineClass     "B762Mag";
+		BHDWeapon.BGunMass           6.2;
+		BHDWeapon.BCookOff           30;
+		BHDWeapon.BHeatLimit         255;
+		BHDWeapon.BSpriteWithMag     "AKMPA0";
+		BHDWeapon.BSpriteWithoutMag  "AKMPB0";
+		BHDWeapon.BMagazineSprite    "AKMCA0";
+		BHDWeapon.BWeaponBulk        90;
+		BHDWeapon.BMagazineBulk      19;
+		BHDWeapon.BBulletBulk        1;
+		BHDWeapon.BMagazineCapacity  30;
+		BHDWeapon.BarrelLength       25;
+		BHDWeapon.BarrelWidth        1;
+		BHDWeapon.BarrelDepth        3;
+		BHDWeapon.BFireSound         "akm/fire";
+		BHDWeapon.BChamberSound      "weapons/rifchamber";
+		BHDWeapon.BBoltForwardSound  "akm/boltf";
+		BHDWeapon.BBoltBackwardSound "akm/boltb";
+		BHDWeapon.BClickSound        "weapons/rifleclick2";
+		BHDWeapon.BLoadSound         "weapons/rifleload";
+		BHDWeapon.BROF               2;
+		BHDWeapon.BBackSightImage    "akmsight";
+		BHDWeapon.BBackOffsetX       0;
+		BHDWeapon.BBackOffsetY       8;
+		BHDWeapon.BFrontSightImage   "akmiron";
+		BHDWeapon.BFrontOffsetX      0;
+		BHDWeapon.BFrontOffsetY      10;
 	}
 
 	states {

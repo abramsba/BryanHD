@@ -13,7 +13,7 @@ const F_NO_FIRE_SELECT = 32;
 const F_UNLOAD_ONLY    = 128;
 
 // Base Class for Rifle
-class BBasicWeapon : HDWeapon {
+class BHDWeapon : HDWeapon {
 
 	property BHeatDrain: bHeatDrain;
 	int bHeatDrain;
@@ -73,7 +73,23 @@ class BBasicWeapon : HDWeapon {
 	string bBoltForwardSound;
 
 	property BBoltBackwardSound : bBoltBackwardSound;
-	string BBoltBackwardSound;
+	string bBoltBackwardSound;
+
+	property BBackSightImage : bBackSightImage;
+	string bBackSightImage;
+
+	property BBackOffsetX : bBackOffsetX;
+	property BBackOffsetY : bBackOffsetY;
+	int bBackOffsetX;
+	int bBackOffsetY;
+
+	property BFrontSightImage : bFrontSightImage;
+	string bFrontSightImage;
+
+	property BFrontOffsetX : bFrontOffsetX;
+	property BFrontOffsetY : bFrontOffsetY;
+	int bFrontOffsetX;
+	int bFrontOffsetY;
 
 	property BROF : bROF;
 	int bROF;
@@ -144,12 +160,6 @@ class BBasicWeapon : HDWeapon {
 
 	void setFireMode(int mode) {
 		weaponStatus[I_AUTO] = mode;
-		if (fireMode() < 0) {
-			weaponStatus[I_AUTO] = 0;
-		}
-		else if (fireMode() > 2) {
-			weaponStatus[I_AUTO] = 2;
-		}
 	}
 
 	int boreStretch() const {
@@ -200,16 +210,18 @@ class BBasicWeapon : HDWeapon {
 			breakChamber();
 		}
 		if(overheated()) {
+			console.printf("Dropping weapon");
 			owner.dropInventory(self);
 		}
 	}
 
 	override string, double GetPickupSprite() {
+		console.printf("%s %s", bSpriteWithoutMag, bSpriteWithMag);
 		if(magazineHasAmmo()) {
-			return bSpriteWithoutMag, 1.;
+			return bSpriteWithMag, 1.;
 		}
 		else {
-			return bSpriteWithMag, 1.;
+			return bSpriteWithoutMag, 1.;
 		}
 	}
 
@@ -229,6 +241,18 @@ class BBasicWeapon : HDWeapon {
 				owner.A_DropInventory(bAmmoClass, amt);
 			}
 		}
+	}
+
+	override Inventory CreateTossable(int amount) {
+		console.printf("hewiojs");
+		let owner = self.owner;
+		let tossed = super.CreateTossable(amount);
+		if (!tossed) {
+			return null;
+		}
+		console.printf("here %p", tossed);
+		tossed.target = owner;
+		return tossed;
 	}
 
 	override void ForceBasicAmmo(){
@@ -275,7 +299,7 @@ class BBasicWeapon : HDWeapon {
 	}
 
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
-		BBasicWeapon basicWep = BBasicWeapon(hdw);
+		BHDWeapon basicWep = BHDWeapon(hdw);
 		if (sb.hudLevel == 1) {
 			int nextMag = sb.GetNextLoadMag(HDMagAmmo(hpl.findInventory(basicWep.bMagazineClass)));
 			sb.DrawImage(basicWep.bMagazineSprite, (-46, -3), sb.DI_SCREEN_CENTER_BOTTOM, scale: (2, 2));
@@ -293,6 +317,15 @@ class BBasicWeapon : HDWeapon {
 		sb.DrawNum(ammoBarAmt, -16, -22, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_RIGHT, Font.CR_RED);
 	}
 
+	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot) {
+		BHDWeapon basicWep = BHDWeapon(hdw);
+		double dotoff = max(abs(bob.x), abs(bob.y));
+		if (dotoff < 6){
+			sb.drawImage(basicWep.bFrontSightImage, (basicWep.bFrontOffsetX, basicWep.bFrontOffsetY) + bob * 3, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, alpha: 0.9 - dotoff * 0.04);
+		}
+		sb.drawimage(basicWep.bBackSightImage, (basicWep.bBackOffsetX, basicWep.bBackOffsetY) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
+	}
+
 	// States
 
 	states {
@@ -308,8 +341,29 @@ class BBasicWeapon : HDWeapon {
 				else {
 					A_WeaponReady(WRF_ALL);
 				}
+
+				if (invoker.firemode() > 2) {
+					invoker.setFireMode(2);
+				}
+
 				return ResolveState("ReadyEnd");
 			}
+
+		Spawn2:
+			#### A -1 {
+				if (invoker.weaponStatus[I_MAG] > 0) {
+					sprite = getSpriteIndex(invoker.bSpriteWithMag);
+				}
+
+				if (invoker.weaponStatus[I_MAG] < 0) {
+					frame = 1;
+				}
+
+				if (invoker.chambered() && !invoker.brokenChamber() && invoker.overheated()) {
+					SetStateLabel("SpawnShoot");
+				}
+			}
+
 
 		User3:
 			#### A 0 A_MagManager(invoker.bMagazineClass);
@@ -322,7 +376,10 @@ class BBasicWeapon : HDWeapon {
 				if (invoker.fireMode() > 0) {
 					A_SetTics(invoker.bROF);
 				}
+				return ResolveState("ShootGun");
 			}
+
+		ShootGun:
 			#### A 1 {
 				console.printf("%i %i", invoker.chambered(), invoker.magazineHasAmmo());
 				if (invoker.brokenChamber() || (!invoker.chambered() && invoker.magazineGetAmmo() < 1)) {
@@ -334,8 +391,12 @@ class BBasicWeapon : HDWeapon {
 				else {
 					A_GunFlash();
 					A_WeaponReady(WRF_NONE);
+					if (invoker.weaponStatus[I_AUTO] >= 2) {
+						invoker.weaponStatus[I_AUTO]++;
+					}
 					return ResolveState(NULL);
 				}
+
 			}
 			#### B 1;
 			#### B 0 {
@@ -365,21 +426,28 @@ class BBasicWeapon : HDWeapon {
 
 		Firemode:
 			#### A 1 {
-				if (invoker.fireMode() >= 2) {
-					invoker.setFireMode(0);
+				if (invoker.weaponStatus[I_FLAGS] > F_NO_FIRE_SELECT) {
+					invoker.weaponStatus[I_AUTO] = 0;
+					return ResolveState("Nope");
+				}
+
+				if (invoker.weaponStatus[I_AUTO] >= 2) {
+					invoker.weaponStatus[I_AUTO] = 0;
 				}
 				else {
-					invoker.setFireMode(invoker.fireMode() + 1);
+					invoker.weaponStatus[I_AUTO]++;
 				}
+				A_WeaponReady(WRF_NONE);
 				return ResolveState("Nope");
 			}
 
 		Chamber:
-			#### A 1 Offset(0, 32) {
-				if (!invoker.magazineHasAmmo() < 1) {
+			#### B 0 Offset(0, 32) {
+				if (!invoker.magazineHasAmmo()) {
 					return ResolveState("nope");
 				}
 
+				console.printf("here %f", invoker.magazineGetAmmo() % 100);
 				if (invoker.magazineGetAmmo() % 100 > 0) {
 					if (invoker.magazineGetAmmo() == (invoker.bMagazineCapacity + 1)) {
 						invoker.weaponStatus[I_MAG] = invoker.bMagazineCapacity;
@@ -396,11 +464,16 @@ class BBasicWeapon : HDWeapon {
 					return ResolveState("Jam");
 				}
 				A_WeaponReady(WRF_NOFIRE);
+				console.printf("firemode %i", invoker.fireMode());
 				return ResolveState(NULL);
 			}
-			#### A 1 A_CheckCookoff();
+			#### B 1 A_CheckCookoff();
+			#### A 0 A_JumpIf(invoker.fireMode() < 1, "Nope");
+			#### A 0 A_JumpIf(invoker.fireMode() > 4, "Nope");
+			#### A 0 A_JumpIf(invoker.fireMode() > 1, 1);
 			#### A 0 A_Refire();
 			#### A 0 {
+				console.printf("Skipped to ready");
 				return ResolveState("Ready");
 			}
 
@@ -448,7 +521,16 @@ class BBasicWeapon : HDWeapon {
 			}
 
 		Cookoff:
-			#### A 0;
+			#### A 0 {
+				A_ClearRefire();
+				if (invoker.weaponStatus[I_MAG] >= 0 && JustPressed(BT_RELOAD) || JustPressed(BT_UNLOAD)) {
+					A_StartSound(invoker.bClickSound, CHAN_WEAPON, CHANF_OVERLAP);
+					A_StartSound(invoker.bLoadSound, CHAN_WEAPON, CHANF_OVERLAP);
+					HDMagAmmo.SpawnMag(self, invoker.bMagazineClass, invoker.weaponStatus[I_MAG]);
+					invoker.weaponStatus[I_MAG]= -1;
+				}
+				return ResolveState("ShootGun");
+			}
 
 		user4:
 		Unload:
@@ -586,6 +668,11 @@ class BBasicWeapon : HDWeapon {
 			#### A 0 {
 				return ResolveState("Chamber_Manual");
 			}
+
+		Hold:
+			#### A 0 A_JumpIf(invoker.weaponStatus[I_FLAGS] & F_NO_FIRE_SELECT, "Nope");
+			#### A 0 A_JumpIf(invoker.weaponstatus[I_AUTO] > 4, "Nope");
+			#### A 0 A_JumpIf(invoker.weaponStatus[I_AUTO], "ShootGun");
 
 
 	}

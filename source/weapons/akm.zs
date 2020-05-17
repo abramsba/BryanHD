@@ -209,6 +209,7 @@ class AKM_AssaultRifle : HDWeapon {
 				invoker.weaponstatus[AKM_S_AUTO] = 0;
 				return;
 			}
+
 			if (invoker.weaponstatus[AKM_S_AUTO] >= 2) {
 				invoker.weaponstatus[AKM_S_AUTO] = 0;
 			}  
@@ -662,7 +663,7 @@ class AKM_AssaultRifle : HDWeapon {
 
 	override inventory CreateTossable(int amt){
 		let owner = self.owner;
-		let zzz = AKM_assaultrifle(super.createtossable());
+		let zzz = super.createtossable();
 		if (!zzz){
 			return null;
 		}
