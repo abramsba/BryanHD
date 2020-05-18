@@ -16,7 +16,6 @@ class B556Mag : HDMagAmmo{
 	}
 
 	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("M16_AssaultRifle");
 	}
 
 	states{
@@ -33,7 +32,40 @@ class B556Mag : HDMagAmmo{
 	}
 }
 
-class B776Mag : HDMagAmmo{
+class B9mm_MP5K_MAG : HDMagAmmo {
+	default{
+		hdmagammo.maxperunit 30;
+		hdmagammo.roundtype "HDPistolAmmo";
+		hdmagammo.roundbulk ENC_556_LOADED;
+		hdmagammo.magbulk ENC_556MAG_EMPTY;
+		hdpickup.refid HDLD_556MAG;
+		tag "9mm MP5K Magazine";
+		inventory.pickupmessage "Picked up a 9mm MP5K magazine.";
+		scale 0.8;
+	}
+
+	override string,string,name,double getmagsprite(int thismagamt){
+		return "MP5CA0", "MP5C", "HDPistolAmmo", 1.7;
+	}
+
+	override void GetItemsThatUseThis(){
+	}
+
+	states{
+		spawn:
+			MP5C A -1;
+			stop;
+		spawnempty:
+			MP5C A -1{
+				brollsprite = true;
+				brollcenter = true;
+				roll = randompick(0, 0, 0, 0, 2, 2, 2, 2, 1, 3) * 90;
+			}
+			stop;
+	}
+}
+
+class B762_AK47_Mag : HDMagAmmo{
 	default{
 		hdmagammo.maxperunit 30;
 		hdmagammo.roundtype "SevenMilAmmo";
@@ -67,7 +99,7 @@ class B776Mag : HDMagAmmo{
 	}
 }
 
-class B762Mag : HDMagAmmo{
+class B762_AKM_Mag : HDMagAmmo{
 	default{
 		hdmagammo.maxperunit 30;
 		hdmagammo.roundtype "B762Ammo";

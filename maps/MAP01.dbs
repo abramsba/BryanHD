@@ -11,11 +11,11 @@ maps
 		resources
 		{
 		}
-		defaultfloortexture = "FLOOR0_1";
-		defaultceiltexture = "CEIL1_1";
-		defaulttoptexture = "STARTAN2";
-		defaultwalltexture = "STARTAN2";
-		defaultbottomtexture = "STARTAN2";
+		defaultfloortexture = "GRASS1";
+		defaultceiltexture = "CEIL5_1";
+		defaulttoptexture = "PANCASE2";
+		defaultwalltexture = "PANCASE2";
+		defaultbottomtexture = "PANCASE2";
 		custombrightness = 196;
 		customfloorheight = 0;
 		customceilheight = 128;
@@ -29,9 +29,9 @@ maps
 		overridebrightness = false;
 		uselongtexturenames = true;
 		useresourcesinreadonlymode = false;
-		viewpositionx = -10.78207f;
-		viewpositiony = -0.9818077f;
-		viewscale = 1.856464f;
+		viewpositionx = -310.596f;
+		viewpositiony = 538.8768f;
+		viewscale = 0.4999991f;
 		scriptcompiler = "zdoom_acs.cfg";
 		
 		grid
@@ -42,10 +42,36 @@ maps
 			backoffsety = 0;
 			backscalex = 100;
 			backscaley = 100;
-			gridsize = 32f;
+			gridsize = 8f;
 			gridrotate = 0f;
 			gridoriginx = 0f;
 			gridoriginy = 0f;
+		}
+		
+		fieldtypes
+		{
+			
+			sidedef
+			{
+				offsetx_mid = 1;
+				offsety_mid = 1;
+				offsetx_top = 1;
+				offsety_top = 1;
+			}
+			
+			sector
+			{
+				xpanningceiling = 1;
+				ypanningceiling = 1;
+				rotationceiling = 17;
+				xscaleceiling = 1;
+				yscaleceiling = 1;
+				xpanningfloor = 1;
+				ypanningfloor = 1;
+				rotationfloor = 17;
+				xscalefloor = 1;
+				yscalefloor = 1;
+			}
 		}
 	}
 }

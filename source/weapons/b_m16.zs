@@ -75,20 +75,5 @@ class B_M16 : BHDWeapon {
 			M16G A 0;
 			Goto Super::Deselect0;
 	}
-
-
-
-
 }
 
-
-
-class M16Giver : HDWeaponGiver {
-	default {
-		tag "M16";
-		hdweapongiver.bulk (90.+(ENC_762MAG_LOADED+30.*ENC_762_LOADED));
-		hdweapongiver.weapontogive "B_M16";
-		hdweapongiver.config "noglsemi";
-		inventory.icon "AKMPA0";
-	}
-}
