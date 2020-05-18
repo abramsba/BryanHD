@@ -3,17 +3,17 @@ class B_AKM : BHDWeapon {
 
 	default {
 		+hdweapon.fitsinbackpack
-		weapon.selectionorder   20;
-		weapon.slotnumber       4;
-		weapon.slotpriority     3;
-		inventory.pickupsound   "misc/w_pkup";
-		inventory.pickupmessage "You got the AKM.";
-		scale                   0.7;
-		weapon.bobrangex        0.22;
-		weapon.bobrangey        0.9;
-		obituary                "%o was assaulted by %k.";
-		tag                     "AKM";
-		inventory.icon          "AKMPA0";
+		weapon.selectionorder        20;
+		weapon.slotnumber            4;
+		weapon.slotpriority          3;
+		inventory.pickupsound        "misc/w_pkup";
+		inventory.pickupmessage      "You got the AKM.";
+		scale                        0.7;
+		weapon.bobrangex             0.22;
+		weapon.bobrangey             0.9;
+		obituary                     "%o was assaulted by %k.";
+		tag                          "AKM";
+		inventory.icon               "AKMPA0";
 
 		BHDWeapon.BHeatDrain         12;
 		BHDWeapon.BBulletClass       "HDB_762";
@@ -54,10 +54,18 @@ class B_AKM : BHDWeapon {
 		Ready:
 			AKMG A 1;
 			Goto Super::Ready;
+		Select:
+			AKMG A 0 {
+				A_WeaponBusy();
+				A_SetCrosshair(21);
+				A_SetHelpText();
+			}
 		Select0:
 			AKMG A 0 {
 				return ResolveState("select0small");
 			}
+		Deselect:
+			AKMG A 0 A_StartDeselect();
 		Deselect0:
 			AKMG A 0 {
 				return ResolveState("deselect0small");

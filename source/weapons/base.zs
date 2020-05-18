@@ -110,12 +110,6 @@ class BHDWeapon : HDWeapon {
 
 	void magazineAddAmmo(int amt) {
 		weaponStatus[I_MAG] += amt;
-		/*
-		if (magazineGetAmmo() > bMagazineCapacity) {
-			weaponStatus[I_MAG] = bMagazineCapacity;
-		}
-		*/
-		console.printf("%i, %i", weaponstatus[I_MAG], amt);
 	}
 
 	void fixChamber() {
@@ -210,13 +204,11 @@ class BHDWeapon : HDWeapon {
 			breakChamber();
 		}
 		if(overheated()) {
-			console.printf("Dropping weapon");
 			owner.dropInventory(self);
 		}
 	}
 
 	override string, double GetPickupSprite() {
-		console.printf("%s %s", bSpriteWithoutMag, bSpriteWithMag);
 		if(magazineHasAmmo()) {
 			return bSpriteWithMag, 1.;
 		}
@@ -241,18 +233,6 @@ class BHDWeapon : HDWeapon {
 				owner.A_DropInventory(bAmmoClass, amt);
 			}
 		}
-	}
-
-	override Inventory CreateTossable(int amount) {
-		console.printf("hewiojs");
-		let owner = self.owner;
-		let tossed = super.CreateTossable(amount);
-		if (!tossed) {
-			return null;
-		}
-		console.printf("here %p", tossed);
-		tossed.target = owner;
-		return tossed;
 	}
 
 	override void ForceBasicAmmo(){
@@ -296,6 +276,23 @@ class BHDWeapon : HDWeapon {
 			}
 		}
 		return invoker.brokenChamber();
+	}
+
+	override inventory CreateTossable(int amt){
+		// If self actor lacks a SpawnState, don't drop it. (e.g. A base weapon
+		// like the fist can't be dropped because you'll never see it.)
+		if (SpawnState == GetDefaultByType("Actor").SpawnState || SpawnState == NULL) {
+			return NULL;
+
+		}
+		if (bUndroppable || bUntossable || Owner == NULL || Amount <= 0 || amt == 0) {
+			return NULL;
+		}
+		BecomePickup();
+		DropTime = 30;
+		bSpecial = bSolid = false;
+		self.sprite = magazineGetAmmo() != -1 ? GetSpriteIndex(bSpriteWithoutMag) : GetSpriteIndex(bSpriteWithoutMag);
+		return self;
 	}
 
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
@@ -349,8 +346,18 @@ class BHDWeapon : HDWeapon {
 				return ResolveState("ReadyEnd");
 			}
 
+		Spawn:
+			#### A 0 {
+				if (!invoker.chambered() && !invoker.brokenChamber() && invoker.magazineGetAmmo() > 0 && invoker.magazineGetAmmo() < (invoker.bMagazineCapacity - 1)) {
+					invoker.weaponStatus[I_MAG]--;
+					invoker.setChamber();
+					BrokenRound();
+				}
+				return ResolveState("Spawn2");
+			}
+
 		Spawn2:
-			#### A -1 {
+			#### A 0 {
 				if (invoker.weaponStatus[I_MAG] > 0) {
 					sprite = getSpriteIndex(invoker.bSpriteWithMag);
 				}
@@ -362,8 +369,13 @@ class BHDWeapon : HDWeapon {
 				if (invoker.chambered() && !invoker.brokenChamber() && invoker.overheated()) {
 					SetStateLabel("SpawnShoot");
 				}
+				
 			}
+			Stop;
 
+		SpawnShoot:
+			#### A 1;
+			Stop;
 
 		User3:
 			#### A 0 A_MagManager(invoker.bMagazineClass);
@@ -381,7 +393,6 @@ class BHDWeapon : HDWeapon {
 
 		ShootGun:
 			#### A 1 {
-				console.printf("%i %i", invoker.chambered(), invoker.magazineHasAmmo());
 				if (invoker.brokenChamber() || (!invoker.chambered() && invoker.magazineGetAmmo() < 1)) {
 					return ResolveState("Nope");
 				}
@@ -447,7 +458,6 @@ class BHDWeapon : HDWeapon {
 					return ResolveState("nope");
 				}
 
-				console.printf("here %f", invoker.magazineGetAmmo() % 100);
 				if (invoker.magazineGetAmmo() % 100 > 0) {
 					if (invoker.magazineGetAmmo() == (invoker.bMagazineCapacity + 1)) {
 						invoker.weaponStatus[I_MAG] = invoker.bMagazineCapacity;
@@ -464,7 +474,6 @@ class BHDWeapon : HDWeapon {
 					return ResolveState("Jam");
 				}
 				A_WeaponReady(WRF_NOFIRE);
-				console.printf("firemode %i", invoker.fireMode());
 				return ResolveState(NULL);
 			}
 			#### B 1 A_CheckCookoff();
@@ -473,7 +482,6 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_JumpIf(invoker.fireMode() > 1, 1);
 			#### A 0 A_Refire();
 			#### A 0 {
-				console.printf("Skipped to ready");
 				return ResolveState("Ready");
 			}
 
@@ -487,7 +495,6 @@ class BHDWeapon : HDWeapon {
 			#### C 3 Offset(-1, 36) A_WeaponBusy();
 			#### D 4 Offset(-3, 42) {
 				int ammo = invoker.magazineGetAmmo();
-
 				if (!invoker.chambered() && ammo % 100 > 0) {
 					if (ammo > invoker.bMagazineCapacity) {
 						invoker.weaponStatus[I_MAG] = 29;
@@ -536,7 +543,6 @@ class BHDWeapon : HDWeapon {
 		Unload:
 			#### A 0 {
 				invoker.weaponStatus[I_FLAGS] |= F_UNLOAD_ONLY;
-				console.printf("%i", invoker.chambered());
 				if (invoker.magazineGetAmmo() >= 0) {
 					return ResolveState("UnloadMag");
 				}
@@ -569,7 +575,7 @@ class BHDWeapon : HDWeapon {
 			#### A 1 Offset(-3, 34);
 			#### A 1 Offset(-8, 37);
 			#### A 2 Offset(-11, 39) {
-				if (invoker.magazineHasAmmo() < 0) {
+				if (invoker.magazineGetAmmo() < 0) {
 					return ResolveState("MagOut");
 				}
 				if (invoker.brokenChamber()) {
@@ -610,12 +616,12 @@ class BHDWeapon : HDWeapon {
 			#### B 2 Offset(-16, 42) {
 				A_MuzzleClimb(frandom(-.4, .4), frandom(-.4, .4));
 				if (invoker.chambered() && !invoker.brokenChamber()) {
-					A_SpawnItemEx(invoker.bMagazineClass, 0, 0, 20, random(4, 7), random(-2, 2), random(-2, 1), 0, SXF_NOCHECKPOSITION);
-					invoker.fixChamber();
+					A_SpawnItemEx(invoker.BAmmoClass, 0, 0, 20, random(4, 7), random(-2, 2), random(-2, 1), 0, SXF_NOCHECKPOSITION);
+					invoker.WeaponStatus[I_FLAGS] &= ~F_CHAMBER;
 					A_StartSound(invoker.bClickSound, CHAN_WEAPON, CHANF_OVERLAP);
 				}
 				else if (!random(0, 4)) {
-					invoker.fixChamber();
+					invoker.weaponStatus[I_FLAGS] &= ~F_CHAMBER_BROKE;
 					invoker.weaponStatus[I_FLAGS] &= ~F_CHAMBER;
 					A_StartSound(invoker.bClickSound, CHAN_WEAPON, CHANF_OVERLAP);
 					for (int i = 0; i < 3; i++) {

@@ -3,17 +3,17 @@ class B_M16 : BHDWeapon {
 
 	default {
 		+hdweapon.fitsinbackpack
-		weapon.selectionorder   20;
-		weapon.slotnumber       4;
-		weapon.slotpriority     3;
-		inventory.pickupsound   "misc/w_pkup";
-		inventory.pickupmessage "You got the m16.";
-		scale                   0.7;
-		weapon.bobrangex        0.22;
-		weapon.bobrangey        0.9;
-		obituary                "%o was assaulted by %k.";
-		tag                     "M16";
-		inventory.icon          "M16PA0";
+		weapon.selectionorder        20;
+		weapon.slotnumber            4;
+		weapon.slotpriority          3;
+		inventory.pickupsound        "misc/w_pkup";
+		inventory.pickupmessage      "You got the m16.";
+		scale                        0.7;
+		weapon.bobrangex             0.22;
+		weapon.bobrangey             0.9;
+		obituary                     "%o was assaulted by %k.";
+		tag                          "M16";
+		inventory.icon               "M16PA0";
 
 		BHDWeapon.BHeatDrain         12;
 		BHDWeapon.BBulletClass       "HDB_556";
@@ -34,8 +34,8 @@ class B_M16 : BHDWeapon {
 		BHDWeapon.BarrelDepth        3;
 		BHDWeapon.BFireSound         "m16/fire";
 		BHDWeapon.BChamberSound      "weapons/rifchamber";
-		BHDWeapon.BBoltForwardSound  "weapons/rifleclick2";
-		BHDWeapon.BBoltBackwardSound "weapons/rifleclick2";
+		BHDWeapon.BBoltForwardSound  "akm/boltb";
+		BHDWeapon.BBoltBackwardSound "akm/boltf";
 		BHDWeapon.BClickSound        "weapons/rifleclick2";
 		BHDWeapon.BLoadSound         "weapons/rifleload";
 		BHDWeapon.BROF               1;
@@ -49,8 +49,18 @@ class B_M16 : BHDWeapon {
 
 	states {
 		Spawn:
+			M16P A -1 {
+				if (invoker.magazineGetAmmo() > 0) {
+					return ResolveState("SpawnMag");
+				}
+				return ResolveState("SpawnNoMag");
+			}
+		SpawnMag:
 			M16P A -1;
-			Stop;
+			Goto Super::Spawn;
+		SpawnNoMag:
+			M16P B -1;
+			Goto Super::Spawn;
 		Spawn2:
 			M16P A 0;
 			Goto Super::Spawn2;
@@ -65,6 +75,8 @@ class B_M16 : BHDWeapon {
 			M16G A 0;
 			Goto Super::Deselect0;
 	}
+
+
 
 
 }
