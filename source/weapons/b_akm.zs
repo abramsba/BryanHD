@@ -62,17 +62,20 @@ class B_AKM : BHDWeapon {
 			AKMP B -1;
 			Goto Super::Spawn;
 		Spawn2:
-			AKMP A 0;
+			AKMG A 0;
 			Goto Super::Spawn2;
 		Ready:
-			AKMP A 1;
+			AKMG A 1;
 			Goto Super::Ready;
 		Select0:
-			AKMP A 0 {
+			AKMG A 0 {
 				return ResolveState("select0small");
 			}
+
+
+
 		Deselect0:
-			AKMP A 0;
+			AKMG A 0;
 			Goto Super::Deselect0;
 	}
 

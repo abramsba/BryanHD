@@ -60,11 +60,18 @@ class B_M16 : BHDWeapon {
 
 		Select0:
 			M16G A 0 GetAttachmentState();
-			M16G A 0 { return ResolveState("Select0Small"); }
+			M16G A 0 { 
+				return ResolveState("Select0Small"); 
+			}
+
+		deselect:
+			M16G A 0 A_StartDeselect();
 
 		Deselect0:
 			M16G A 0 GetAttachmentState();
-			M16G A 0 { return ResolveState("Deselect0Small"); }
+			M16G A 0 { 
+				return ResolveState("Deselect0Small"); 
+			}
 
 		Silencer:
 			SL56 A 1;

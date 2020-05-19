@@ -15,6 +15,13 @@ const F_UNLOAD_ONLY    = 128;
 // Base Class for Rifle
 class BHDWeapon : HDWeapon {
 
+	default {
+		BHDWeapon.SoundClass "chicken";
+	}
+
+	property SoundClass: soundClass;
+	Name SoundClass;
+
 	property BHeatDrain: bHeatDrain;
 	int bHeatDrain;
 
@@ -290,6 +297,9 @@ class BHDWeapon : HDWeapon {
 	override inventory CreateTossable(int amt){
 		// If self actor lacks a SpawnState, don't drop it. (e.g. A base weapon
 		// like the fist can't be dropped because you'll never see it.)
+		//console.printf("B Toss self.owner? %p ", self.owner);
+		//let owner = self.owner;
+		console.printf("My toss owner: %p", owner);
 		if (SpawnState == GetDefaultByType("Actor").SpawnState || SpawnState == NULL) {
 			return NULL;
 
@@ -300,8 +310,10 @@ class BHDWeapon : HDWeapon {
 		BecomePickup();
 		DropTime = 30;
 		bSpecial = bSolid = false;
-		self.sprite = magazineGetAmmo() != -1 ? GetSpriteIndex(bSpriteWithoutMag) : GetSpriteIndex(bSpriteWithoutMag);
-		return self;
+		let copyWeapon = super.CreateTossable(amt);
+		//copyWeapon.target = owner;
+		copyWeapon.sprite = magazineGetAmmo() != -1 ? GetSpriteIndex(bSpriteWithoutMag) : GetSpriteIndex(bSpriteWithoutMag);
+		return copyWeapon;
 	}
 
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
@@ -349,11 +361,10 @@ class BHDWeapon : HDWeapon {
 
 	action void GetAttachmentState() {
 		if (invoker.silencer) {
-			A_Overlay(-10, "Silencer");
-			A_OverlayOffset(-10, invoker.bSilentOffsetX, invoker.bSilentOffsetY);
+			A_Overlay(-11, "Silencer");
 		}
 		else {
-			A_ClearOverlays(-10, -10);
+			A_ClearOverlays(-11, -11);
 		}
 
 		if (invoker.flashlight) {
@@ -363,7 +374,6 @@ class BHDWeapon : HDWeapon {
 			else {
 				A_Overlay(10, "FlashlightOff");
 			}
-			A_OverlayOffset(10, 0, 0);
 		}
 		else {
 			A_ClearOverlays(10, 10);
@@ -587,12 +597,6 @@ class BHDWeapon : HDWeapon {
 				return ResolveState("Ready");
 			}
 
-		user2:
-			#### A 1 {
-				console.printf("HI mom");
-				return ResolveState("Ready");
-			}
-
 		Cookoff:
 			#### A 0 {
 				A_ClearRefire();
@@ -746,7 +750,21 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_JumpIf(invoker.weaponstatus[I_AUTO] > 4, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_AUTO], "ShootGun");
 
+		deselect1small:
+			---- A 1 A_Lower(1);
+			---- A 1 A_Lower();
+			---- A 1 A_Lower(12);
+			---- A 1 A_Lower(24);
+			---- A 1 A_Lower(30);
+			---- A 1 A_Lower(36);
+			---- A 1 {
+				invoker.lowered = true;
+			}
+			wait;
+
 	}
+
+	bool lowered;
 
 
 }
