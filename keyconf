@@ -1,5 +1,11 @@
 AddKeySection "Bryan Keybinds" BKeybinds
 AddMenuKey "Focus" +focusing
+AddMenuKey "Equip Silencer" silencer
+AddMenuKey "Equip Flashlight" flashlight
+AddMenuKey "Switch Flashlight" flashlightOn
 
 alias +focusing "use focusin"
 alias -focusing "use focusout"
+alias silencer "use SilencerIn"
+alias flashlight "use FlashlightIn"
+alias flashlightOn "use FlashlightOnIn"

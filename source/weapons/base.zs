@@ -57,6 +57,9 @@ class BHDWeapon : HDWeapon {
 	property BMagazineCapacity: bMagazineCapacity;
 	int bMagazineCapacity;
 
+	property BSFireSound : bSFireSound;
+	string bSFireSound;
+
 	property BFireSound : bFireSound;
 	string bFireSound;
 
@@ -97,6 +100,12 @@ class BHDWeapon : HDWeapon {
 	property BarrelLength: barrelLength;
 	property BarrelWidth: barrelWidth;
 	property BarrelDepth: barrelDepth;
+
+
+	property BSilentOffsetX : bSilentOffsetX;
+	property BSilentOffsetY : bSilentOffsetY;
+	float bSilentOffsetX;
+	float bSilentOffsetY;
 
 	// Pretty API
 
@@ -325,7 +334,55 @@ class BHDWeapon : HDWeapon {
 
 	// States
 
+
+	action state GetMagState() {
+		if (invoker.magazineGetAmmo() > 0) {
+			return ResolveState("SpawnMag");
+		}
+		return ResolveState("SpawnNoMag");
+	}
+
+	bool silencer;
+	bool flashlight;
+
+	bool flashlightOn;
+
+	action void GetAttachmentState() {
+		if (invoker.silencer) {
+			A_Overlay(-10, "Silencer");
+			A_OverlayOffset(-10, invoker.bSilentOffsetX, invoker.bSilentOffsetY);
+		}
+		else {
+			A_ClearOverlays(-10, -10);
+		}
+
+		if (invoker.flashlight) {
+			if (invoker.flashlightOn) {
+				A_Overlay(10, "FlashlightOn");
+			}
+			else {
+				A_Overlay(10, "FlashlightOff");
+			}
+			A_OverlayOffset(10, 0, 0);
+		}
+		else {
+			A_ClearOverlays(10, 10);
+		}
+	}
+
 	states {
+
+		Silencer:
+			TNT1 A 0;
+			Stop;
+
+		FlashlightOn:
+			TNT1 A 0;
+			Stop;
+
+		FlashLightOff:
+			TNT1 A 0;
+			Stop;
 
 		Ready:
 			#### A 0 {
@@ -346,15 +403,17 @@ class BHDWeapon : HDWeapon {
 				return ResolveState("ReadyEnd");
 			}
 
-		Spawn:
-			#### A 0 {
-				if (!invoker.chambered() && !invoker.brokenChamber() && invoker.magazineGetAmmo() > 0 && invoker.magazineGetAmmo() < (invoker.bMagazineCapacity - 1)) {
-					invoker.weaponStatus[I_MAG]--;
-					invoker.setChamber();
-					BrokenRound();
-				}
-				return ResolveState("Spawn2");
+		SpawnMag:
+			#### A -1 {
+				sprite = GetSpriteIndex(invoker.BSpriteWithMag);
 			}
+			Goto Super::Spawn;
+
+		SpawnNoMag:
+			#### B -1 {
+				sprite = GetSpriteIndex(invoker.BSpriteWithoutMag);
+			}
+			Goto Super::Spawn;
 
 		Spawn2:
 			#### A 0 {
@@ -418,7 +477,8 @@ class BHDWeapon : HDWeapon {
 			TNT1 A 1 {
 				A_Light1();
 				HDFlashAlpha(-16);
-				A_StartSound(invoker.bFireSound, CHAN_WEAPON);
+				string sound = invoker.silencer ? invoker.bSFireSound : invoker.bFireSound;
+				A_StartSound(sound, CHAN_WEAPON, CHANF_OVERLAP);
 				A_ZoomRecoil(max(0.95, 1. -0.05 * invoker.fireMode()));
 				double burn = max(invoker.heatAmount(), invoker.boreStretch()) * 0.01;
 				HDBulletActor.FireBullet(self, invoker.bBulletClass, spread: burn > 1.2 ? burn : 0);
@@ -524,6 +584,12 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_CheckCookOff();
 			#### A 0 A_Refire();
 			#### A 0 {
+				return ResolveState("Ready");
+			}
+
+		user2:
+			#### A 1 {
+				console.printf("HI mom");
 				return ResolveState("Ready");
 			}
 
@@ -679,7 +745,6 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_FLAGS] & F_NO_FIRE_SELECT, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponstatus[I_AUTO] > 4, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_AUTO], "ShootGun");
-
 
 	}
 

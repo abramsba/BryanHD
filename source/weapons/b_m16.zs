@@ -33,6 +33,7 @@ class B_M16 : BHDWeapon {
 		BHDWeapon.BarrelWidth        1;
 		BHDWeapon.BarrelDepth        3;
 		BHDWeapon.BFireSound         "m16/fire";
+		BHDWeapon.BSFireSound        "m16/silfire";
 		BHDWeapon.BChamberSound      "weapons/rifchamber";
 		BHDWeapon.BBoltForwardSound  "akm/boltb";
 		BHDWeapon.BBoltBackwardSound "akm/boltf";
@@ -45,35 +46,38 @@ class B_M16 : BHDWeapon {
 		BHDWeapon.BFrontSightImage   "m16iron";
 		BHDWeapon.BFrontOffsetX      0;
 		BHDWeapon.BFrontOffsetY      10;
+		BHDWeapon.BSilentOffsetX     0;
+		BHDWeapon.BSilentOffsetY     0;
 	}
 
 	states {
 		Spawn:
-			M16P A -1 {
-				if (invoker.magazineGetAmmo() > 0) {
-					return ResolveState("SpawnMag");
-				}
-				return ResolveState("SpawnNoMag");
-			}
-		SpawnMag:
-			M16P A -1;
-			Goto Super::Spawn;
-		SpawnNoMag:
-			M16P B -1;
-			Goto Super::Spawn;
-		Spawn2:
-			M16P A 0;
-			Goto Super::Spawn2;
+			M16P A -1 GetMagState();
+
 		Ready:
-			M16G A 1;
+			M16G A 1 GetAttachmentState();
 			Goto Super::Ready;
+
 		Select0:
-			M16G A 0 {
-				return ResolveState("select0small");
-			}
+			M16G A 0 GetAttachmentState();
+			M16G A 0 { return ResolveState("Select0Small"); }
+
 		Deselect0:
-			M16G A 0;
-			Goto Super::Deselect0;
+			M16G A 0 GetAttachmentState();
+			M16G A 0 { return ResolveState("Deselect0Small"); }
+
+		Silencer:
+			SL56 A 1;
+			Loop;
+
+		FlashLightOff:
+			FLMR A 1;
+			Loop;
+
+		FlashlightOn:
+			FLMR B 1;
+			Loop;
+
 	}
 }
 

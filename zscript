@@ -4,6 +4,8 @@ version "4.3"
 #include "source/player.zs"
 #include "source/drops.zs"
 
+#include "source/input/flashlight.zs"
+#include "source/input/silencer.zs"
 #include "source/input/focus.zs"
 
 #include "source/weapons/bullets.zs"

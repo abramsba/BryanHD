@@ -22,7 +22,6 @@ class Focuser : Inventory {
 		PlayerPawn pl = PlayerPawn(owner);
 		pl.player.fov = currentFov;
 	}
-
 }
 
 class FocusIn : Inventory {
