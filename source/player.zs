@@ -59,6 +59,7 @@ class PlayerEvents : EventHandler {
 	}
 
 	override void WorldTick() {
+		super.WorldTick();
 		checkPlayer(0);
 	}
 

@@ -108,13 +108,19 @@ class BHDWeapon : HDWeapon {
 	property BarrelWidth: barrelWidth;
 	property BarrelDepth: barrelDepth;
 
-
 	property BSilentOffsetX : bSilentOffsetX;
 	property BSilentOffsetY : bSilentOffsetY;
 	float bSilentOffsetX;
 	float bSilentOffsetY;
 
-	// Pretty API
+	BaseBarrelAttachment barrelAttachment;
+	BaseScopeAttachment scopeAttachment;
+	BaseMiscAttachment miscAttachment;
+
+	property BBarrelMount: bBarrelMount;
+	string bBarrelMount;
+
+	// Pretty API that I need to use consistently TODO
 
 	int magazineGetAmmo() const {
 		return weaponStatus[I_MAG];
@@ -295,11 +301,6 @@ class BHDWeapon : HDWeapon {
 	}
 
 	override inventory CreateTossable(int amt){
-		// If self actor lacks a SpawnState, don't drop it. (e.g. A base weapon
-		// like the fist can't be dropped because you'll never see it.)
-		//console.printf("B Toss self.owner? %p ", self.owner);
-		//let owner = self.owner;
-		console.printf("My toss owner: %p", owner);
 		if (SpawnState == GetDefaultByType("Actor").SpawnState || SpawnState == NULL) {
 			return NULL;
 
@@ -307,12 +308,9 @@ class BHDWeapon : HDWeapon {
 		if (bUndroppable || bUntossable || Owner == NULL || Amount <= 0 || amt == 0) {
 			return NULL;
 		}
-		BecomePickup();
 		DropTime = 30;
 		bSpecial = bSolid = false;
 		let copyWeapon = super.CreateTossable(amt);
-		//copyWeapon.target = owner;
-		copyWeapon.sprite = magazineGetAmmo() != -1 ? GetSpriteIndex(bSpriteWithoutMag) : GetSpriteIndex(bSpriteWithoutMag);
 		return copyWeapon;
 	}
 
@@ -360,11 +358,13 @@ class BHDWeapon : HDWeapon {
 	bool flashlightOn;
 
 	action void GetAttachmentState() {
-		if (invoker.silencer) {
-			A_Overlay(-11, "Silencer");
+
+		//console.printf("Barrel: %p", invoker.barrelAttachment);
+		if (invoker.barrelAttachment) {
+			A_Overlay(11, "Silencer");
 		}
 		else {
-			A_ClearOverlays(-11, -11);
+			A_ClearOverlays(11, 11);
 		}
 
 		if (invoker.flashlight) {
@@ -750,21 +750,8 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_JumpIf(invoker.weaponstatus[I_AUTO] > 4, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_AUTO], "ShootGun");
 
-		deselect1small:
-			---- A 1 A_Lower(1);
-			---- A 1 A_Lower();
-			---- A 1 A_Lower(12);
-			---- A 1 A_Lower(24);
-			---- A 1 A_Lower(30);
-			---- A 1 A_Lower(36);
-			---- A 1 {
-				invoker.lowered = true;
-			}
-			wait;
-
 	}
 
-	bool lowered;
 
 
 }

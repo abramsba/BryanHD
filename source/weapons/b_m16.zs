@@ -48,6 +48,7 @@ class B_M16 : BHDWeapon {
 		BHDWeapon.BFrontOffsetY      10;
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
+		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
 	}
 
 	states {

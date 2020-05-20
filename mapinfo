@@ -1,6 +1,6 @@
 
 GameInfo {
-	EventHandlers = "PlayerEvents"
+	AddEventHandlers = "PlayerEvents"
 }
 
 DoomEdNums {
@@ -8,9 +8,11 @@ DoomEdNums {
 	19002 = B_AK47
 	19003 = B_AKM
 	19004 = B_MP5K
-
+	
 	20001 = B556Mag
 	20002 = B762_AKM_Mag
 	20003 = B762_AK47_Mag
 	20004 = B9mm_MP5K_Mag
+
+	30000 = B_M16_Silencer
 }
