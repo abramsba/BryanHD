@@ -1,6 +1,6 @@
 
 GameInfo {
-	AddEventHandlers = "PlayerEvents"
+	AddEventHandlers = "PlayerEvents", "AttachmentManager"
 }
 
 DoomEdNums {

@@ -1,16 +1,5 @@
 
-// Constants
-const I_FLAGS = 0;
-const I_MAG   = 1;
-const I_AUTO  = 2;
-const I_ZOOM  = 3;
-const I_HEAT  = 4;
-CONST I_BORE  = 6;
 
-const F_CHAMBER        = 1;
-const F_CHAMBER_BROKE  = 2;
-const F_NO_FIRE_SELECT = 32;
-const F_UNLOAD_ONLY    = 128;
 
 // Base Class for Rifle
 class BHDWeapon : HDWeapon {
@@ -357,34 +346,52 @@ class BHDWeapon : HDWeapon {
 
 	bool flashlightOn;
 
-	action void GetAttachmentState() {
+	Class<BaseBarrelAttachment> barrelClass;
 
-		//console.printf("Barrel: %p", invoker.barrelAttachment);
-		if (invoker.barrelAttachment) {
-			A_Overlay(11, "Silencer");
+	action void GetAttachmentState() {
+		int sid = -1;
+		AttachmentManager mgr = AttachmentManager(EventHandler.Find("AttachmentManager"));
+
+		if (invoker.weaponStatus[I_BARREL] <= 0) {
+			invoker.barrelClass = null;
+			A_ClearOverlays(11, 11);
+			return;
+		}
+
+		if (!invoker.barrelClass && invoker.weaponStatus[I_BARREL] > 0) {
+			sid = invoker.weaponStatus[I_BARREL];
+			invoker.barrelClass = mgr.getBarrelClass(sid);
+		}
+
+		sid = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).serialId;
+		if (invoker.weaponStatus[I_BARREL] > 0 && invoker.weaponStatus[I_BARREL] != sid) {
+			sid = invoker.weaponStatus[I_BARREL];
+			invoker.barrelClass = mgr.getBarrelClass(sid);
+		}
+
+		if (invoker.weaponStatus[I_BARREL] > 0) {
+			A_Overlay(11, "BarrelOverlay");
 		}
 		else {
 			A_ClearOverlays(11, 11);
 		}
 
-		if (invoker.flashlight) {
-			if (invoker.flashlightOn) {
-				A_Overlay(10, "FlashlightOn");
-			}
-			else {
-				A_Overlay(10, "FlashlightOff");
-			}
-		}
-		else {
-			A_ClearOverlays(10, 10);
-		}
 	}
 
 	states {
 
-		Silencer:
-			TNT1 A 0;
-			Stop;
+		BarrelOverlay:
+			TNT1 A 0 {
+				if (invoker.barrelClass) {
+					string sp = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseSprite;
+					int idx = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseFrame;
+					console.printf("%s %i", sp, idx);
+					sprite = GetSpriteIndex(sp);
+					frame = idx;
+				}
+				A_SetTics(1);
+			}
+			Loop;
 
 		FlashlightOn:
 			TNT1 A 0;
@@ -749,6 +756,7 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_FLAGS] & F_NO_FIRE_SELECT, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponstatus[I_AUTO] > 4, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_AUTO], "ShootGun");
+
 
 	}
 
