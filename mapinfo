@@ -16,4 +16,6 @@ DoomEdNums {
 
 	30000 = B_M16_Silencer
 	30001 = B_M16_Extender
+
+	18000 = B_Scope40mm
 }

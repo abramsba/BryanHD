@@ -7,14 +7,17 @@ const I_ZOOM  = 3;
 const I_HEAT  = 4;
 CONST I_BORE  = 6;
 
-CONST I_BARREL = 29;
-CONST I_MISC   = 30;
-CONST I_SCOPE  = 31;
+CONST I_3RD  = 31;
 
 const F_CHAMBER        = 1;
 const F_CHAMBER_BROKE  = 2;
 const F_NO_FIRE_SELECT = 32;
 const F_UNLOAD_ONLY    = 128;
+
+
+const B_BARREL = 255;
+const B_MISC   = 65280;
+const B_SCOPE  = 16711680;
 
 
 const ENC_556MAG = 17;
@@ -31,3 +34,4 @@ const ENC_762MAG_LOADED = ENC_762MAG_EMPTY * 0.4;
 
 const HDLD_556MAG = "556";
 const HDLD_762MAG = "762";
+

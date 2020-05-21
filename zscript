@@ -10,6 +10,7 @@ version "4.3"
 #include "source/input/focus.zs"
 
 #include "source/attachment/base.zs"
+#include "source/attachment/scope.zs"
 #include "source/attachment/silencer.zs"
 #include "source/attachment/manager.zs"
 

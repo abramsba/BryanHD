@@ -175,6 +175,38 @@ class BHDWeapon : HDWeapon {
 		weaponStatus[I_BORE] += amount;
 	}
 
+	int getBarrelSerialID() const {
+		int all = weaponStatus[I_3RD] & B_BARREL;
+		return all;
+	}
+
+	int getMiscSerialID() const {
+		int all = weaponStatus[I_3RD] & B_SCOPE;
+		return (all >> 8);
+	}
+
+	int getScopeSerialID() const {
+		int all = weaponStatus[I_3RD] & B_SCOPE;
+		return (all >> 16);
+	}
+
+	void setBarrelSerialID(int id) const {
+		weaponStatus[I_3RD] &= ~B_BARREL;
+		weaponStatus[I_3RD] |= id;
+	}
+
+	void setMiscSerialID(int id) const {
+		weaponStatus[I_3RD] &= ~B_MISC;
+		int offset = id << 8;
+		weaponStatus[I_3RD] |= offset;
+	}
+
+	void setScopeSerialID(int id) const {
+		weaponStatus[I_3RD] &= ~B_SCOPE;
+		int offset = id << 16;
+		weaponStatus[I_3RD] |= offset;
+	}
+
 	// DOom Overrides
 	override void PostBeginPlay() {
 		super.PostBeginPlay();
@@ -347,37 +379,80 @@ class BHDWeapon : HDWeapon {
 	bool flashlightOn;
 
 	Class<BaseBarrelAttachment> barrelClass;
+	Class<BaseMiscAttachment> miscClass;
+	Class<BaseScopeAttachment> scopeClass;
 
 	action void GetAttachmentState() {
 		int sid = -1;
 		AttachmentManager mgr = AttachmentManager(EventHandler.Find("AttachmentManager"));
 
-		if (invoker.weaponStatus[I_BARREL] <= 0) {
+		// Barrel
+		if (invoker.getBarrelSerialID() == 0) {
 			invoker.barrelClass = null;
 			A_ClearOverlays(11, 11);
-			return;
-		}
-
-		if (!invoker.barrelClass && invoker.weaponStatus[I_BARREL] > 0) {
-			sid = invoker.weaponStatus[I_BARREL];
-			invoker.barrelClass = mgr.getBarrelClass(sid);
-		}
-
-		sid = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).serialId;
-		if (invoker.weaponStatus[I_BARREL] > 0 && invoker.weaponStatus[I_BARREL] != sid) {
-			sid = invoker.weaponStatus[I_BARREL];
-			invoker.barrelClass = mgr.getBarrelClass(sid);
-		}
-
-		if (invoker.weaponStatus[I_BARREL] > 0) {
-			let psp = players[consoleplayer].FindPSprite(11);
-			if (!psp) {
-				A_Overlay(11, "BarrelOverlay");
-			}
 		}
 		else {
-			A_ClearOverlays(11, 11);
+			if (!invoker.barrelClass && invoker.getBarrelSerialID() > 0) {
+				sid = invoker.getBarrelSerialID();
+				invoker.barrelClass = mgr.getBarrelClass(sid);
+			}
+
+			sid = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).serialId;
+			if (invoker.getBarrelSerialID() > 0 && invoker.getBarrelSerialID() != sid) {
+				sid = invoker.getBarrelSerialID();
+				invoker.barrelClass = mgr.getBarrelClass(sid);
+			}
+
+			if (invoker.getBarrelSerialID() > 0) {
+				let psp = players[consoleplayer].FindPSprite(11);
+				if (!psp) {
+					A_Overlay(11, "BarrelOverlay");
+				}
+			}
+			else {
+				A_ClearOverlays(11, 11);
+			}
 		}
+
+
+		// Scope
+		if (invoker.getScopeSerialID() == 0) {
+			invoker.scopeClass = null;
+			A_ClearOverlays(12, 12);
+		}
+		else {
+			if (!invoker.scopeClass && invoker.getScopeSerialID() > 0) {
+				sid = invoker.getScopeSerialID();
+				invoker.scopeClass = mgr.getScopeClass(sid);
+			}
+
+			if (!invoker.scopeClass) {
+			}
+
+			sid = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).serialId;
+			if (invoker.getScopeSerialID() > 0 && invoker.getScopeSerialID() != sid) {
+				sid = invoker.getScopeSerialID();
+				invoker.scopeClass = mgr.getScopeClass(sid);
+			}
+
+			if (invoker.getScopeSerialID() > 0) {
+				let psp = players[consoleplayer].FindPSprite(11);
+				if (!psp) {
+					A_Overlay(12, "ScopeOverlay");
+				}
+			}
+			else {
+				A_ClearOverlays(12, 12);
+			}
+		}
+
+
+
+
+
+
+
+
 
 	}
 
@@ -389,6 +464,21 @@ class BHDWeapon : HDWeapon {
 					string sp = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseSprite;
 					int idx = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseFrame;
 					let psp = players[consoleplayer].FindPSprite(11);
+					if (psp) {
+							psp.sprite = GetSpriteIndex(sp);
+							psp.frame = idx;
+					}
+				}
+				A_SetTics(1);
+			}
+			Loop;
+
+		ScopeOverlay:
+			TNT1 A 0 {
+				if (invoker.scopeClass) {
+					string sp = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).BaseSprite;
+					int idx = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).BaseFrame;
+					let psp = players[consoleplayer].FindPSprite(12);
 					if (psp) {
 							psp.sprite = GetSpriteIndex(sp);
 							psp.frame = idx;

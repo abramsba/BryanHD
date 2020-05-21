@@ -1,7 +1,4 @@
 
-const B_BARREL = 31;
-const B_MISC   = 65280;
-const B_SCOPE  = 16711680;
 
 class BaseAttachment : HDPickup {
 	property MountId: mountId;
@@ -48,7 +45,10 @@ class BaseBarrelAttachment : BaseAttachment {
 	double length;
 
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
-		weapon.weaponStatus[I_BARREL] = self.serialId;
+		if (weapon.getBarrelSerialID() > 0) {
+			player.GiveInventory(weapon.barrelClass, 1);
+		}
+		weapon.setBarrelSerialID(self.serialId);
 		weapon.barrelClass = getClass();
 		return true;
 	}
@@ -57,8 +57,28 @@ class BaseBarrelAttachment : BaseAttachment {
 
 class BaseScopeAttachment : BaseAttachment {
 
+	property BackImage: backImage;
+	string backImage;
+
+	property FrontImage: frontImage;
+	string frontImage;
+
+
+	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
+		if (weapon.getScopeSerialID() > 0) {
+			player.GiveInventory(weapon.scopeClass, 1);
+		}
+		weapon.setScopeSerialID(self.serialID);
+		weapon.scopeClass = getClass();
+		return true;
+	}
+
 }
 
 class BaseMiscAttachment : BaseAttachment {
+
+	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
+		return false;
+	}
 
 }

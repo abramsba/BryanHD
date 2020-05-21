@@ -19,7 +19,7 @@ class AttachmentManager : EventHandler {
 				if (next is "BaseBarrelAttachment") {
 					let barrelref = (Class<BaseBarrelAttachment>)(next);
 					if (getBarrelClass(serialId)) {
-						console.printf("Failed to register attachment %s. SerialID for barrels already in use by.", next.getClassName(), isUsed.getClassName());
+						console.printf("Failed to register attachment %s. SerialID for barrel already in use by.", next.getClassName(), isUsed.getClassName());
 					}
 					else { 
 						barrelAttachments.push(barrelref);
@@ -29,19 +29,29 @@ class AttachmentManager : EventHandler {
 					// todo
 				}
 				else if (next is "BaseScopeAttachment") {
-					// todo
+					let scopeRef = (Class<BaseScopeAttachment>)(next);
+					if (getScopeClass(serialId)) {
+						console.printf("Failed to register attachment %s. SerialID for scope already in use by.", next.getClassName(), isUsed.getClassName());
+					}
+					else { 
+						scopeAttachments.push(scopeRef);
+					}
 				}
 			}
 		}
 	}
 
-	BaseBarrelAttachment spawnBarrel(int serialId) {
-		PlayerInfo info = players[consoleplayer];
-		PlayerPawn pawn = info.mo;
-		let barrelCls = getBarrelClass(serialId);
-		if (barrelCls) {
-			BaseBarrelAttachment newBarrel = BaseBarrelAttachment(pawn.Spawn(barrelCls, pawn.pos));
-			return newBarrel;
+	Class<BaseScopeAttachment> getScopeClass (int serialId) {
+		int count = scopeAttachments.Size();
+		for (int i = 0; i < count; i++) {
+			let next = scopeAttachments[i];
+			if (next) {
+				let n_serialId = GetDefaultByType((Class<BaseAttachment>)(next)).SerialId;
+				if (n_serialId == serialId) {
+					Class<BaseScopeAttachment> cast = (Class<BaseScopeAttachment>)(next);
+					return cast;
+				}
+			}
 		}
 		return null;
 	}

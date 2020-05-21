@@ -42,10 +42,10 @@ class B_M16 : BHDWeapon {
 		BHDWeapon.BROF               1;
 		BHDWeapon.BBackSightImage    "m16sight";
 		BHDWeapon.BBackOffsetX       0;
-		BHDWeapon.BBackOffsetY       8;
+		BHDWeapon.BBackOffsetY       26;
 		BHDWeapon.BFrontSightImage   "m16iron";
 		BHDWeapon.BFrontOffsetX      0;
-		BHDWeapon.BFrontOffsetY      10;
+		BHDWeapon.BFrontOffsetY      7;
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
 		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
