@@ -73,11 +73,10 @@ class B_M16 : BHDWeapon {
 			M16G A 0 { 
 				return ResolveState("Deselect0Small"); 
 			}
-/*
-		Silencer:
-			SL56 A 1;
-			Loop;
-*/
+
+
+
+
 		FlashLightOff:
 			FLMR A 1;
 			Loop;

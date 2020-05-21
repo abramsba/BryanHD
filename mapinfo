@@ -15,4 +15,5 @@ DoomEdNums {
 	20004 = B9mm_MP5K_Mag
 
 	30000 = B_M16_Silencer
+	30001 = B_M16_Extender
 }

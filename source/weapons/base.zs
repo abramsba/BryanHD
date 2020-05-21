@@ -370,7 +370,10 @@ class BHDWeapon : HDWeapon {
 		}
 
 		if (invoker.weaponStatus[I_BARREL] > 0) {
-			A_Overlay(11, "BarrelOverlay");
+			let psp = players[consoleplayer].FindPSprite(11);
+			if (!psp) {
+				A_Overlay(11, "BarrelOverlay");
+			}
 		}
 		else {
 			A_ClearOverlays(11, 11);
@@ -385,9 +388,11 @@ class BHDWeapon : HDWeapon {
 				if (invoker.barrelClass) {
 					string sp = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseSprite;
 					int idx = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseFrame;
-					console.printf("%s %i", sp, idx);
-					sprite = GetSpriteIndex(sp);
-					frame = idx;
+					let psp = players[consoleplayer].FindPSprite(11);
+					if (psp) {
+							psp.sprite = GetSpriteIndex(sp);
+							psp.frame = idx;
+					}
 				}
 				A_SetTics(1);
 			}
@@ -494,7 +499,10 @@ class BHDWeapon : HDWeapon {
 			TNT1 A 1 {
 				A_Light1();
 				HDFlashAlpha(-16);
-				string sound = invoker.silencer ? invoker.bSFireSound : invoker.bFireSound;
+
+				bool silenced = invoker.barrelClass is "BaseSilencerAttachment";
+				string sound = silenced ? invoker.bSFireSound : invoker.bFireSound;
+
 				A_StartSound(sound, CHAN_WEAPON, CHANF_OVERLAP);
 				A_ZoomRecoil(max(0.95, 1. -0.05 * invoker.fireMode()));
 				double burn = max(invoker.heatAmount(), invoker.boreStretch()) * 0.01;
@@ -756,7 +764,6 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_FLAGS] & F_NO_FIRE_SELECT, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponstatus[I_AUTO] > 4, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_AUTO], "ShootGun");
-
 
 	}
 

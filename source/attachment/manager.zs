@@ -49,11 +49,13 @@ class AttachmentManager : EventHandler {
 	Class<BaseBarrelAttachment> getBarrelClass (int serialId) {
 		int count = barrelAttachments.Size();
 		for (int i = 0; i < count; i++) {
-			let next = AllActorClasses[i];
-			let n_serialId = GetDefaultByType((Class<BaseAttachment>)(next)).SerialId;
-			if (n_serialId == serialId) {
-				Class<BaseBarrelAttachment> cast = (Class<BaseBarrelAttachment>)(next);
-				return cast;
+			let next = barrelAttachments[i];
+			if (next) {
+				let n_serialId = GetDefaultByType((Class<BaseAttachment>)(next)).SerialId;
+				if (n_serialId == serialId) {
+					Class<BaseBarrelAttachment> cast = (Class<BaseBarrelAttachment>)(next);
+					return cast;
+				}
 			}
 		}
 		return null;
