@@ -106,8 +106,15 @@ class BHDWeapon : HDWeapon {
 	BaseScopeAttachment scopeAttachment;
 	BaseMiscAttachment miscAttachment;
 
+	Class<BaseBarrelAttachment> barrelClass;
+	Class<BaseMiscAttachment> miscClass;
+	Class<BaseScopeAttachment> scopeClass;
+
+
 	property BBarrelMount: bBarrelMount;
 	string bBarrelMount;
+
+
 
 	// Pretty API that I need to use consistently TODO
 
@@ -354,16 +361,49 @@ class BHDWeapon : HDWeapon {
 		sb.DrawNum(ammoBarAmt, -16, -22, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_RIGHT, Font.CR_RED);
 	}
 
+	String getFrontSightImage() const {
+		if (scopeClass) {
+			let img = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).FrontImage;
+			return img;
+		}
+		return bFrontSightImage;
+	}
+
+	String getBackSightImage() const {
+		if (scopeClass) {
+			let img = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).BackImage;
+			return img;
+		}
+		return bBackSightImage;
+	}
+
+	Vector2 getFrontSightOffsets() const {
+		if (scopeClass) {
+			let x = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).FrontOffX;
+			let y = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).FrontOffY;
+			return (x, y);
+		}
+		return (bFrontOffsetX, bFrontOffsetY);
+	}
+
+	Vector2 getBackSightOffsets() const {
+		if (scopeClass) {
+			let x = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).BackOffX;
+			let y = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).BackOffY;
+			return (x, y);
+		}
+		return (bBackOffsetX, bBackOffsetY);
+	}
+
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot) {
+
 		BHDWeapon basicWep = BHDWeapon(hdw);
 		double dotoff = max(abs(bob.x), abs(bob.y));
 		if (dotoff < 6){
-			sb.drawImage(basicWep.bFrontSightImage, (basicWep.bFrontOffsetX, basicWep.bFrontOffsetY) + bob * 3, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, alpha: 0.9 - dotoff * 0.04);
+			sb.drawImage(getFrontSightImage(), getFrontSightOffsets() + bob * 3, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, alpha: 0.9 - dotoff * 0.04);
 		}
-		sb.drawimage(basicWep.bBackSightImage, (basicWep.bBackOffsetX, basicWep.bBackOffsetY) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
+		sb.drawimage(getBackSightImage(), getBackSightOffsets() + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
 	}
-
-	// States
 
 
 	action state GetMagState() {
@@ -373,14 +413,9 @@ class BHDWeapon : HDWeapon {
 		return ResolveState("SpawnNoMag");
 	}
 
-	bool silencer;
 	bool flashlight;
-
 	bool flashlightOn;
 
-	Class<BaseBarrelAttachment> barrelClass;
-	Class<BaseMiscAttachment> miscClass;
-	Class<BaseScopeAttachment> scopeClass;
 
 	action void GetAttachmentState() {
 		int sid = -1;
@@ -436,7 +471,7 @@ class BHDWeapon : HDWeapon {
 			}
 
 			if (invoker.getScopeSerialID() > 0) {
-				let psp = players[consoleplayer].FindPSprite(11);
+				let psp = players[consoleplayer].FindPSprite(12);
 				if (!psp) {
 					A_Overlay(12, "ScopeOverlay");
 				}

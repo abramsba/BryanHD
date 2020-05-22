@@ -63,6 +63,14 @@ class BaseScopeAttachment : BaseAttachment {
 	property FrontImage: frontImage;
 	string frontImage;
 
+	property FrontOffX: frontOffX;
+	property FrontOffY: frontOffY;
+	property BackOffX: BackOffX;
+	property BackOffY: BackOffY;
+	double frontoffx;
+	double frontoffy;
+	double backoffx;
+	double backoffy;
 
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		if (weapon.getScopeSerialID() > 0) {

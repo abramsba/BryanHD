@@ -6,11 +6,8 @@ class PlayerEvents : EventHandler {
 		pawn.GiveInventoryType("Focuser");
 		pawn.GiveInventoryType("FocusIn");
 		pawn.GiveInventoryType("FocusOut");
-		pawn.GiveInventoryType("SilencerIn");
 		pawn.GiveInventoryType("FlashlightIn");
 		pawn.GiveInventoryType("FlashlightOnIn");
-
-		console.printf("%p", pawn);
 	}
 
 	void createLight(PlayerPawn pl) {
