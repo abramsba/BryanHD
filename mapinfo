@@ -20,4 +20,5 @@ DoomEdNums {
 	18000 = B_Scope40mm
 	18001 = B_ACOG_Red
 	18002 = B_ACOG_Green
+	18003 = B_M16_Flashlight
 }

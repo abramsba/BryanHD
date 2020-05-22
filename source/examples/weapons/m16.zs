@@ -74,17 +74,6 @@ class B_M16 : BHDWeapon {
 				return ResolveState("Deselect0Small"); 
 			}
 
-
-
-
-		FlashLightOff:
-			FLMR A 1;
-			Loop;
-
-		FlashlightOn:
-			FLMR B 1;
-			Loop;
-
 	}
 }
 

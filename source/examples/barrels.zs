@@ -1,6 +1,3 @@
-
-class BaseSilencerAttachment : BaseBarrelAttachment {}
-
 class B_M16_Silencer : BaseSilencerAttachment {
 	default {
 		BaseBarrelAttachment.Length 2;

@@ -1,9 +1,3 @@
-AddKeySection "Bryan Keybinds" BKeybinds
-AddMenuKey "Focus" +focusing
-AddMenuKey "Equip Flashlight" flashlight
-AddMenuKey "Switch Flashlight" flashlightOn
-
-alias +focusing "use focusin"
-alias -focusing "use focusout"
-alias flashlight "use FlashlightIn"
-alias flashlightOn "use FlashlightOnIn"
+AddKeySection "Bryan HD Keys" BKeybinds
+AddMenuKey "Use misc. weapon attachment" useMiscAttachment
+alias useMiscAttachment "use MiscAttachmentInput"

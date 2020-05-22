@@ -19,6 +19,11 @@ const B_BARREL = 255;
 const B_MISC   = 65280;
 const B_SCOPE  = 16711680;
 
+const LAYER_BARREL = 11;
+const LAYER_MISC = 12;
+const LAYER_SCOPE = 13;
+
+
 
 const ENC_556MAG = 17;
 const ENC_556MAG_EMPTY = ENC_556MAG * 0.4;

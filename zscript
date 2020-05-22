@@ -5,20 +5,21 @@ version "4.3"
 #include "source/player.zs"
 #include "source/drops.zs"
 
-#include "source/input/flashlight.zs"
-#include "source/input/focus.zs"
+#include "source/input/miscattachment.zs"
 
 #include "source/attachment/base.zs"
-#include "source/attachment/scope.zs"
-#include "source/attachment/silencer.zs"
 #include "source/attachment/manager.zs"
 
-#include "source/weapons/bullets.zs"
-#include "source/weapons/magazines.zs"
-#include "source/weapons/ammo.zs"
-
 #include "source/weapons/base.zs"
-#include "source/weapons/b_akm.zs"
-#include "source/weapons/b_ak47.zs"
-#include "source/weapons/b_m16.zs"
-#include "source/weapons/b_mp5k.zs"
+
+#include "source/examples/weapons/akm.zs"
+#include "source/examples/weapons/ak47.zs"
+#include "source/examples/weapons/m16.zs"
+#include "source/examples/weapons/mp5k.zs"
+
+#include "source/examples/ammos.zs"
+#include "source/examples/bullets.zs"
+#include "source/examples/magazines.zs"
+#include "source/examples/barrels.zs"
+#include "source/examples/miscs.zs"
+#include "source/examples/scopes.zs"

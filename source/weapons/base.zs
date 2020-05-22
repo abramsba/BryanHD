@@ -110,6 +110,10 @@ class BHDWeapon : HDWeapon {
 	Class<BaseMiscAttachment> miscClass;
 	Class<BaseScopeAttachment> scopeClass;
 
+	bool miscActive;
+	void toggleMisc() const {
+		miscActive = !miscActive;
+	}
 
 	property BBarrelMount: bBarrelMount;
 	string bBarrelMount;
@@ -188,7 +192,7 @@ class BHDWeapon : HDWeapon {
 	}
 
 	int getMiscSerialID() const {
-		int all = weaponStatus[I_3RD] & B_SCOPE;
+		int all = weaponStatus[I_3RD] & B_MISC;
 		return (all >> 8);
 	}
 
@@ -416,15 +420,12 @@ class BHDWeapon : HDWeapon {
 	bool flashlight;
 	bool flashlightOn;
 
-
-	action void GetAttachmentState() {
-		int sid = -1;
-		AttachmentManager mgr = AttachmentManager(EventHandler.Find("AttachmentManager"));
-
+	action void GetAttachmentStateBarrel(AttachmentManager mgr) {
 		// Barrel
+		int sid = -1;
 		if (invoker.getBarrelSerialID() == 0) {
 			invoker.barrelClass = null;
-			A_ClearOverlays(11, 11);
+			A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
 		}
 		else {
 			if (!invoker.barrelClass && invoker.getBarrelSerialID() > 0) {
@@ -439,29 +440,27 @@ class BHDWeapon : HDWeapon {
 			}
 
 			if (invoker.getBarrelSerialID() > 0) {
-				let psp = players[consoleplayer].FindPSprite(11);
+				let psp = players[consoleplayer].FindPSprite(LAYER_BARREL);
 				if (!psp) {
-					A_Overlay(11, "BarrelOverlay");
+					A_Overlay(LAYER_BARREL, "BarrelOverlay");
 				}
 			}
 			else {
-				A_ClearOverlays(11, 11);
+				A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
 			}
 		}
+	}
 
-
-		// Scope
+	action void GetAttachmentStateScope(AttachmentManager mgr) {
+		int sid = -1;
 		if (invoker.getScopeSerialID() == 0) {
 			invoker.scopeClass = null;
-			A_ClearOverlays(12, 12);
+			A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
 		}
 		else {
 			if (!invoker.scopeClass && invoker.getScopeSerialID() > 0) {
 				sid = invoker.getScopeSerialID();
 				invoker.scopeClass = mgr.getScopeClass(sid);
-			}
-
-			if (!invoker.scopeClass) {
 			}
 
 			sid = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).serialId;
@@ -471,24 +470,53 @@ class BHDWeapon : HDWeapon {
 			}
 
 			if (invoker.getScopeSerialID() > 0) {
-				let psp = players[consoleplayer].FindPSprite(12);
+				let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
 				if (!psp) {
-					A_Overlay(12, "ScopeOverlay");
+					A_Overlay(LAYER_SCOPE, "ScopeOverlay");
 				}
 			}
 			else {
-				A_ClearOverlays(12, 12);
+				A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
 			}
 		}
+	}
 
+	action void GetAttachmentStateMisc(AttachmentManager mgr) {
+		int sid = -1;
+		if (invoker.getMiscSerialID() == 0) {
+			invoker.miscClass = null;
+			A_ClearOverlays(LAYER_MISC, LAYER_MISC);
+		}
+		else {
+			if (!invoker.miscClass && invoker.getMiscSerialID() > 0) {
+				sid = invoker.getMiscSerialID();
+				invoker.miscClass = mgr.getMiscClass(sid);
+			}
 
+			sid = GetDefaultByType((Class<BaseMiscAttachment>)(invoker.miscClass)).serialId;
+			if (invoker.getMiscSerialID() > 0 && invoker.getMiscSerialID() != sid) {
+				sid = invoker.getMiscSerialID();
+				invoker.miscClass = mgr.getMiscClass(sid);
+			}
 
+			if (invoker.getMiscSerialID() > 0) {
+				let psp = players[consoleplayer].FindPSprite(LAYER_MISC);
+				if (!psp) {
+					A_Overlay(LAYER_MISC, "MiscOverlay");
+				}
+			}
+			else {
+				A_ClearOverlays(LAYER_MISC, LAYER_MISC);
+			}
+		}
+	}
 
-
-
-
-
-
+	action void GetAttachmentState() {
+		int sid = -1;
+		AttachmentManager mgr = AttachmentManager(EventHandler.Find("AttachmentManager"));
+		GetAttachmentStateBarrel(mgr);
+		GetAttachmentStateScope(mgr);
+		GetAttachmentStateMisc(mgr);
 	}
 
 	states {
@@ -498,7 +526,7 @@ class BHDWeapon : HDWeapon {
 				if (invoker.barrelClass) {
 					string sp = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseSprite;
 					int idx = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseFrame;
-					let psp = players[consoleplayer].FindPSprite(11);
+					let psp = players[consoleplayer].FindPSprite(LAYER_BARREL);
 					if (psp) {
 							psp.sprite = GetSpriteIndex(sp);
 							psp.frame = idx;
@@ -513,7 +541,32 @@ class BHDWeapon : HDWeapon {
 				if (invoker.scopeClass) {
 					string sp = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).BaseSprite;
 					int idx = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).BaseFrame;
-					let psp = players[consoleplayer].FindPSprite(12);
+					let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
+					if (psp) {
+							psp.sprite = GetSpriteIndex(sp);
+							psp.frame = idx;
+					}
+				}
+				A_SetTics(1);
+			}
+			Loop;
+
+		MiscOverlay:
+			TNT1 A 0 {
+				if (invoker.miscClass) {
+					string sp;
+					int idx;
+
+					if (!invoker.miscActive) {
+						sp = GetDefaultByType((Class<BaseMiscAttachment>)(invoker.miscClass)).BaseSprite;
+						idx = GetDefaultByType((Class<BaseMiscAttachment>)(invoker.miscClass)).BaseFrame;
+					} 
+					else {
+						sp = GetDefaultByType((Class<BaseMiscAttachment>)(invoker.miscClass)).OnSprite;
+						idx = GetDefaultByType((Class<BaseMiscAttachment>)(invoker.miscClass)).OnFrame;
+					}
+
+					let psp = players[consoleplayer].FindPSprite(LAYER_MISC);
 					if (psp) {
 							psp.sprite = GetSpriteIndex(sp);
 							psp.frame = idx;

@@ -3,11 +3,7 @@ class PlayerEvents : EventHandler {
 
 	override void PlayerEntered(PlayerEvent e) {
 		PlayerPawn pawn = players[e.PlayerNumber].mo;
-		pawn.GiveInventoryType("Focuser");
-		pawn.GiveInventoryType("FocusIn");
-		pawn.GiveInventoryType("FocusOut");
-		pawn.GiveInventoryType("FlashlightIn");
-		pawn.GiveInventoryType("FlashlightOnIn");
+		pawn.GiveInventoryType("MiscAttachmentInput");
 	}
 
 	void createLight(PlayerPawn pl) {

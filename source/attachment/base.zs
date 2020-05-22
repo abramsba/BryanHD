@@ -37,7 +37,10 @@ class BaseAttachment : HDPickup {
 		return false;
 	}
 
-	virtual void SetHDStatus(BHDWeapon weapon) {}
+	// Overrides for users
+	virtual void OnAttach(BHDWeapon weapon, PlayerPawn pawn) {}
+	virtual void OnDettach(BHDWeapon weapon, PlayerPawn pawn) {}
+
 }
 
 class BaseBarrelAttachment : BaseAttachment {
@@ -47,9 +50,11 @@ class BaseBarrelAttachment : BaseAttachment {
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		if (weapon.getBarrelSerialID() > 0) {
 			player.GiveInventory(weapon.barrelClass, 1);
+			OnDettach(weapon, player);
 		}
 		weapon.setBarrelSerialID(self.serialId);
 		weapon.barrelClass = getClass();
+		onAttach(weapon, player);
 		return true;
 	}
 
@@ -83,10 +88,52 @@ class BaseScopeAttachment : BaseAttachment {
 
 }
 
+class BaseSilencerAttachment : BaseBarrelAttachment {}
+class BaseFlashAttachment : BaseBarrelAttachment {}
+
 class BaseMiscAttachment : BaseAttachment {
 
+	property OnSprite: OnSprite;
+	string onSprite;
+
+	property OnFrame: OnFrame;
+	int onFrame;
+
+	property EventClass: eventClass;
+	string eventClass;
+
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
-		return false;
+		if (weapon.getMiscSerialID() > 0) {
+			player.GiveInventory(weapon.miscClass, 1);
+		}
+		weapon.setMiscSerialID(self.serialId);
+		weapon.miscClass = getClass();
+		return true;
+	}
+
+	static bool UsedHook(Class<BaseMiscAttachment> cls, BHDWeapon weapon, PlayerPawn player) {
+		string evt = GetDefaultByType(cls).EventClass;
+		BaseMiscAttachmentEvent inst = null;
+		if (evt != "") {
+			inst = BaseMiscAttachmentEvent(new (evt));
+		}
+		else {
+			inst = new ("BaseMiscAttachmentEvent");
+		}
+		if (inst == null) {
+			return false;
+		}
+		return inst.onUsed(cls, weapon, player);
+	}
+
+}
+
+class BaseMiscAttachmentEvent {
+	// Default behavior is this class is called to goggle the switch on the weapon
+	// it does nothing though. To add behavior on used, inherit this class and override this function
+	virtual bool onUsed(Class<BaseMiscAttachment> cls, BHDWeapon weapon, PlayerPawn player) {
+		weapon.toggleMisc();
+		return true;
 	}
 
 }
