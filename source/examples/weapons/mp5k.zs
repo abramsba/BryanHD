@@ -33,6 +33,7 @@ class B_MP5K : BHDWeapon {
 		BHDWeapon.BarrelWidth        1;
 		BHDWeapon.BarrelDepth        3;
 		BHDWeapon.BFireSound         "mp5k/fire";
+		BHDWeapon.BSFireSound        "m16/silfire";
 		BHDWeapon.BChamberSound      "weapons/rifchamber";
 		BHDWeapon.BBoltForwardSound  "akm/boltf";
 		BHDWeapon.BBoltBackwardSound "akm/boltb";
@@ -45,35 +46,69 @@ class B_MP5K : BHDWeapon {
 		BHDWeapon.BFrontSightImage   "mpkiron";
 		BHDWeapon.BFrontOffsetX      0;
 		BHDWeapon.BFrontOffsetY      8;
+
+		BHDWeapon.BSilentOffsetX     0;
+		BHDWeapon.BSilentOffsetY     0;
+		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
 	}
 
 	states {
 		Spawn:
-			MP5P A -1 {
-				if (invoker.magazineGetAmmo() > 0) {
-					return ResolveState("SpawnMag");
-				}
-				return ResolveState("SpawnNoMag");
-			}
-		SpawnMag:
-			MP5P A -1;
-			Goto Super::Spawn;
-		SpawnNoMag:
-			MP5P B -1;
-			Goto Super::Spawn;
-		Spawn2:
-			MP5K A 0;
-			Goto Super::Spawn2;
-		Ready:
-			MP5K A 1;
-			Goto Super::Ready;
-		Select0:
-			MP5K A 0 {
-				return ResolveState("select0small");
-			}
-		Deselect0:
-			MP5K A 0;
-			Goto Super::Deselect0;
-	}
+			MP5P A -1 GetMagState();
 
+		Ready:
+			MP5K A 1 GetAttachmentState();
+			Goto Super::Ready;
+
+		Select0:
+			MP5K A 0 GetAttachmentState();
+			MP5K A 0 { 
+				return ResolveState("Select0Small"); 
+			}
+
+		deselect:
+			MP5K A 0 A_StartDeselect();
+
+		Deselect0:
+			MP5K A 0 GetAttachmentState();
+			MP5K A 0 { 
+				return ResolveState("Deselect0Small"); 
+			}
+	}
+}
+
+class SilencerOffset : BarrelOffset {
+	default {
+		Offset.WeaponClass "B_MP5k";
+		Offset.WeaponOverlay "B_M16_Silencer";
+		Offset.OffX -1;
+		Offset.OffY 20;
+	}
+}
+
+class ExtenderOffset : BarrelOffset {
+	default {
+		Offset.WeaponClass "B_MP5k";
+		Offset.WeaponOverlay "B_M16_Extender";
+		Offset.OffX -1;
+		Offset.OffY 20;
+	}
+}
+
+class AcogGreenOffset : ScopeOffset {
+	default {
+		Offset.WeaponClass "B_MP5k";
+		Offset.WeaponOverlay "B_ACOG_Green";
+		Offset.OffX 0;
+		offset.OffY 0;
+	}
+}
+
+class AcogRedOffset : ScopeOffset {
+	default {
+		Offset.WeaponClass "B_MP5k";
+		Offset.WeaponOverlay "B_ACOG_Red";
+		Offset.OffX 0;
+		offset.OffY 0;
+	}
 }

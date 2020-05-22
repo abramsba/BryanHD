@@ -19,7 +19,7 @@ const B_BARREL = 255;
 const B_MISC   = 65280;
 const B_SCOPE  = 16711680;
 
-const LAYER_BARREL = 11;
+const LAYER_BARREL = -11;
 const LAYER_MISC = 12;
 const LAYER_SCOPE = 13;
 

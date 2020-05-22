@@ -1,16 +1,54 @@
 
+class Offset : Actor {
+	property WeaponClass: weaponClass;
+	property WeaponOverlay: weaponOverlay;
+	property OffX: offx;
+	property OffY: offy;
+	string weaponClass;
+	string weaponOverlay;
+	int offx;
+	int offy;
+}
+
+class BarrelOffset : Offset {}
+class MiscOffset : Offset {}
+class ScopeOffset : Offset {}
+
 class AttachmentManager : EventHandler {
 
 	Array<Class<BaseBarrelAttachment> > barrelAttachments;
 	Array<Class<BaseMiscAttachment> > miscAttachments;
 	Array<Class<BaseScopeAttachment> > scopeAttachments;
 
+	Array<Class<BarrelOffset> > barrelOffsets;
+	Array<Class<ScopeOffset> > scopeOffsets;
+	Array<Class<MiscOffset> > miscOffsets;
+
+	Vector2 origin;
+
 	override void OnRegister() {
-		int count = AllActorClasses.Size();
+
+		origin = (0, 0);
+
+		// Loop once over actor classes to find Attachment classes
+		int count = AllClasses.Size();
 		Class<BaseBarrelAttachment> isUsed = null;
 		for (int i = 0; i < count; i++) {
-			let next = AllActorClasses[i];
+
+			let next = AllClasses[i];
 			if (!(next is "BaseAttachment")) {
+				if (next is "BarrelOffset") {
+					let barrelOffRef = (Class<BarrelOffset>)(next);
+					barrelOffsets.push(barrelOffRef);
+				}
+				else if (next is "ScopeOffset") {
+					let scopeOffRef = (Class<ScopeOffset>)(next);
+					scopeOffsets.push(scopeOffRef);
+				}
+				else if (next is "MiscOffset") {
+					let miscOffRef = (Class<MiscOffset>)(next);
+					miscOffsets.push(miscOffRef);
+				}
 				continue;
 			}
 
@@ -48,7 +86,82 @@ class AttachmentManager : EventHandler {
 				}
 			}
 		}
+
 	}
+
+	int scopeOffsetIndex(BHDWeapon weapon, Class<BaseScopeAttachment> scopecls) {
+		int count = scopeOffsets.size();
+		for (int i = 0; i < count; i++) {
+			let next = scopeOffsets[i];
+			let gname = GetDefaultByType((Class<Offset>)(next)).weaponClass;           //weapon.getClassName();
+			let aname = GetDefaultByType((Class<Offset>)(next)).weaponOverlay;
+			if (gname == weapon.getClassName() && aname == scopecls.getClassName()) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	Vector2 getScopeOffset(int i) {
+		let next = scopeOffsets[i];
+		let x = GetDefaultByType((Class<Offset>)(next)).offx;           //weapon.getClassName();
+		let y = GetDefaultByType((Class<Offset>)(next)).offy;
+		return (x, y);
+	}
+
+
+
+	int miscOffsetIndex(BHDWeapon weapon, Class<BaseMiscAttachment> scopecls) {
+		int count = miscOffsets.size();
+		for (int i = 0; i < count; i++) {
+			let next = miscOffsets[i];
+			let gname = GetDefaultByType((Class<Offset>)(next)).weaponClass;           //weapon.getClassName();
+			let aname = GetDefaultByType((Class<Offset>)(next)).weaponOverlay;
+			if (gname == weapon.getClassName() && aname == scopecls.getClassName()) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	Vector2 getMiscOffset(int i) {
+		let next = miscOffsets[i];
+		let x = GetDefaultByType((Class<Offset>)(next)).offx;           //weapon.getClassName();
+		let y = GetDefaultByType((Class<Offset>)(next)).offy;
+		return (x, y);
+	}
+
+
+
+
+
+
+
+
+
+	int barrelOffsetIndex(BHDWeapon weapon, Class<BaseBarrelAttachment> barrelcls) {
+		int count = barrelOffsets.size();
+		for (int i = 0; i < count; i++) {
+			let next = barrelOffsets[i];
+			let gunName = GetDefaultByType((Class<Offset>)(next)).weaponClass;           //weapon.getClassName();
+			let scopeName = GetDefaultByType((Class<Offset>)(next)).weaponOverlay;
+			if (gunName == weapon.getClassName() && scopeName == barrelcls.getClassName()) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	Vector2 getBarrelOffset(int i) {
+		let next = barrelOffsets[i];
+		let x = GetDefaultByType((Class<Offset>)(next)).offx;           //weapon.getClassName();
+		let y = GetDefaultByType((Class<Offset>)(next)).offy;
+		return (x, y);
+	}
+
+
+
+
 
 	Class<BaseMiscAttachment> getMiscClass (int serialId) {
 		int count = miscAttachments.Size();

@@ -7,6 +7,11 @@ class BaseAttachment : HDPickup {
 	property SerialId: serialId;
 	meta int serialId;
 
+	property SpriteOffsetX: spriteOffsetX;
+	property SpriteOffsetY: spriteOffsetY;
+	double spriteOffsetX;
+	double spriteOffsetY;
+
 	property BaseSprite: baseSprite;
 	string baseSprite;
 
@@ -48,12 +53,26 @@ class BaseBarrelAttachment : BaseAttachment {
 	double length;
 
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
+		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
+
 		if (weapon.getBarrelSerialID() > 0) {
 			player.GiveInventory(weapon.barrelClass, 1);
 			OnDettach(weapon, player);
 		}
 		weapon.setBarrelSerialID(self.serialId);
 		weapon.barrelClass = getClass();
+
+		let offsetIndex = mgr.barrelOffsetIndex(weapon, getClass());
+		if (offsetIndex > -1) {
+			Vector2 pos = mgr.getBarrelOffset(offsetIndex);
+			weapon.useBarrelOffsets = true;
+			weapon.barrelOffsets = pos;
+		}
+		else {
+			weapon.useBarrelOffsets = false;
+			weapon.barrelOffsets = (0, 0);
+		}
+
 		onAttach(weapon, player);
 		return true;
 	}
@@ -78,11 +97,26 @@ class BaseScopeAttachment : BaseAttachment {
 	double backoffy;
 
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
+		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
+
 		if (weapon.getScopeSerialID() > 0) {
 			player.GiveInventory(weapon.scopeClass, 1);
 		}
 		weapon.setScopeSerialID(self.serialID);
 		weapon.scopeClass = getClass();
+
+		let offsetIndex = mgr.scopeOffsetIndex(weapon, getClass());
+		if (offsetIndex > -1) {
+			Vector2 pos = mgr.getScopeOffset(offsetIndex);
+			weapon.useScopeOffsets = true;
+			weapon.scopeOffsets = pos;
+		}
+		else {
+			weapon.useScopeOffsets = false;
+			weapon.scopeOffsets = (0, 0);
+		}
+
+		onAttach(weapon, player);
 		return true;
 	}
 
@@ -103,11 +137,27 @@ class BaseMiscAttachment : BaseAttachment {
 	string eventClass;
 
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
+		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
+
 		if (weapon.getMiscSerialID() > 0) {
 			player.GiveInventory(weapon.miscClass, 1);
+			OnDettach(weapon, player);
 		}
 		weapon.setMiscSerialID(self.serialId);
 		weapon.miscClass = getClass();
+
+		let offsetIndex = mgr.miscOffsetIndex(weapon, getClass());
+		if (offsetIndex > -1) {
+			Vector2 pos = mgr.getMiscOffset(offsetIndex);
+			weapon.useMiscOffsets = true;
+			weapon.miscOffsets = pos;
+		}
+		else {
+			weapon.useScopeOffsets = false;
+			weapon.miscOffsets = (0, 0);
+		}
+
+		onAttach(weapon, player);
 		return true;
 	}
 

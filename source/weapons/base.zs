@@ -107,8 +107,16 @@ class BHDWeapon : HDWeapon {
 	BaseMiscAttachment miscAttachment;
 
 	Class<BaseBarrelAttachment> barrelClass;
+	Vector2 barrelOffsets;
+	bool useBarrelOffsets;
+
 	Class<BaseMiscAttachment> miscClass;
+	Vector2 miscOffsets;
+	bool useMiscOffsets;
+
 	Class<BaseScopeAttachment> scopeClass;
+	Vector2 scopeOffsets;
+	bool useScopeOffsets;
 
 	bool miscActive;
 	void toggleMisc() const {
@@ -399,6 +407,10 @@ class BHDWeapon : HDWeapon {
 		return (bBackOffsetX, bBackOffsetY);
 	}
 
+	Vector2 getBarrelOffsets() const {
+		return (0, 0);
+	}
+
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot) {
 
 		BHDWeapon basicWep = BHDWeapon(hdw);
@@ -423,6 +435,15 @@ class BHDWeapon : HDWeapon {
 	action void GetAttachmentStateBarrel(AttachmentManager mgr) {
 		// Barrel
 		int sid = -1;
+		int oid = -1;
+
+		if (invoker.useBarrelOffsets) {
+			A_OverlayOffset(LAYER_BARREL, invoker.barrelOffsets.x, invoker.barrelOffsets.y);
+		}
+		else {
+			A_OverlayOffset(LAYER_BARREL, 0, 0);
+		}
+
 		if (invoker.getBarrelSerialID() == 0) {
 			invoker.barrelClass = null;
 			A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
@@ -444,6 +465,18 @@ class BHDWeapon : HDWeapon {
 				if (!psp) {
 					A_Overlay(LAYER_BARREL, "BarrelOverlay");
 				}
+
+				oid = mgr.barrelOffsetIndex(invoker, invoker.barrelClass);
+				if (oid > -1) {
+					A_OverlayOffset(LAYER_BARREL, invoker.barrelOffsets.x, invoker.barrelOffsets.y);
+					invoker.barrelOffsets = mgr.getBarrelOffset(oid);
+					invoker.useBarrelOffsets = true;
+				}
+				else {
+					invoker.barrelOffsets = (0, 0);
+					invoker.useBarrelOffsets = false;
+				}
+
 			}
 			else {
 				A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
@@ -453,6 +486,15 @@ class BHDWeapon : HDWeapon {
 
 	action void GetAttachmentStateScope(AttachmentManager mgr) {
 		int sid = -1;
+		int oid = -1;
+
+		if (invoker.useScopeOffsets) {
+			A_OverlayOffset(LAYER_SCOPE, invoker.scopeOffsets.x, invoker.scopeOffsets.y);
+		}
+		else {
+			A_OverlayOffset(LAYER_SCOPE, 0, 0);
+		}
+
 		if (invoker.getScopeSerialID() == 0) {
 			invoker.scopeClass = null;
 			A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
@@ -474,6 +516,18 @@ class BHDWeapon : HDWeapon {
 				if (!psp) {
 					A_Overlay(LAYER_SCOPE, "ScopeOverlay");
 				}
+
+				oid = mgr.scopeOffsetIndex(invoker, invoker.scopeClass);
+				if (oid > -1) {
+					A_OverlayOffset(LAYER_SCOPE, invoker.scopeOffsets.x, invoker.scopeOffsets.y);
+					invoker.scopeOffsets = mgr.getBarrelOffset(oid);
+					invoker.useScopeOffsets = true;
+				}
+				else {
+					invoker.scopeOffsets = (0, 0);
+					invoker.useScopeOffsets = false;
+				}
+
 			}
 			else {
 				A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
