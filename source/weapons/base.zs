@@ -444,7 +444,7 @@ class BHDWeapon : HDWeapon {
 	bool flashlight;
 	bool flashlightOn;
 
-			//pawn.GiveInventoryType("BSilencerRemover");
+		//pawn.GiveInventoryType("BSilencerRemover");
 		//pawn.GiveInventoryType("BScopeRemover");
 		//pawn.GiveInventoryType("BMiscRemover");
 
@@ -453,6 +453,7 @@ class BHDWeapon : HDWeapon {
 		int sid = -1;
 		int oid = -1;
 
+		//TakeInventory("BSilencerRemover", 1);
 		if (invoker.useBarrelOffsets) {
 			A_OverlayOffset(LAYER_BARREL, invoker.barrelOffsets.x, invoker.barrelOffsets.y);
 		}
@@ -461,12 +462,13 @@ class BHDWeapon : HDWeapon {
 		}
 
 		if (invoker.getBarrelSerialID() == 0) {
-			TakeInventory("BSilencerRemover", 1);
+			//console.printf("hi mom?");
+			//
 			invoker.barrelClass = null;
 			A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
 		}
 		else {
-			GiveInventoryType("BSilencerRemover");
+			//GiveInventoryType("BSilencerRemover");
 			if (!invoker.barrelClass && invoker.getBarrelSerialID() > 0) {
 				sid = invoker.getBarrelSerialID();
 				invoker.barrelClass = mgr.getBarrelClass(sid);
@@ -486,8 +488,8 @@ class BHDWeapon : HDWeapon {
 
 				oid = mgr.barrelOffsetIndex(invoker, invoker.barrelClass);
 				if (oid > -1) {
-					A_OverlayOffset(LAYER_BARREL, invoker.barrelOffsets.x, invoker.barrelOffsets.y);
 					invoker.barrelOffsets = mgr.getBarrelOffset(oid);
+					A_OverlayOffset(LAYER_BARREL, invoker.barrelOffsets.x, invoker.barrelOffsets.y);
 					invoker.useBarrelOffsets = true;
 				}
 				else {
@@ -530,20 +532,22 @@ class BHDWeapon : HDWeapon {
 			}
 
 			if (invoker.getScopeSerialID() > 0) {
+				let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
+				if (!psp) {
+					A_Overlay(LAYER_SCOPE, "ScopeOverlay");
+				}
+
 				oid = mgr.scopeOffsetIndex(invoker, invoker.scopeClass);
 				if (oid > -1) {
 					invoker.scopeOffsets = mgr.getScopeOffset(oid);
+					A_OverlayOffset(LAYER_SCOPE, invoker.scopeOffsets.x, invoker.scopeOffsets.y);
 					invoker.useScopeOffsets = true;
 				}
 				else {
 					invoker.scopeOffsets = (0, 0);
 					invoker.useScopeOffsets = false;
 				}
-				A_OverlayOffset(LAYER_SCOPE, invoker.scopeOffsets.x, invoker.scopeOffsets.y);
-				let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
-				if (!psp) {
-					A_Overlay(LAYER_SCOPE, "ScopeOverlay");
-				}
+				
 			}
 			else {
 				A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
@@ -553,6 +557,15 @@ class BHDWeapon : HDWeapon {
 
 	action void GetAttachmentStateMisc(AttachmentManager mgr) {
 		int sid = -1;
+		int oid = -1;
+
+		if (invoker.useMiscOffsets) {
+			A_OverlayOffset(LAYER_MISC, invoker.miscOffsets.x, invoker.miscOffsets.y);
+		}
+		else {
+			A_OverlayOffset(LAYER_MISC, 0, 0);
+		}
+
 		if (invoker.getMiscSerialID() == 0) {
 			invoker.miscClass = null;
 			A_ClearOverlays(LAYER_MISC, LAYER_MISC);
@@ -574,12 +587,25 @@ class BHDWeapon : HDWeapon {
 				if (!psp) {
 					A_Overlay(LAYER_MISC, "MiscOverlay");
 				}
+
+				oid = mgr.miscOffsetIndex(invoker, invoker.miscClass);
+				if (oid > -1) {
+					invoker.miscOffsets = mgr.getMiscOffset(oid);
+					A_OverlayOffset(LAYER_MISC, invoker.miscOffsets.x, invoker.miscOffsets.y);
+					invoker.useMiscOffsets = true;
+				}
+				else {
+					invoker.miscOffsets = (0, 0);
+					invoker.useMiscOffsets = false;
+				}
+				
 			}
 			else {
 				A_ClearOverlays(LAYER_MISC, LAYER_MISC);
 			}
 		}
 	}
+
 
 	action void GetAttachmentState() {
 		int sid = -1;
@@ -729,7 +755,7 @@ class BHDWeapon : HDWeapon {
 					return ResolveState("Chamber_Manual");
 				}
 				else {
-					A_GunFlash();
+					A_Overlay(0, "Flash");
 					A_WeaponReady(WRF_NONE);
 					if (invoker.weaponStatus[I_AUTO] >= 2) {
 						invoker.weaponStatus[I_AUTO]++;
@@ -745,8 +771,10 @@ class BHDWeapon : HDWeapon {
 
 		Flash:
 			TNT1 A 1 {
-				A_Light1();
-				HDFlashAlpha(-16);
+				if (!(invoker.barrelClass is "BaseFlashAttachment") && !(invoker.barrelClass is "BaseSilencerAttachment")) {
+					A_Light1();
+					HDFlashAlpha(-16);
+				}
 
 				bool silenced = invoker.barrelClass is "BaseSilencerAttachment";
 				string sound = silenced ? invoker.bSFireSound : invoker.bFireSound;
@@ -762,6 +790,23 @@ class BHDWeapon : HDWeapon {
 				);
 				invoker.addHeat(random(3, 5));
 				invoker.unchamber();
+
+				double fc = max(pitch * 0.01, 5);
+				double cosp = cos(pitch);
+
+				// Todo: Make it not constantly be in your face 
+				//       create property to spawn this bullet
+				A_SPawnItemEx(
+					"B556Spent", 
+					cosp * 6, 
+					5, 
+					height - 8 - sin(pitch) * 6,
+					cosp * -2,
+					1,
+					2 - sin(pitch),
+					0,
+					SXF_NOCHECKPOSITION | SXF_TRANSFERPITCH);
+
 				A_AlertMonsters();
 			}
 			TNT1 A 0 { 
@@ -787,6 +832,8 @@ class BHDWeapon : HDWeapon {
 
 		Chamber:
 			#### B 0 Offset(0, 32) {
+
+
 				if (!invoker.magazineHasAmmo()) {
 					return ResolveState("nope");
 				}

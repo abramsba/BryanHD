@@ -26,6 +26,61 @@ class AttachmentManager : EventHandler {
 
 	Vector2 origin;
 
+	override void WorldTick() {
+		PlayerInfo info = players[consoleplayer];
+		PlayerPawn pawn = info.mo;
+		if (!pawn) {
+			return;
+		}
+
+		if (info.readyWeapon is "BHDWeapon") {
+			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
+
+			if (weapon.barrelClass) {
+				if (!pawn.CountInv("BSilencerRemover")) {
+					pawn.GiveInventoryType("BSilencerRemover");
+				}
+			}
+			else {
+				if (pawn.CountInv("BSilencerRemover")) {
+					pawn.TakeInventory("BSilencerRemover", 1);
+				}
+			}
+
+			if (weapon.scopeClass) {
+				if (!pawn.CountInv("BScopeRemover")) {
+					pawn.GiveInventoryType("BScopeRemover");
+				}
+			}
+			else {
+				if (pawn.CountInv("BScopeRemover")) {
+					pawn.TakeInventory("BScopeRemover", 1);
+				}
+			}
+
+			if (weapon.miscClass) {
+				if (!pawn.CountInv("BMiscRemover")) {
+					pawn.GiveInventoryType("BMiscRemover");
+				}
+			}
+			else {
+				if (pawn.CountInv("BMiscRemover")) {
+					pawn.TakeInventory("BMiscRemover", 1);
+				}
+			}
+
+		}
+		else {
+			if (pawn.CountInv("BSilencerRemover")) {
+				pawn.TakeInventory("BSilencerRemover", 1);
+			}
+		}
+
+
+
+
+	}
+
 	override void OnRegister() {
 
 		origin = (0, 0);
@@ -131,14 +186,6 @@ class AttachmentManager : EventHandler {
 		return (x, y);
 	}
 
-
-
-
-
-
-
-
-
 	int barrelOffsetIndex(BHDWeapon weapon, Class<BaseBarrelAttachment> barrelcls) {
 		int count = barrelOffsets.size();
 		for (int i = 0; i < count; i++) {
@@ -158,10 +205,6 @@ class AttachmentManager : EventHandler {
 		let y = GetDefaultByType((Class<Offset>)(next)).offy;
 		return (x, y);
 	}
-
-
-
-
 
 	Class<BaseMiscAttachment> getMiscClass (int serialId) {
 		int count = miscAttachments.Size();

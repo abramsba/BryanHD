@@ -48,6 +48,83 @@ class B556Ammo : HDRoundAmmo {
 	}
 }
 
+class B556Brass : HDAmmo {
+	default {
+		+inventory.ignoreskill
+		+forcexybillboard
+		+cannotpush
+		+hdpickup.multipickup
+		+hdpickup.cheatnogive
+		height 16;
+		radius 8;
+		tag "5.56mm NATO Casing";
+		HDPickUp.RefId "B556Casing";
+		HdPickup.Bulk 1;
+		XScale 0.7;
+		YScale 0.8;
+		Inventory.PickupMessage "Picked up some brass.";
+	}
+	states {
+		spawn:
+			RBRS A -1;
+			Stop;
+	}
+}
+
+class B556Spent : HDUPK {
+	override void postbeginplay(){
+		super.postbeginplay();
+		A_ChangeVelocity(frandom(-3,3), frandom(-0.4,0.4), 0, CVF_RELATIVE);
+	}
+
+	default {
+		+Missile
+		+HDUPK.multipickup
+		Height 4;
+		Radius 2;
+		BounceType "Doom";
+		HDUPK.PickupType "B556Brass";
+		HDUPK.PickupMessage "Picked up some brass.";
+
+		bouncesound "misc/casing";
+		xscale 0.7;
+		yscale 0.8;
+		maxstepheight 0.6;
+	}
+
+	states {
+		spawn:
+			RBRS A 2 {
+				angle+=45;
+				if(floorz==pos.z&&!vel.z)A_Countdown();
+			}
+			Wait;
+
+		death:
+			RBRS A -1 {
+				actor p=spawn("B556Brass",self.pos,ALLOW_REPLACE);
+				p.vel = self.vel;
+				p.vel.xy*=3;
+				p.angle=angle;
+				if(p.vel!=(0,0,0)){
+					p.A_FaceMovementDirection();
+					p.angle+=90;
+				}
+				destroy();
+			}
+			Stop;
+
+	}
+}
+
+
+
+
+
+
+
+
+
 class B762Ammo : HDRoundAmmo {
 
 	default {

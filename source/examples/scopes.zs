@@ -90,8 +90,8 @@ class B_Sight_Rdot : BaseScopeAttachment {
 		BaseAttachment.MountId "NATO_RAILS";
 		BaseScopeAttachment.FrontImage "rdot";
 		BaseScopeAttachment.BackImage "rdotsg";
-		BaseScopeAttachment.FrontOffY 16;
-		BaseScopeAttachment.BackOffY 8;
+		BaseScopeAttachment.FrontOffY 1;
+		BaseScopeAttachment.BackOffY 4;
 		BaseScopeAttachment.DotThreshold 180;
 		HDPickup.Bulk 1;
 		HDPickup.RefId "SIG1SIT";
@@ -111,6 +111,8 @@ class B_Sight_Rdot : BaseScopeAttachment {
 	}
 }
 
+
+
 class B_Sight_Gdot : BaseScopeAttachment {
 	default {
 		BaseAttachment.SerialId 5;
@@ -119,8 +121,8 @@ class B_Sight_Gdot : BaseScopeAttachment {
 		BaseAttachment.MountId "NATO_RAILS";
 		BaseScopeAttachment.FrontImage "gdot";
 		BaseScopeAttachment.BackImage "rdotsg";
-		BaseScopeAttachment.FrontOffY 2;
-		BaseScopeAttachment.BackOffY 2;
+		BaseScopeAttachment.FrontOffY 10;
+		BaseScopeAttachment.BackOffY 8;
 		BaseScopeAttachment.DotThreshold 180;
 		HDPickup.Bulk 1;
 		HDPickup.RefId "SIG1SIT";

@@ -23,7 +23,7 @@ class B_M16_Silencer : BaseSilencerAttachment {
 	
 }
 
-class B_M16_Extender : BaseBarrelAttachment {
+class B_M16_Extender : BaseFlashAttachment {
 	default {
 		BaseBarrelAttachment.Length 2;
 		BaseAttachment.MountId "556_NATO_BARREL";

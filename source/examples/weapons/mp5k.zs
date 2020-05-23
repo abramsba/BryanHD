@@ -102,7 +102,7 @@ class Mp5kAcogGreenOffset : ScopeOffset {
 	default {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_ACOG_Green";
-		Offset.OffX 0;
+		Offset.OffX -1;
 		offset.OffY 20;
 	}
 }
@@ -111,7 +111,7 @@ class Mp5kAcogRedOffset : ScopeOffset {
 	default {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_ACOG_Red";
-		Offset.OffX 0;
+		Offset.OffX -1;
 		offset.OffY 20;
 	}
 }
