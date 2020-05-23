@@ -32,9 +32,9 @@ class B_M16_Extender : BaseBarrelAttachment {
 		BaseAttachment.BaseFrame 1;
 		HDPickup.Bulk 1;
 		HDPickup.RefId "BM16SIL";
-		Tag "5.56m barrel extender";
+		Tag "5.56m barrel flash suppressor";
 		Inventory.Icon "SL56C0";
-		Inventory.PickupMessage "Picked up 5.56m barrel extender.";
+		Inventory.PickupMessage "Picked up 5.56m barrel flash suppressor.";
 	}
 
 	States {

@@ -420,7 +420,14 @@ class BHDWeapon : HDWeapon {
 
 		BHDWeapon basicWep = BHDWeapon(hdw);
 		double dotoff = max(abs(bob.x), abs(bob.y));
-		if (dotoff < 6){
+
+		// TODO Get from scope if has scope
+		double dotLimit = 6;
+		if (basicWep.scopeClass) {
+			dotLimit = GetDefaultByType((Class<BaseScopeAttachment>)(basicWep.scopeClass)).DotThreshold;
+		}
+
+		if (dotoff < dotLimit){
 			sb.drawImage(getFrontSightImage(), getFrontSightOffsets() + bob * 3, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, alpha: 0.9 - dotoff * 0.04);
 		}
 		sb.drawimage(getBackSightImage(), getBackSightOffsets() + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
@@ -437,6 +444,10 @@ class BHDWeapon : HDWeapon {
 	bool flashlight;
 	bool flashlightOn;
 
+			//pawn.GiveInventoryType("BSilencerRemover");
+		//pawn.GiveInventoryType("BScopeRemover");
+		//pawn.GiveInventoryType("BMiscRemover");
+
 	action void GetAttachmentStateBarrel(AttachmentManager mgr) {
 		// Barrel
 		int sid = -1;
@@ -450,10 +461,12 @@ class BHDWeapon : HDWeapon {
 		}
 
 		if (invoker.getBarrelSerialID() == 0) {
+			TakeInventory("BSilencerRemover", 1);
 			invoker.barrelClass = null;
 			A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
 		}
 		else {
+			GiveInventoryType("BSilencerRemover");
 			if (!invoker.barrelClass && invoker.getBarrelSerialID() > 0) {
 				sid = invoker.getBarrelSerialID();
 				invoker.barrelClass = mgr.getBarrelClass(sid);

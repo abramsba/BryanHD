@@ -16,6 +16,7 @@ version "4.3"
 
 #include "source/examples/weapons/akm.zs"
 #include "source/examples/weapons/ak47.zs"
+#include "source/examples/weapons/m4.zs"
 #include "source/examples/weapons/m16.zs"
 #include "source/examples/weapons/mp5k.zs"
 #include "source/examples/weapons/kar98k.zs"

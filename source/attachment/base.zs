@@ -99,6 +99,13 @@ class BaseScopeAttachment : BaseAttachment {
 	double backoffx;
 	double backoffy;
 
+	property DotThreshold: dotThreshold;
+	meta int dotThreshold;
+
+	default {
+		BaseScopeAttachment.DotThreshold 6;
+	}
+
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
 		if (weapon.bScopeMount != self.MountId) {

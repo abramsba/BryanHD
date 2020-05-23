@@ -1,5 +1,5 @@
 
-class B_M16 : BaseStandardRifle {
+class B_M4 : BaseStandardRifle {
 
 	default {
 		+hdweapon.fitsinbackpack
@@ -7,13 +7,13 @@ class B_M16 : BaseStandardRifle {
 		weapon.slotnumber            4;
 		weapon.slotpriority          3;
 		inventory.pickupsound        "misc/w_pkup";
-		inventory.pickupmessage      "You got the m16.";
+		inventory.pickupmessage      "You got the M4.";
 		scale                        0.7;
 		weapon.bobrangex             0.22;
 		weapon.bobrangey             0.9;
 		obituary                     "%o was assaulted by %k.";
-		tag                          "M16";
-		inventory.icon               "M16PA0";
+		tag                          "M4";
+		inventory.icon               "M4RPA0";
 
 		BHDWeapon.BHeatDrain         12;
 		BHDWeapon.BBulletClass       "HDB_556";
@@ -22,8 +22,8 @@ class B_M16 : BaseStandardRifle {
 		BHDWeapon.BGunMass           6.2;
 		BHDWeapon.BCookOff           30;
 		BHDWeapon.BHeatLimit         255;
-		BHDWeapon.BSpriteWithMag     "M16PA0";
-		BHDWeapon.BSpriteWithoutMag  "M16PB0";
+		BHDWeapon.BSpriteWithMag     "M4RPA0";
+		BHDWeapon.BSpriteWithoutMag  "M4RPB0";
 		BHDWeapon.BMagazineSprite    "M16CA0";
 		BHDWeapon.BWeaponBulk        90;
 		BHDWeapon.BMagazineBulk      19;
@@ -40,7 +40,7 @@ class B_M16 : BaseStandardRifle {
 		BHDWeapon.BClickSound        "weapons/rifleclick2";
 		BHDWeapon.BLoadSound         "weapons/rifleload";
 		BHDWeapon.BROF               1;
-		BHDWeapon.BBackSightImage    "m16sight";
+		BHDWeapon.BBackSightImage    "mrsig1";
 		BHDWeapon.BBackOffsetX       0;
 		BHDWeapon.BBackOffsetY       26;
 		BHDWeapon.BFrontSightImage   "m16iron";
@@ -50,30 +50,30 @@ class B_M16 : BaseStandardRifle {
 		BHDWeapon.BSilentOffsetY     0;
 
 		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
-		BHDWeapon.bScopeMount        "NONE";
+		BHDWeapon.bScopeMount        "NATO_RAILS";
 		BHDWeapon.bMiscMount         "NATO_RAILS";
 	}
 
 	states {
 		Spawn:
-			M16P A -1 GetMagState();
+			M4RP A -1 GetMagState();
 
 		Ready:
-			M16G A 1 GetAttachmentState();
+			M4RG A 1 GetAttachmentState();
 			Goto Super::Ready;
 
 		Select0:
-			M16G A 0 GetAttachmentState();
-			M16G A 0 { 
+			M4RG A 0 GetAttachmentState();
+			M4RG A 0 { 
 				return ResolveState("Select0Small"); 
 			}
 
 		deselect:
-			M16G A 0 A_StartDeselect();
+			M4RG A 0 A_StartDeselect();
 
 		Deselect0:
-			M16G A 0 GetAttachmentState();
-			M16G A 0 { 
+			M4RG A 0 GetAttachmentState();
+			M4RG A 0 { 
 				return ResolveState("Deselect0Small"); 
 			}
 

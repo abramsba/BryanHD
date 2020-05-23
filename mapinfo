@@ -9,6 +9,7 @@ DoomEdNums {
 	19003 = B_AKM
 	19004 = B_MP5K
 	19005 = B_KAR98K
+	19006 = B_M4
 	
 	20001 = B556Mag
 	20002 = B762_AKM_Mag
@@ -22,4 +23,6 @@ DoomEdNums {
 	18001 = B_ACOG_Red
 	18002 = B_ACOG_Green
 	18003 = B_M16_Flashlight
+	18004 = B_Sight_Rdot
+	18005 = B_Sight_Gdot
 }

@@ -103,7 +103,7 @@ class Mp5kAcogGreenOffset : ScopeOffset {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_ACOG_Green";
 		Offset.OffX 0;
-		offset.OffY 0;
+		offset.OffY 20;
 	}
 }
 
@@ -112,6 +112,24 @@ class Mp5kAcogRedOffset : ScopeOffset {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_ACOG_Red";
 		Offset.OffX 0;
-		offset.OffY 0;
+		offset.OffY 20;
+	}
+}
+
+class Mp5kGDotOffset : ScopeOffset {
+	default {
+		Offset.WeaponClass "B_MP5k";
+		Offset.WeaponOverlay "B_Sight_Gdot";
+		Offset.OffX -1;
+		offset.OffY 5;
+	}
+}
+
+class Mp5kRDotOffset : ScopeOffset {
+	default {
+		Offset.WeaponClass "B_MP5k";
+		Offset.WeaponOverlay "B_Sight_Rdot";
+		Offset.OffX -1;
+		offset.OffY 5;
 	}
 }

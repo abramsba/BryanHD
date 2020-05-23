@@ -38,13 +38,13 @@ class B_ACOG_Red : BaseScopeAttachment {
 		HDPickup.Bulk 1;
 		HDPickup.RefId "ACOG1SIG";
 		Tag "ACOG Sight (Red)";
-		Inventory.Icon "SCOPB0";
+		Inventory.Icon "SCOPE0";
 		Inventory.PickupMessage "Picked up an ACOG Sight (Red).";
 	}
 
 	States {
 		Spawn:
-			SCOP B -1;
+			SCOP E -1;
 			Stop;
 
 		OverlayImage:
@@ -63,20 +63,79 @@ class B_ACOG_Green : BaseScopeAttachment {
 		BaseScopeAttachment.BackImage "acog1sg";
 		BaseScopeAttachment.FrontOffY 16;
 		BaseScopeAttachment.BackOffY 8;
+		BaseScopeAttachment.DotThreshold 30;
 		HDPickup.Bulk 1;
 		HDPickup.RefId "ACOG1SIG";
 		Tag "ACOG Sight (Green)";
-		Inventory.Icon "SCOPB0";
+		Inventory.Icon "SCOPF0";
 		Inventory.PickupMessage "Picked up an ACOG Sight (Green).";
 	}
 
 	States {
 		Spawn:
-			SCOP B -1;
+			SCOP F -1;
 			Stop;
 
 		OverlayImage:
 			SCOP C -1;
+			Stop;
+	}
+}
+
+class B_Sight_Rdot : BaseScopeAttachment {
+	default {
+		BaseAttachment.SerialId 4;
+		BaseAttachment.BaseSprite "SDOT";
+		BaseAttachment.BaseFrame 0;
+		BaseAttachment.MountId "NATO_RAILS";
+		BaseScopeAttachment.FrontImage "rdot";
+		BaseScopeAttachment.BackImage "rdotsg";
+		BaseScopeAttachment.FrontOffY 16;
+		BaseScopeAttachment.BackOffY 8;
+		BaseScopeAttachment.DotThreshold 180;
+		HDPickup.Bulk 1;
+		HDPickup.RefId "SIG1SIT";
+		Tag "Red-dot Sight";
+		Inventory.Icon "SDOTB0";
+		Inventory.PickupMessage "Picked up a Red-dot Sight.";
+	}
+
+	States {
+		Spawn:
+			SDOT B -1;
+			Stop;
+
+		OverlayImage:
+			SDOT A -1;
+			Stop;
+	}
+}
+
+class B_Sight_Gdot : BaseScopeAttachment {
+	default {
+		BaseAttachment.SerialId 5;
+		BaseAttachment.BaseSprite "SDOT";
+		BaseAttachment.BaseFrame 0;
+		BaseAttachment.MountId "NATO_RAILS";
+		BaseScopeAttachment.FrontImage "gdot";
+		BaseScopeAttachment.BackImage "rdotsg";
+		BaseScopeAttachment.FrontOffY 2;
+		BaseScopeAttachment.BackOffY 2;
+		BaseScopeAttachment.DotThreshold 180;
+		HDPickup.Bulk 1;
+		HDPickup.RefId "SIG1SIT";
+		Tag "Green-dot Sight";
+		Inventory.Icon "SDOTC0";
+		Inventory.PickupMessage "Picked up a Green-dot Sight.";
+	}
+
+	States {
+		Spawn:
+			SDOT C -1;
+			Stop;
+
+		OverlayImage:
+			SDOT A -1;
 			Stop;
 	}
 }
