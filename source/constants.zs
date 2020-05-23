@@ -6,6 +6,7 @@ const I_AUTO  = 2;
 const I_ZOOM  = 3;
 const I_HEAT  = 4;
 CONST I_BORE  = 6;
+CONST I_GRIME = 7;
 
 CONST I_3RD  = 31;
 

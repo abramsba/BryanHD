@@ -1,19 +1,18 @@
 
-class B_M16 : BaseStandardRifle {
-
-	default {
+class B_KAR98K : BaseBoltRifle {
+		default {
 		+hdweapon.fitsinbackpack
 		weapon.selectionorder        20;
 		weapon.slotnumber            4;
 		weapon.slotpriority          3;
 		inventory.pickupsound        "misc/w_pkup";
-		inventory.pickupmessage      "You got the m16.";
+		inventory.pickupmessage      "You got the KAR98K.";
 		scale                        0.7;
 		weapon.bobrangex             0.22;
 		weapon.bobrangey             0.9;
 		obituary                     "%o was assaulted by %k.";
-		tag                          "M16";
-		inventory.icon               "M16PA0";
+		tag                          "KAR98K";
+		inventory.icon               "KR9GA0";
 
 		BHDWeapon.BHeatDrain         12;
 		BHDWeapon.BBulletClass       "HDB_556";
@@ -22,9 +21,9 @@ class B_M16 : BaseStandardRifle {
 		BHDWeapon.BGunMass           6.2;
 		BHDWeapon.BCookOff           30;
 		BHDWeapon.BHeatLimit         255;
-		BHDWeapon.BSpriteWithMag     "M16PA0";
-		BHDWeapon.BSpriteWithoutMag  "M16PB0";
-		BHDWeapon.BMagazineSprite    "M16CA0";
+		BHDWeapon.BSpriteWithMag     "KR9GA0";
+		BHDWeapon.BSpriteWithoutMag  "KR9GB0";
+		BHDWeapon.BMagazineSprite    "KR9AA0";
 		BHDWeapon.BWeaponBulk        90;
 		BHDWeapon.BMagazineBulk      19;
 		BHDWeapon.BBulletBulk        1;
@@ -48,35 +47,32 @@ class B_M16 : BaseStandardRifle {
 		BHDWeapon.BFrontOffsetY      7;
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
-
-		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
-		BHDWeapon.bScopeMount        "NATO_RAILS";
-		BHDWeapon.bMiscMount         "NATO_RAILS";
+		BHDWeapon.bBarrelMount       "KAR98K_BARREL";
 	}
 
 	states {
 		Spawn:
-			M16P A -1 GetMagState();
+			KR9G A -1 GetMagState();
 
 		Ready:
-			M16G A 1 GetAttachmentState();
+			KR98 A 1 GetAttachmentState();
 			Goto Super::Ready;
 
 		Select0:
-			M16G A 0 GetAttachmentState();
-			M16G A 0 { 
+			KR98 A 0 GetAttachmentState();
+			KR98 A 0 { 
 				return ResolveState("Select0Small"); 
 			}
 
 		deselect:
-			M16G A 0 A_StartDeselect();
+			KR98 A 0 A_StartDeselect();
 
 		Deselect0:
-			M16G A 0 GetAttachmentState();
-			M16G A 0 { 
+			KR98 A 0 GetAttachmentState();
+			KR98 A 0 { 
 				return ResolveState("Deselect0Small"); 
 			}
 
 	}
-}
 
+}

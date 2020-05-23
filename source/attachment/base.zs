@@ -54,6 +54,9 @@ class BaseBarrelAttachment : BaseAttachment {
 
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
+		if (weapon.bBarrelMount != self.MountId) {
+			return false;
+		}
 
 		if (weapon.getBarrelSerialID() > 0) {
 			player.GiveInventory(weapon.barrelClass, 1);
@@ -98,6 +101,9 @@ class BaseScopeAttachment : BaseAttachment {
 
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
+		if (weapon.bScopeMount != self.MountId) {
+			return false;
+		}
 
 		if (weapon.getScopeSerialID() > 0) {
 			player.GiveInventory(weapon.scopeClass, 1);
@@ -138,6 +144,9 @@ class BaseMiscAttachment : BaseAttachment {
 
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
+		if (weapon.bMiscMount != self.MountId) {
+			return false;
+		}
 
 		if (weapon.getMiscSerialID() > 0) {
 			player.GiveInventory(weapon.miscClass, 1);

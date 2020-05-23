@@ -93,7 +93,7 @@ class AttachmentManager : EventHandler {
 		int count = scopeOffsets.size();
 		for (int i = 0; i < count; i++) {
 			let next = scopeOffsets[i];
-			let gname = GetDefaultByType((Class<Offset>)(next)).weaponClass;           //weapon.getClassName();
+			let gname = GetDefaultByType((Class<Offset>)(next)).weaponClass;
 			let aname = GetDefaultByType((Class<Offset>)(next)).weaponOverlay;
 			if (gname == weapon.getClassName() && aname == scopecls.getClassName()) {
 				return i;
@@ -104,7 +104,7 @@ class AttachmentManager : EventHandler {
 
 	Vector2 getScopeOffset(int i) {
 		let next = scopeOffsets[i];
-		let x = GetDefaultByType((Class<Offset>)(next)).offx;           //weapon.getClassName();
+		let x = GetDefaultByType((Class<Offset>)(next)).offx;
 		let y = GetDefaultByType((Class<Offset>)(next)).offy;
 		return (x, y);
 	}
@@ -115,7 +115,7 @@ class AttachmentManager : EventHandler {
 		int count = miscOffsets.size();
 		for (int i = 0; i < count; i++) {
 			let next = miscOffsets[i];
-			let gname = GetDefaultByType((Class<Offset>)(next)).weaponClass;           //weapon.getClassName();
+			let gname = GetDefaultByType((Class<Offset>)(next)).weaponClass;
 			let aname = GetDefaultByType((Class<Offset>)(next)).weaponOverlay;
 			if (gname == weapon.getClassName() && aname == scopecls.getClassName()) {
 				return i;
@@ -126,7 +126,7 @@ class AttachmentManager : EventHandler {
 
 	Vector2 getMiscOffset(int i) {
 		let next = miscOffsets[i];
-		let x = GetDefaultByType((Class<Offset>)(next)).offx;           //weapon.getClassName();
+		let x = GetDefaultByType((Class<Offset>)(next)).offx;
 		let y = GetDefaultByType((Class<Offset>)(next)).offy;
 		return (x, y);
 	}
@@ -143,7 +143,7 @@ class AttachmentManager : EventHandler {
 		int count = barrelOffsets.size();
 		for (int i = 0; i < count; i++) {
 			let next = barrelOffsets[i];
-			let gunName = GetDefaultByType((Class<Offset>)(next)).weaponClass;           //weapon.getClassName();
+			let gunName = GetDefaultByType((Class<Offset>)(next)).weaponClass;
 			let scopeName = GetDefaultByType((Class<Offset>)(next)).weaponOverlay;
 			if (gunName == weapon.getClassName() && scopeName == barrelcls.getClassName()) {
 				return i;
@@ -154,7 +154,7 @@ class AttachmentManager : EventHandler {
 
 	Vector2 getBarrelOffset(int i) {
 		let next = barrelOffsets[i];
-		let x = GetDefaultByType((Class<Offset>)(next)).offx;           //weapon.getClassName();
+		let x = GetDefaultByType((Class<Offset>)(next)).offx;
 		let y = GetDefaultByType((Class<Offset>)(next)).offy;
 		return (x, y);
 	}

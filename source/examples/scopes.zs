@@ -4,7 +4,7 @@ class B_Scope40mm : BaseScopeAttachment {
 		BaseAttachment.SerialId 1;
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 0;
-		BaseAttachment.MountId "M16_SCOPE_RAIL";
+		BaseAttachment.MountId "NATO_RAILS";
 		BaseScopeAttachment.FrontImage "TNT1A0";
 		BaseScopeAttachment.BackImage "TNT1A0";
 		HDPickup.Bulk 1;
@@ -30,7 +30,7 @@ class B_ACOG_Red : BaseScopeAttachment {
 		BaseAttachment.SerialId 2;
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 0;
-		BaseAttachment.MountId "M16_SCOPE_RAIL";
+		BaseAttachment.MountId "NATO_RAILS";
 		BaseScopeAttachment.FrontImage "acog1";
 		BaseScopeAttachment.BackImage "acog1sg";
 		BaseScopeAttachment.FrontOffY 16;
@@ -58,7 +58,7 @@ class B_ACOG_Green : BaseScopeAttachment {
 		BaseAttachment.SerialId 3;
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 2;
-		BaseAttachment.MountId "M16_SCOPE_RAIL";
+		BaseAttachment.MountId "NATO_RAILS";
 		BaseScopeAttachment.FrontImage "acog2";
 		BaseScopeAttachment.BackImage "acog1sg";
 		BaseScopeAttachment.FrontOffY 16;

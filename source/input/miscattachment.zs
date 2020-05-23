@@ -1,7 +1,6 @@
 
 class MiscAttachmentInput : Inventory {
 	default { Inventory.MaxAmount 1; }
-
 	override bool Use(bool pickup) {
 		PlayerInfo info = players[consoleplayer];
 		if (info.readyWeapon && info.readyWeapon is "BHDWeapon") {
@@ -13,7 +12,5 @@ class MiscAttachmentInput : Inventory {
 		}
 		return false;
 	}
-
-
-
 }
+

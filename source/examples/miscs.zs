@@ -1,7 +1,7 @@
 
 class B_M16_Flashlight : BaseMiscAttachment {
 	default {
-		BaseAttachment.MountId "M16_SIDE_RAIL";
+		BaseAttachment.MountId "NATO_RAILS";
 		BaseAttachment.SerialId 1;
 		BaseAttachment.BaseSprite "FLMR";
 		BaseAttachment.BaseFrame 0;

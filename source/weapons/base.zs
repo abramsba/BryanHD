@@ -126,6 +126,11 @@ class BHDWeapon : HDWeapon {
 	property BBarrelMount: bBarrelMount;
 	string bBarrelMount;
 
+	property BScopeMount: bScopeMount;
+	string bScopeMount;
+
+	property BMiscMount: bMiscMount;
+	string bMiscMount;
 
 
 	// Pretty API that I need to use consistently TODO
@@ -512,22 +517,20 @@ class BHDWeapon : HDWeapon {
 			}
 
 			if (invoker.getScopeSerialID() > 0) {
-				let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
-				if (!psp) {
-					A_Overlay(LAYER_SCOPE, "ScopeOverlay");
-				}
-
 				oid = mgr.scopeOffsetIndex(invoker, invoker.scopeClass);
 				if (oid > -1) {
-					A_OverlayOffset(LAYER_SCOPE, invoker.scopeOffsets.x, invoker.scopeOffsets.y);
-					invoker.scopeOffsets = mgr.getBarrelOffset(oid);
+					invoker.scopeOffsets = mgr.getScopeOffset(oid);
 					invoker.useScopeOffsets = true;
 				}
 				else {
 					invoker.scopeOffsets = (0, 0);
 					invoker.useScopeOffsets = false;
 				}
-
+				A_OverlayOffset(LAYER_SCOPE, invoker.scopeOffsets.x, invoker.scopeOffsets.y);
+				let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
+				if (!psp) {
+					A_Overlay(LAYER_SCOPE, "ScopeOverlay");
+				}
 			}
 			else {
 				A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);

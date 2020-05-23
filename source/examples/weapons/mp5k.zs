@@ -1,5 +1,5 @@
 
-class B_MP5K : BHDWeapon {
+class B_MP5K : BaseStandardRifle {
 
 	default {
 		+hdweapon.fitsinbackpack
@@ -50,6 +50,7 @@ class B_MP5K : BHDWeapon {
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
 		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
+		BHDWeapon.bScopeMount        "NATO_RAILS";
 	}
 
 	states {
@@ -77,7 +78,8 @@ class B_MP5K : BHDWeapon {
 	}
 }
 
-class SilencerOffset : BarrelOffset {
+
+class Mp5kSilencerOffset : BarrelOffset {
 	default {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_M16_Silencer";
@@ -86,7 +88,8 @@ class SilencerOffset : BarrelOffset {
 	}
 }
 
-class ExtenderOffset : BarrelOffset {
+
+class Mp5kExtenderOffset : BarrelOffset {
 	default {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_M16_Extender";
@@ -95,7 +98,7 @@ class ExtenderOffset : BarrelOffset {
 	}
 }
 
-class AcogGreenOffset : ScopeOffset {
+class Mp5kAcogGreenOffset : ScopeOffset {
 	default {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_ACOG_Green";
@@ -104,7 +107,7 @@ class AcogGreenOffset : ScopeOffset {
 	}
 }
 
-class AcogRedOffset : ScopeOffset {
+class Mp5kAcogRedOffset : ScopeOffset {
 	default {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_ACOG_Red";
