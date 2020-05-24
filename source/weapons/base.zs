@@ -103,7 +103,7 @@ class BHDWeapon : HDWeapon {
 	float bSilentOffsetY;
 
 	BaseBarrelAttachment barrelAttachment;
-	BaseScopeAttachment scopeAttachment;
+	BaseSightAttachment scopeAttachment;
 	BaseMiscAttachment miscAttachment;
 
 	Class<BaseBarrelAttachment> barrelClass;
@@ -114,7 +114,7 @@ class BHDWeapon : HDWeapon {
 	Vector2 miscOffsets;
 	bool useMiscOffsets;
 
-	Class<BaseScopeAttachment> scopeClass;
+	Class<BaseSightAttachment> scopeClass;
 	Vector2 scopeOffsets;
 	bool useScopeOffsets;
 
@@ -346,6 +346,7 @@ class BHDWeapon : HDWeapon {
 	}
 
 	override inventory CreateTossable(int amt){
+
 		if (SpawnState == GetDefaultByType("Actor").SpawnState || SpawnState == NULL) {
 			return NULL;
 
@@ -355,9 +356,15 @@ class BHDWeapon : HDWeapon {
 		}
 		DropTime = 30;
 		bSpecial = bSolid = false;
+		if (miscActive) {
+			FlashLightManager mgr = FlashLightManager(EventHandler.Find("FlashLightManager"));
+			mgr.destLight(consoleplayer);
+		}
+		miscActive = false;
 		let copyWeapon = super.CreateTossable(amt);
 		return copyWeapon;
 	}
+
 
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		BHDWeapon basicWep = BHDWeapon(hdw);
@@ -380,7 +387,7 @@ class BHDWeapon : HDWeapon {
 
 	String getFrontSightImage() const {
 		if (scopeClass) {
-			let img = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).FrontImage;
+			let img = GetDefaultByType((Class<BaseSightAttachment>)(scopeClass)).FrontImage;
 			return img;
 		}
 		return bFrontSightImage;
@@ -388,7 +395,7 @@ class BHDWeapon : HDWeapon {
 
 	String getBackSightImage() const {
 		if (scopeClass) {
-			let img = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).BackImage;
+			let img = GetDefaultByType((Class<BaseSightAttachment>)(scopeClass)).BackImage;
 			return img;
 		}
 		return bBackSightImage;
@@ -396,8 +403,8 @@ class BHDWeapon : HDWeapon {
 
 	Vector2 getFrontSightOffsets() const {
 		if (scopeClass) {
-			let x = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).FrontOffX;
-			let y = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).FrontOffY;
+			let x = GetDefaultByType((Class<BaseSightAttachment>)(scopeClass)).FrontOffX;
+			let y = GetDefaultByType((Class<BaseSightAttachment>)(scopeClass)).FrontOffY;
 			return (x, y);
 		}
 		return (bFrontOffsetX, bFrontOffsetY);
@@ -405,8 +412,8 @@ class BHDWeapon : HDWeapon {
 
 	Vector2 getBackSightOffsets() const {
 		if (scopeClass) {
-			let x = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).BackOffX;
-			let y = GetDefaultByType((Class<BaseScopeAttachment>)(scopeClass)).BackOffY;
+			let x = GetDefaultByType((Class<BaseSightAttachment>)(scopeClass)).BackOffX;
+			let y = GetDefaultByType((Class<BaseSightAttachment>)(scopeClass)).BackOffY;
 			return (x, y);
 		}
 		return (bBackOffsetX, bBackOffsetY);
@@ -421,18 +428,47 @@ class BHDWeapon : HDWeapon {
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot) {
 
 		BHDWeapon basicWep = BHDWeapon(hdw);
+
+		if (basicWep.scopeClass is "BaseScopeAttachment" && scopeview) {
+			string image = GetDefaultByType((Class<BaseScopeAttachment>)(basicWep.scopeClass)).ScopeImage;
+			int yoff = 20;
+			int scaledyoffset=58;
+			TexMan.SetCameraToTexture(hpc, "HDXHCAM3", 2);
+			sb.drawImage("HDXHCAM3",
+				(0, scaledyoffset) + bob,
+				sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER,
+				scale: (0.41, 0.41)
+			);
+
+			int scaledwidth=75;
+			int cx,cy,cw,ch;
+			[cx,cy,cw,ch]=screen.GetClipRect();
+			sb.SetClipRect(
+				-37+bob.x, 22+bob.y, scaledwidth, scaledwidth,
+				sb.DI_SCREEN_CENTER
+			);
+			sb.drawimage(
+				"scophole", (0, scaledyoffset) + bob * 3, sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER, scale: (1, 1)
+			);
+			sb.SetClipRect(cx,cy,cw,ch);
+
+			sb.drawImage(image, (0, 61) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
+		}
+
+
 		double dotoff = max(abs(bob.x), abs(bob.y));
 
 		// TODO Get from scope if has scope
 		double dotLimit = 6;
 		if (basicWep.scopeClass) {
-			dotLimit = GetDefaultByType((Class<BaseScopeAttachment>)(basicWep.scopeClass)).DotThreshold;
+			dotLimit = GetDefaultByType((Class<BaseSightAttachment>)(basicWep.scopeClass)).DotThreshold;
 		}
 
 		if (dotoff < dotLimit){
 			sb.drawImage(getFrontSightImage(), getFrontSightOffsets() + bob * 3, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, alpha: 0.9 - dotoff * 0.04);
 		}
 		sb.drawimage(getBackSightImage(), getBackSightOffsets() + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
+
 	}
 
 
@@ -527,7 +563,7 @@ class BHDWeapon : HDWeapon {
 				invoker.scopeClass = mgr.getScopeClass(sid);
 			}
 
-			sid = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).serialId;
+			sid = GetDefaultByType((Class<BaseSightAttachment>)(invoker.scopeClass)).serialId;
 			if (invoker.getScopeSerialID() > 0 && invoker.getScopeSerialID() != sid) {
 				sid = invoker.getScopeSerialID();
 				invoker.scopeClass = mgr.getScopeClass(sid);
@@ -608,7 +644,6 @@ class BHDWeapon : HDWeapon {
 		}
 	}
 
-
 	action void GetAttachmentState() {
 		int sid = -1;
 		AttachmentManager mgr = AttachmentManager(EventHandler.Find("AttachmentManager"));
@@ -637,8 +672,8 @@ class BHDWeapon : HDWeapon {
 		ScopeOverlay:
 			TNT1 A 0 {
 				if (invoker.scopeClass) {
-					string sp = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).BaseSprite;
-					int idx = GetDefaultByType((Class<BaseScopeAttachment>)(invoker.scopeClass)).BaseFrame;
+					string sp = GetDefaultByType((Class<BaseSightAttachment>)(invoker.scopeClass)).BaseSprite;
+					int idx = GetDefaultByType((Class<BaseSightAttachment>)(invoker.scopeClass)).BaseFrame;
 					let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
 					if (psp) {
 							psp.sprite = GetSpriteIndex(sp);
@@ -1062,8 +1097,138 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_JumpIf(invoker.weaponstatus[I_AUTO] > 4, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_AUTO], "ShootGun");
 
+		AttachmentStart:
+			#### A 1 A_WeaponBusy();
+			#### A 1 Offset(1, 37);
+			#### A 1 Offset(1, 38);
+			#### A 1 Offset(1, 39);
+			#### A 1 Offset(2, 40);
+			#### A 1 Offset(2, 41);
+			#### A 1 Offset(2, 42);
+			#### A 0 A_StartSound("weapons/pocket", CHAN_WEAPON, CHANF_OVERLAP);
+			#### A 15 Offset(2, 43);
+			#### A 1 Offset(1, 44);
+			#### A 1 Offset(1, 45);
+			#### A 1 Offset(1, 46);
+			#### A 1 Offset(1, 45);
+			#### A 1 Offset(1, 44);
+			#### A 1 Offset(2, 43);
+			#### A 0 GetAttachmentState();
+			#### A 0 A_StartSound(invoker.bClickSound, CHAN_WEAPON, CHANF_OVERLAP);
+			#### A 15 Offset(2, 43);
+			#### A 1 Offset(2, 42);
+			#### A 1 Offset(2, 40);
+			#### A 1 Offset(1, 38);
+			#### A 1 Offset(0, 36);
+			#### A 0 {
+				return ResolveState("Ready");
+			}
+
+		BarrelAttachmentRemove:
+			#### A 1 A_WeaponBusy();
+			#### A 1 Offset(-1, 37);
+			#### A 1 Offset(-1, 38);
+			#### A 1 Offset(-1, 39);
+			#### A 1 Offset(-2, 40);
+			#### A 1 Offset(-2, 41);
+			#### A 1 Offset(-2, 42);
+			#### A 0 A_StartSound("weapons/pocket", CHAN_WEAPON, CHANF_OVERLAP);
+			#### A 15 Offset(-2, 43);
+			#### A 1 Offset(-1, 44);
+			#### A 1 Offset(-1, 45);
+			#### A 1 Offset(-1, 46);
+			#### A 1 Offset(-1, 45);
+			#### A 1 Offset(-1, 44);
+			#### A 1 Offset(-2, 43);
+			#### A 0 {
+				invoker.setBarrelSerialID(0);
+				invoker.barrelClass = null;
+				invoker.useBarrelOffsets = false;
+				invoker.barrelOffsets = (0, 0);
+			}
+			#### A 0 GetAttachmentState();
+			#### A 0 A_StartSound(invoker.bClickSound, CHAN_WEAPON, CHANF_OVERLAP);
+			#### A 15 Offset(-2, 43);
+			#### A 1 Offset(-2, 42);
+			#### A 1 Offset(-2, 40);
+			#### A 1 Offset(-1, 38);
+			#### A 1 Offset(0, 36);
+			#### A 0 {
+				return ResolveState("Ready");
+			}
+
+		ScopeAttachmentRemove:
+			#### A 1 A_WeaponBusy();
+			#### A 1 Offset(-1, 37);
+			#### A 1 Offset(-1, 38);
+			#### A 1 Offset(-1, 39);
+			#### A 1 Offset(-2, 40);
+			#### A 1 Offset(-2, 41);
+			#### A 1 Offset(-2, 42);
+			#### A 0 A_StartSound("weapons/pocket", CHAN_WEAPON, CHANF_OVERLAP);
+			#### A 15 Offset(-2, 43);
+			#### A 1 Offset(-1, 44);
+			#### A 1 Offset(-1, 45);
+			#### A 1 Offset(-1, 46);
+			#### A 1 Offset(-1, 45);
+			#### A 1 Offset(-1, 44);
+			#### A 1 Offset(-2, 43);
+			#### A 0 {
+				invoker.setScopeSerialID(0);
+				invoker.scopeClass = null;
+				invoker.useScopeOffsets = false;
+				invoker.scopeOffsets = (0, 0);
+			}
+			#### A 0 GetAttachmentState();
+			#### A 0 A_StartSound(invoker.bClickSound, CHAN_WEAPON, CHANF_OVERLAP);
+			#### A 15 Offset(-2, 43);
+			#### A 1 Offset(-2, 42);
+			#### A 1 Offset(-2, 40);
+			#### A 1 Offset(-1, 38);
+			#### A 1 Offset(0, 36);
+			#### A 0 {
+				return ResolveState("Ready");
+			}
+
+		MiscAttachmentRemove:
+			#### A 1 A_WeaponBusy();
+			#### A 1 Offset(-1, 37);
+			#### A 1 Offset(-1, 38);
+			#### A 1 Offset(-1, 39);
+			#### A 1 Offset(-2, 40);
+			#### A 1 Offset(-2, 41);
+			#### A 1 Offset(-2, 42);
+			#### A 0 A_StartSound("weapons/pocket", CHAN_WEAPON, CHANF_OVERLAP);
+			#### A 15 Offset(-2, 43);
+			#### A 1 Offset(-1, 44);
+			#### A 1 Offset(-1, 45);
+			#### A 1 Offset(-1, 46);
+			#### A 1 Offset(-1, 45);
+			#### A 1 Offset(-1, 44);
+			#### A 1 Offset(-2, 43);
+			#### A 0 {
+				invoker.setMiscSerialID(0);
+				invoker.miscClass = null;
+				invoker.useMiscOffsets = false;
+				invoker.miscOffsets = (0, 0);
+			}
+			#### A 0 GetAttachmentState();
+			#### A 0 A_StartSound(invoker.bClickSound, CHAN_WEAPON, CHANF_OVERLAP);
+			#### A 15 Offset(-2, 43);
+			#### A 1 Offset(-2, 42);
+			#### A 1 Offset(-2, 40);
+			#### A 1 Offset(-1, 38);
+			#### A 1 Offset(0, 36);
+			#### A 0 {
+				return ResolveState("Ready");
+			}
+
+
 	}
 
+	override void detachfromowner(){
+		super.detachfromowner();
+	}
 
 
 }

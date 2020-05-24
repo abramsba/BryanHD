@@ -3,6 +3,20 @@ GameInfo {
 	AddEventHandlers = "PlayerEvents", "AttachmentManager", "FlashLightManager"
 }
 
+episode maphub {
+	name = "Bryan's Hub"
+}
+
+map maphub "Bryan's Hub" {
+	music = ""
+	sky1 = "rsky1"
+	resetinventory
+	nointermission
+	noautosavehint
+	allowrespawn
+	next="map01"
+}
+
 DoomEdNums {
 	19001 = B_M16
 	19002 = B_AK47

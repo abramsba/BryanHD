@@ -15,10 +15,12 @@ class BSilencerRemover : HDPickup {
 				info.mo.GiveInventory(weapon.barrelClass, 1);
 				// TODO: Hm, to call this we need an actor
 				// weapon.OnDettach(weapon, player);
-				weapon.setBarrelSerialID(0);
-				weapon.barrelClass = null;
-				weapon.useBarrelOffsets = false;
-				weapon.barrelOffsets = (0, 0);
+				owner.player.SetPSprite(PSP_WEAPON, info.readyWeapon.FindState("BarrelAttachmentRemove"));
+
+				//weapon.setBarrelSerialID(0);
+				//weapon.barrelClass = null;
+				//weapon.useBarrelOffsets = false;
+				//weapon.barrelOffsets = (0, 0);
 			}
 		}
 		return false;
@@ -46,10 +48,11 @@ class BScopeRemover : HDPickup {
 			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
 			if (weapon.getScopeSerialID() > 0) {
 				info.mo.GiveInventory(weapon.scopeClass, 1);
-				weapon.setScopeSerialID(0);
-				weapon.scopeClass = null;
-				weapon.useScopeOffsets = false;
-				weapon.scopeOffsets = (0, 0);
+				owner.player.SetPSprite(PSP_WEAPON, info.readyWeapon.FindState("ScopeAttachmentRemove"));
+				//weapon.setScopeSerialID(0);
+				//weapon.scopeClass = null;
+				//weapon.useScopeOffsets = false;
+				//weapon.scopeOffsets = (0, 0);
 			}
 		}
 		return false;
@@ -77,10 +80,11 @@ class BMiscRemover : HDPickup {
 			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
 			if (weapon.getMiscSerialID() > 0) {
 				info.mo.GiveInventory(weapon.miscClass, 1);
-				weapon.setMiscSerialID(0);
-				weapon.miscClass = null;
-				weapon.useMiscOffsets = false;
-				weapon.miscOffsets = (0, 0);
+				owner.player.SetPSprite(PSP_WEAPON, info.readyWeapon.FindState("MiscAttachmentRemove"));
+				//weapon.setMiscSerialID(0);
+				//weapon.miscClass = null;
+				//weapon.useMiscOffsets = false;
+				//weapon.miscOffsets = (0, 0);
 			}
 		}
 		return false;

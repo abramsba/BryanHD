@@ -18,7 +18,7 @@ class AttachmentManager : EventHandler {
 
 	Array<Class<BaseBarrelAttachment> > barrelAttachments;
 	Array<Class<BaseMiscAttachment> > miscAttachments;
-	Array<Class<BaseScopeAttachment> > scopeAttachments;
+	Array<Class<BaseSightAttachment> > scopeAttachments;
 
 	Array<Class<BarrelOffset> > barrelOffsets;
 	Array<Class<ScopeOffset> > scopeOffsets;
@@ -129,8 +129,8 @@ class AttachmentManager : EventHandler {
 					}
 					// todo
 				}
-				else if (next is "BaseScopeAttachment") {
-					let scopeRef = (Class<BaseScopeAttachment>)(next);
+				else if (next is "BaseSightAttachment") {
+					let scopeRef = (Class<BaseSightAttachment>)(next);
 					if (getScopeClass(serialId)) {
 						// Crashes on death
 						//console.printf("Failed to register attachment %s. SerialID for scope already in use by.", next.getClassName(), isUsed.getClassName());
@@ -144,7 +144,7 @@ class AttachmentManager : EventHandler {
 
 	}
 
-	int scopeOffsetIndex(BHDWeapon weapon, Class<BaseScopeAttachment> scopecls) {
+	int scopeOffsetIndex(BHDWeapon weapon, Class<BaseSightAttachment> scopecls) {
 		int count = scopeOffsets.size();
 		for (int i = 0; i < count; i++) {
 			let next = scopeOffsets[i];
@@ -221,14 +221,14 @@ class AttachmentManager : EventHandler {
 		return null;
 	}
 
-	Class<BaseScopeAttachment> getScopeClass (int serialId) {
+	Class<BaseSightAttachment> getScopeClass (int serialId) {
 		int count = scopeAttachments.Size();
 		for (int i = 0; i < count; i++) {
 			let next = scopeAttachments[i];
 			if (next) {
 				let n_serialId = GetDefaultByType((Class<BaseAttachment>)(next)).SerialId;
 				if (n_serialId == serialId) {
-					Class<BaseScopeAttachment> cast = (Class<BaseScopeAttachment>)(next);
+					Class<BaseSightAttachment> cast = (Class<BaseSightAttachment>)(next);
 					return cast;
 				}
 			}

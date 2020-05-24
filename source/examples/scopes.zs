@@ -1,12 +1,12 @@
 
-class B_Scope40mm : BaseScopeAttachment {
+class B_Scope40mm : BaseSightAttachment {
 	default {
 		BaseAttachment.SerialId 1;
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 0;
 		BaseAttachment.MountId "NATO_RAILS";
-		BaseScopeAttachment.FrontImage "TNT1A0";
-		BaseScopeAttachment.BackImage "TNT1A0";
+		BaseSightAttachment.FrontImage "TNT1A0";
+		BaseSightAttachment.BackImage "TNT1A0";
 		HDPickup.Bulk 1;
 		HDPickup.RefId "BM16SCOP";
 		Tag "4x40 M16 Scope";
@@ -31,10 +31,12 @@ class B_ACOG_Red : BaseScopeAttachment {
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 0;
 		BaseAttachment.MountId "NATO_RAILS";
-		BaseScopeAttachment.FrontImage "acog1";
-		BaseScopeAttachment.BackImage "acog1sg";
-		BaseScopeAttachment.FrontOffY 16;
-		BaseScopeAttachment.BackOffY 8;
+		BaseSightAttachment.FrontImage "rdot";
+		BaseSightAttachment.BackImage "acogsg2";
+		BaseSightAttachment.FrontOffY 2;
+		//BaseSightAttachment.BackOffY 45;
+		BaseSightAttachment.BackOffY 0;
+		BaseScopeAttachment.ScopeImage "acog1sg";
 		HDPickup.Bulk 1;
 		HDPickup.RefId "ACOG1SIG";
 		Tag "ACOG Sight (Red)";
@@ -59,11 +61,12 @@ class B_ACOG_Green : BaseScopeAttachment {
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 2;
 		BaseAttachment.MountId "NATO_RAILS";
-		BaseScopeAttachment.FrontImage "acog2";
-		BaseScopeAttachment.BackImage "acog1sg";
-		BaseScopeAttachment.FrontOffY 16;
-		BaseScopeAttachment.BackOffY 8;
-		BaseScopeAttachment.DotThreshold 30;
+		BaseSightAttachment.FrontImage "gdot";
+		BaseSightAttachment.BackImage "acogsg2";
+		BaseSightAttachment.FrontOffY 2;
+		BaseSightAttachment.BackOffY 0;
+		//BaseSightAttachment.DotThreshold 30;
+		BaseScopeAttachment.ScopeImage "acog2sg";
 		HDPickup.Bulk 1;
 		HDPickup.RefId "ACOG1SIG";
 		Tag "ACOG Sight (Green)";
@@ -82,17 +85,17 @@ class B_ACOG_Green : BaseScopeAttachment {
 	}
 }
 
-class B_Sight_Rdot : BaseScopeAttachment {
+class B_Sight_Rdot : BaseSightAttachment {
 	default {
 		BaseAttachment.SerialId 4;
 		BaseAttachment.BaseSprite "SDOT";
 		BaseAttachment.BaseFrame 0;
 		BaseAttachment.MountId "NATO_RAILS";
-		BaseScopeAttachment.FrontImage "rdot";
-		BaseScopeAttachment.BackImage "rdotsg";
-		BaseScopeAttachment.FrontOffY 1;
-		BaseScopeAttachment.BackOffY 4;
-		BaseScopeAttachment.DotThreshold 180;
+		BaseSightAttachment.FrontImage "rdot";
+		BaseSightAttachment.BackImage "rdotsg";
+		BaseSightAttachment.FrontOffY 1;
+		BaseSightAttachment.BackOffY 4;
+		BaseSightAttachment.DotThreshold 180;
 		HDPickup.Bulk 1;
 		HDPickup.RefId "SIG1SIT";
 		Tag "Red-dot Sight";
@@ -113,17 +116,17 @@ class B_Sight_Rdot : BaseScopeAttachment {
 
 
 
-class B_Sight_Gdot : BaseScopeAttachment {
+class B_Sight_Gdot : BaseSightAttachment {
 	default {
 		BaseAttachment.SerialId 5;
 		BaseAttachment.BaseSprite "SDOT";
 		BaseAttachment.BaseFrame 0;
 		BaseAttachment.MountId "NATO_RAILS";
-		BaseScopeAttachment.FrontImage "gdot";
-		BaseScopeAttachment.BackImage "rdotsg";
-		BaseScopeAttachment.FrontOffY 10;
-		BaseScopeAttachment.BackOffY 8;
-		BaseScopeAttachment.DotThreshold 180;
+		BaseSightAttachment.FrontImage "gdot";
+		BaseSightAttachment.BackImage "rdotsg";
+		BaseSightAttachment.FrontOffY 1;
+		BaseSightAttachment.BackOffY 4;
+		BaseSightAttachment.DotThreshold 180;
 		HDPickup.Bulk 1;
 		HDPickup.RefId "SIG1SIT";
 		Tag "Green-dot Sight";

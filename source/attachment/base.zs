@@ -29,7 +29,12 @@ class BaseAttachment : HDPickup {
 			bool attached = AttemptAttach(wep, owner.player.mo);
 			if (!attached) {
 				console.printf("Failed to attach.");
+				owner.player.SetPSprite(PSP_WEAPON, owner.player.readyWeapon.FindState("Nope"));
 			}
+			else {
+				owner.player.SetPSprite(PSP_WEAPON, owner.player.readyWeapon.FindState("AttachmentStart"));
+			}
+
 			return attached;
 		}
 		else {
@@ -59,6 +64,8 @@ class BaseBarrelAttachment : BaseAttachment {
 		}
 
 		if (weapon.getBarrelSerialID() > 0) {
+			PlayerInfo info = players[consoleplayer];
+			owner.player.SetPSprite(PSP_WEAPON, info.readyWeapon.FindState("BarrelAttachmentRemove"));
 			player.GiveInventory(weapon.barrelClass, 1);
 			OnDettach(weapon, player);
 		}
@@ -82,14 +89,14 @@ class BaseBarrelAttachment : BaseAttachment {
 
 }
 
-class BaseScopeAttachment : BaseAttachment {
+class BaseSilencerAttachment : BaseBarrelAttachment {}
+class BaseFlashAttachment : BaseBarrelAttachment {}
 
+class BaseSightAttachment : BaseAttachment {
 	property BackImage: backImage;
 	string backImage;
-
 	property FrontImage: frontImage;
 	string frontImage;
-
 	property FrontOffX: frontOffX;
 	property FrontOffY: frontOffY;
 	property BackOffX: BackOffX;
@@ -98,14 +105,11 @@ class BaseScopeAttachment : BaseAttachment {
 	double frontoffy;
 	double backoffx;
 	double backoffy;
-
 	property DotThreshold: dotThreshold;
 	meta int dotThreshold;
-
 	default {
-		BaseScopeAttachment.DotThreshold 6;
+		BaseSightAttachment.DotThreshold 6;
 	}
-
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
 		if (weapon.bScopeMount != self.MountId) {
@@ -128,15 +132,29 @@ class BaseScopeAttachment : BaseAttachment {
 			weapon.useScopeOffsets = false;
 			weapon.scopeOffsets = (0, 0);
 		}
-
 		onAttach(weapon, player);
 		return true;
 	}
-
 }
 
-class BaseSilencerAttachment : BaseBarrelAttachment {}
-class BaseFlashAttachment : BaseBarrelAttachment {}
+class BaseScopeAttachment : BaseSightAttachment {
+	property ScopeImage: scopeImage;
+	string scopeImage;
+
+	property ScopeOffX: scopeOffx;
+	property ScopeOffY: scopeOffy;
+	double scopeOffx;
+	double scopeOffy;
+
+	property ok: ok;
+	vector2 ok;
+
+	property ScopeScaleX: scopeScaleX;
+	property ScopeScaleY: scopeScaleY;
+	double scopeScaleX;
+	double scopeScaleY;
+
+}
 
 class BaseMiscAttachment : BaseAttachment {
 
