@@ -27,12 +27,76 @@ class B_M16_Flashlight : BaseMiscAttachment {
 	}
 }
 
+
+class FlashSpotLight : SpotLight {
+	int playerOwner;
+	override void BeginPlay() {
+		playerOwner = -1;
+	}
+	override void Tick() {
+		if (playerOwner > -1) {
+			PlayerInfo info = players[playerOwner];
+			HDPlayerPawn ply = HDPlayerPawn(info.mo);
+			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
+			if (info.mo) {
+				let newPos = info.mo.pos + (0, 0, 40);
+				newPos.z -= (ply.hudbob.y / 2.0);
+				SetOrigin(newPos, true);
+				A_SetAngle(info.mo.angle - ply.hudbob.x, SPF_INTERPOLATE);
+				A_SetPitch(info.mo.pitch, SPF_INTERPOLATE);
+			}
+		}
+
+
+		super.tick();
+	}
+}
+
+class FlashLightManager : EventHandler {
+
+	Array<FlashSpotLight> spotLights;
+
+	override void OnRegister() {
+		for (int i = 0; i < 8; i++) {
+			spotLights.push(null);
+		}
+	}
+
+	void createLight(BHDWeapon weapon, PlayerPawn player) const {
+		let newPos = player.pos + (0, 0, 40);
+		let light = FlashSpotLight(player.Spawn("FlashSpotLight", player.pos));
+		light.playerOwner = consoleplayer;
+		spotLights[consoleplayer] = light;
+		light.args[0] = 205;
+		light.args[1] = 221;
+		light.args[2] = 238;
+		light.args[3] = 256;
+		light.SpotOuterAngle = 40;
+	}
+
+	void destroyLight(BHDWeapon weapon, PlayerPawn player) const {
+		SpotLight light = spotLights[consoleplayer];
+		if (light) {
+			light.destroy();
+		}
+	}
+
+}
+
 class B_Flashlight_Event : BaseMiscAttachmentEvent {
+
 	override bool onUsed(Class<BaseMiscAttachment> cls, BHDWeapon weapon, PlayerPawn player) {
+		// Toggles On or off image, depending
 		super.onUsed(cls, weapon, player);
-		// If flashlight on, enable player light
-		// else turn it off
-		console.printf("Flashlight event");
+		FlashLightManager mgr = FlashLightManager(EventHandler.Find("FlashLightManager"));
+
+		if (weapon.miscActive) {
+			mgr.createLight(weapon, player);
+		}
+		else {
+			mgr.destroyLight(weapon, player);
+		}
 		return true;
 	}
+
 }

@@ -1,0 +1,4 @@
+
+brightmap sprite FLMRB0 {
+	map "sprites/accessory/BM_FLMR.png"
+}

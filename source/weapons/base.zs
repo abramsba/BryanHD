@@ -416,6 +416,8 @@ class BHDWeapon : HDWeapon {
 		return (0, 0);
 	}
 
+	vector2 lastBob;
+
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot) {
 
 		BHDWeapon basicWep = BHDWeapon(hdw);

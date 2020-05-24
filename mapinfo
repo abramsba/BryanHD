@@ -1,6 +1,6 @@
 
 GameInfo {
-	AddEventHandlers = "PlayerEvents", "AttachmentManager"
+	AddEventHandlers = "PlayerEvents", "AttachmentManager", "FlashLightManager"
 }
 
 DoomEdNums {

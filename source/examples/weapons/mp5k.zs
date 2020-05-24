@@ -49,7 +49,7 @@ class B_MP5K : BaseStandardRifle {
 
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
-		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
+		BHDWeapon.bBarrelMount       "9MM_MP5K_BARREL";
 		BHDWeapon.bScopeMount        "NATO_RAILS";
 	}
 
@@ -103,7 +103,7 @@ class Mp5kAcogGreenOffset : ScopeOffset {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_ACOG_Green";
 		Offset.OffX -1;
-		offset.OffY 20;
+		offset.OffY 10;
 	}
 }
 
@@ -112,7 +112,7 @@ class Mp5kAcogRedOffset : ScopeOffset {
 		Offset.WeaponClass "B_MP5k";
 		Offset.WeaponOverlay "B_ACOG_Red";
 		Offset.OffX -1;
-		offset.OffY 20;
+		offset.OffY 10;
 	}
 }
 
