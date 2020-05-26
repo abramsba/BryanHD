@@ -428,6 +428,20 @@ class BHDWeapon : HDWeapon {
 
 		BHDWeapon basicWep = BHDWeapon(hdw);
 
+
+		double dotoff = max(abs(bob.x), abs(bob.y));
+
+		// TODO Get from scope if has scope
+		double dotLimit = 6;
+		if (basicWep.scopeClass) {
+			dotLimit = GetDefaultByType((Class<BaseSightAttachment>)(basicWep.scopeClass)).DotThreshold;
+		}
+
+		if (dotoff < dotLimit){
+			sb.drawImage(getFrontSightImage(), getFrontSightOffsets() + bob * 3, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, alpha: 0.9 - dotoff * 0.04);
+		}
+		sb.drawimage(getBackSightImage(), getBackSightOffsets() + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
+
 		if (basicWep.scopeClass is "BaseScopeAttachment" && scopeview) {
 			let def = GetDefaultByType((Class<BaseScopeAttachment>)(basicWep.scopeClass));
 
@@ -501,19 +515,6 @@ class BHDWeapon : HDWeapon {
 			sb.drawImage(image, scopeBack + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
 		}
 
-
-		double dotoff = max(abs(bob.x), abs(bob.y));
-
-		// TODO Get from scope if has scope
-		double dotLimit = 6;
-		if (basicWep.scopeClass) {
-			dotLimit = GetDefaultByType((Class<BaseSightAttachment>)(basicWep.scopeClass)).DotThreshold;
-		}
-
-		if (dotoff < dotLimit){
-			sb.drawImage(getFrontSightImage(), getFrontSightOffsets() + bob * 3, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, alpha: 0.9 - dotoff * 0.04);
-		}
-		sb.drawimage(getBackSightImage(), getBackSightOffsets() + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
 
 	}
 

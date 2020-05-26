@@ -39,4 +39,6 @@ DoomEdNums {
 	18003 = B_M16_Flashlight
 	18004 = B_Sight_Rdot
 	18005 = B_Sight_Gdot
+	18006 = B_ACOG_Green2
+	18007 = B_ACOG_Red2
 }
