@@ -42,11 +42,10 @@ class B_MP5K : BaseStandardRifle {
 		BHDWeapon.BROF               2;
 		BHDWeapon.BBackSightImage    "mpksight";
 		BHDWeapon.BBackOffsetX       0;
-		BHDWeapon.BBackOffsetY       8;
+		BHDWeapon.BBackOffsetY       28;
 		BHDWeapon.BFrontSightImage   "mpkiron";
 		BHDWeapon.BFrontOffsetX      0;
-		BHDWeapon.BFrontOffsetY      8;
-
+		BHDWeapon.BFrontOffsetY      4;
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
 		BHDWeapon.bBarrelMount       "9MM_MP5K_BARREL";
@@ -56,6 +55,7 @@ class B_MP5K : BaseStandardRifle {
 	states {
 		Spawn:
 			MP5P A -1 GetMagState();
+			Stop;
 
 		Ready:
 			MP5K A 1 GetAttachmentState();

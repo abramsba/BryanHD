@@ -141,18 +141,41 @@ class BaseScopeAttachment : BaseSightAttachment {
 	property ScopeImage: scopeImage;
 	string scopeImage;
 
-	property ScopeOffX: scopeOffx;
-	property ScopeOffY: scopeOffy;
-	double scopeOffx;
-	double scopeOffy;
+	property SightImage: sightImage;
+	string sightImage;
 
-	property ok: ok;
-	vector2 ok;
+	property XScaleCam: xscalecam;
+	property YScaleCam: yscalecam;
+	property XPosCam: xposcam;
+	property YPosCam: yposcam;
+	double xscalecam, yscalecam, xposcam, yposcam;
 
-	property ScopeScaleX: scopeScaleX;
-	property ScopeScaleY: scopeScaleY;
-	double scopeScaleX;
-	double scopeScaleY;
+	property ScaledWidth: scaledWidth;
+	double scaledWidth;
+
+	property XClipCam: xclipcam;
+	property YClipCam: yclipcam;
+	double xclipcam, yclipcam;
+
+	property ScopeHoleX: scopeholex;
+	property ScopeHoleY: scopeholey;
+	property ScopeScaleX: scopescalex;
+	property ScopeScaleY: scopescaley;
+	double scopeholex, scopeholey, scopescalex, scopescaley;
+
+	property ScopeImageX: scopeimagex;
+	property ScopeImageY: scopeimagey;
+	property ScopeImageScaleX: scopeimagescalex;
+	property ScopeImageScaleY: scopeimagescaley;
+	double scopeimagex, scopeimagey, scopeimagescalex, scopeimagescaley;
+
+	property ScopeBackX: scopeBackX;
+	property ScopeBackY: scopeBackY;
+	double scopeBackX;
+	double scopeBackY;
+
+
+
 
 }
 

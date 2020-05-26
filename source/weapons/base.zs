@@ -132,7 +132,6 @@ class BHDWeapon : HDWeapon {
 	property BMiscMount: bMiscMount;
 	string bMiscMount;
 
-
 	// Pretty API that I need to use consistently TODO
 
 	int magazineGetAmmo() const {
@@ -430,29 +429,76 @@ class BHDWeapon : HDWeapon {
 		BHDWeapon basicWep = BHDWeapon(hdw);
 
 		if (basicWep.scopeClass is "BaseScopeAttachment" && scopeview) {
-			string image = GetDefaultByType((Class<BaseScopeAttachment>)(basicWep.scopeClass)).ScopeImage;
-			int yoff = 20;
-			int scaledyoffset=58;
-			TexMan.SetCameraToTexture(hpc, "HDXHCAM3", 2);
-			sb.drawImage("HDXHCAM3",
-				(0, scaledyoffset) + bob,
-				sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER,
-				scale: (0.41, 0.41)
-			);
+			let def = GetDefaultByType((Class<BaseScopeAttachment>)(basicWep.scopeClass));
 
-			int scaledwidth=75;
+			string image               = def.ScopeImage;
+			string ScopeSightImageName = def.SightImage;
+
+			double xscalecam        = def.xscalecam;
+			double yscalecam        = def.yscalecam;
+			double xposcam          = def.xposcam;
+			double yposcam          = def.yposcam; //58;
+
+			double scaledwidth      = def.scaledwidth;
+
+			double xclipcam         = def.xclipcam;
+			double yclipcam         = def.yclipcam;
+
+			double scopeholex       = def.scopeholex;
+			double scopeholey       = def.scopeholey;
+			double scopescalex      = def.scopescalex;
+			double scopescaley      = def.scopescaley;
+
+			double scopeImageX      = def.scopeImagex;
+			double scopeImageY      = def.scopeImagey;
+			double scopeImageScaleX = def.scopeImageScaleX;
+			double scopeImageScaleY = def.scopeImageScaley;
+			double scopeBackX       = def.scopeBackX;
+			double scopeBackY       = def.scopeBackY;
+
+			
+
+			Vector2 cameraPos = (xposcam, yposcam);
+			Vector2 scaleCamera = (xscalecam, yscalecam);
+			Vector2 clipCamera = (xclipcam, yclipcam);
+			Vector2 scopeHole = (scopeholex, scopeholey);
+			Vector2 scopeScale = (scopescalex, scopescaley);
+			Vector2 scopeImage = (scopeimagex, scopeimagey);
+			Vector2 scopeImageScale = (scopeImageScaleX, scopeImageScaleY);
+			Vector2 scopeBack = (scopeBackX, scopeBackY);
+
+			TexMan.SetCameraToTexture(hpc, "HDXHCAM3", 5);
+			sb.drawImage("HDXHCAM3", cameraPos + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, scale: scaleCamera);
+
 			int cx,cy,cw,ch;
 			[cx,cy,cw,ch]=screen.GetClipRect();
 			sb.SetClipRect(
-				-37+bob.x, 22+bob.y, scaledwidth, scaledwidth,
+				clipCamera.x + bob.x, 
+				clipCamera.y + bob.y, 
+				scaledwidth, 
+				scaledwidth,
 				sb.DI_SCREEN_CENTER
 			);
+
+			
 			sb.drawimage(
-				"scophole", (0, scaledyoffset) + bob * 3, sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER, scale: (1, 1)
+				"scophole", 
+				scopeHole + bob * 3, 
+				sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, 
+				scale: scopeScale
 			);
+
+			sb.drawImage(
+				ScopeSightImageName, 
+				scopeImage + bob * 3, 
+				sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER, 
+				scale: scopeImageScale
+			);
+			
+
 			sb.SetClipRect(cx,cy,cw,ch);
 
-			sb.drawImage(image, (0, 61) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
+			sb.drawImage(image, scopeBack + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_CENTER );
 		}
 
 
@@ -482,20 +528,20 @@ class BHDWeapon : HDWeapon {
 	bool flashlight;
 	bool flashlightOn;
 
-		//pawn.GiveInventoryType("BSilencerRemover");
-		//pawn.GiveInventoryType("BScopeRemover");
-		//pawn.GiveInventoryType("BMiscRemover");
-
 	action void GetAttachmentStateBarrel(AttachmentManager mgr) {
 		// Barrel
 		int sid = -1;
 		int oid = -1;
 
+		//console.printf("Attach barrel %b", invoker.useBarrelOffsets);
+
 		//TakeInventory("BSilencerRemover", 1);
 		if (invoker.useBarrelOffsets) {
+			//console.printf("with %i %i", invoker.barrelOffsets.x, invoker.barrelOffsets.y);
 			A_OverlayOffset(LAYER_BARREL, invoker.barrelOffsets.x, invoker.barrelOffsets.y);
 		}
 		else {
+			//console.printf("none");
 			A_OverlayOffset(LAYER_BARREL, 0, 0);
 		}
 
@@ -516,6 +562,7 @@ class BHDWeapon : HDWeapon {
 			if (invoker.getBarrelSerialID() > 0 && invoker.getBarrelSerialID() != sid) {
 				sid = invoker.getBarrelSerialID();
 				invoker.barrelClass = mgr.getBarrelClass(sid);
+				//invoker.barrelLength += GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).barrelLength;
 			}
 
 			if (invoker.getBarrelSerialID() > 0) {
@@ -525,6 +572,7 @@ class BHDWeapon : HDWeapon {
 				}
 
 				oid = mgr.barrelOffsetIndex(invoker, invoker.barrelClass);
+				//console.printf("%i %p %p", oid, invoker, invoker.barrelClass);
 				if (oid > -1) {
 					invoker.barrelOffsets = mgr.getBarrelOffset(oid);
 					A_OverlayOffset(LAYER_BARREL, invoker.barrelOffsets.x, invoker.barrelOffsets.y);
@@ -1096,6 +1144,15 @@ class BHDWeapon : HDWeapon {
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_FLAGS] & F_NO_FIRE_SELECT, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponstatus[I_AUTO] > 4, "Nope");
 			#### A 0 A_JumpIf(invoker.weaponStatus[I_AUTO], "ShootGun");
+
+		Select0:
+			M16G A 0 GetAttachmentState();
+			Goto super::select0small;
+
+		Deselect0:
+			M16G A 0 GetAttachmentState();
+			Goto super::deselect0small;
+
 
 		AttachmentStart:
 			#### A 1 A_WeaponBusy();

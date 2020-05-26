@@ -33,50 +33,68 @@ class B_AKM : BHDWeapon {
 		BHDWeapon.BarrelWidth        1;
 		BHDWeapon.BarrelDepth        3;
 		BHDWeapon.BFireSound         "akm/fire";
+		BHDWeapon.BSFireSound        "m16/silfire";
 		BHDWeapon.BChamberSound      "weapons/rifchamber";
 		BHDWeapon.BBoltForwardSound  "akm/boltf";
 		BHDWeapon.BBoltBackwardSound "akm/boltb";
 		BHDWeapon.BClickSound        "weapons/rifleclick2";
 		BHDWeapon.BLoadSound         "weapons/rifleload";
-		BHDWeapon.BROF               2;
+		BHDWeapon.BROF               5;
 		BHDWeapon.BBackSightImage    "akmsight";
 		BHDWeapon.BBackOffsetX       0;
-		BHDWeapon.BBackOffsetY       8;
+		BHDWeapon.BBackOffsetY       24;
 		BHDWeapon.BFrontSightImage   "akmiron";
 		BHDWeapon.BFrontOffsetX      0;
-		BHDWeapon.BFrontOffsetY      10;
+		BHDWeapon.BFrontOffsetY      6;
+		BHDWeapon.BSilentOffsetX     0;
+		BHDWeapon.BSilentOffsetY     0;
+		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
+		BHDWeapon.bScopeMount        "NATO_RAILS"; // test
+		BHDWeapon.bMiscMount         "NONE";
 	}
 
 	states {
 		Spawn:
-			AKMP A -1 {
-				if (invoker.magazineGetAmmo() > 0) {
-					return ResolveState("SpawnMag");
-				}
-				return ResolveState("SpawnNoMag");
-			}
-		SpawnMag:
-			AKMP A -1;
-			Goto Super::Spawn;
-		SpawnNoMag:
-			AKMP B -1;
-			Goto Super::Spawn;
-		Spawn2:
-			AKMG A 0;
-			Goto Super::Spawn2;
+			AKMP A -1 GetMagState();
+
 		Ready:
-			AKMG A 1;
+			AKMG A 1 GetAttachmentState();
 			Goto Super::Ready;
+
 		Select0:
-			AKMG A 0 {
-				return ResolveState("select0small");
+			AKMG A 0 GetAttachmentState();
+			AKMG A 0 { 
+				return ResolveState("Select0Small"); 
 			}
 
-
+		deselect:
+			AKMG A 0 A_StartDeselect();
 
 		Deselect0:
-			AKMG A 0;
-			Goto Super::Deselect0;
+			AKMG A 0 GetAttachmentState();
+			AKMG A 0 { 
+				return ResolveState("Deselect0Small"); 
+			}
+
 	}
 
+}
+
+class AkmSilencerOffset : BarrelOffset {
+	default {
+		Offset.WeaponClass "B_AKM";
+		Offset.WeaponOverlay "B_M16_Silencer";
+		Offset.OffX 0;
+		Offset.OffY -9;
+	}
+}
+
+
+class AkmExtenderOffset : BarrelOffset {
+	default {
+		Offset.WeaponClass "B_AKM";
+		Offset.WeaponOverlay "B_M16_Extender";
+		Offset.OffX 0;
+		Offset.OffY -9;
+	}
 }

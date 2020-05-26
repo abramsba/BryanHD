@@ -26,6 +26,25 @@ class AttachmentManager : EventHandler {
 
 	Vector2 origin;
 
+	Weapon curr;
+	Weapon prev;
+
+	override void WorldThingDied(WorldEvent e) {
+		if (e.thing is "PlayerPawn") {
+			PlayerPawn player = PlayerPawn(e.thing);
+			player.A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
+			player.A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
+			player.A_ClearOverlays(LAYER_MISC, LAYER_MISC);
+
+			//PlayerInfo 
+			//BHDWeapon weapon = BHDWeapon(e.thing.readyWeapon);
+
+			//info.mo.A_ClearOverlay(LAYER_BARREL, LAYER_BARREL);
+			//info.mo.A_ClearOverlay(LAYER_SCOPE, LAYER_SCOPE);
+			//info.me.A_ClearOverlay(LAYER_MISC, LAYER_MISC);
+		}
+	}
+
 	override void WorldTick() {
 		PlayerInfo info = players[consoleplayer];
 		PlayerPawn pawn = info.mo;
@@ -33,8 +52,19 @@ class AttachmentManager : EventHandler {
 			return;
 		}
 
+		//owner.player.readyWeapon.FindState("Nope")
+
+		if (info.readyWeapon is "NullWeapon") {
+			info.mo.A_OverlayOffset(LAYER_BARREL, 999, 999);
+			return;
+		}
+
 		if (info.readyWeapon is "BHDWeapon") {
 			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
+
+			//if (info.WeaponState & WF_WEAPONREADY) {
+			//	weapon.GetAttachmentState();
+			//}
 
 			if (weapon.barrelClass) {
 				if (!pawn.CountInv("BSilencerRemover")) {
@@ -75,9 +105,6 @@ class AttachmentManager : EventHandler {
 				pawn.TakeInventory("BSilencerRemover", 1);
 			}
 		}
-
-
-
 
 	}
 

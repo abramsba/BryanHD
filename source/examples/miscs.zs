@@ -140,6 +140,7 @@ class B_Flashlight_Event : BaseMiscAttachmentEvent {
 		// Toggles On or off image, depending
 		super.onUsed(cls, weapon, player);
 		FlashLightManager mgr = FlashLightManager(EventHandler.Find("FlashLightManager"));
+		weapon.A_StartSound(weapon.bClickSound, CHAN_WEAPON, CHANF_OVERLAP);
 		if (weapon.miscActive) {
 			mgr.createLight(weapon, player);
 		}

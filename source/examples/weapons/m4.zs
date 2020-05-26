@@ -14,7 +14,6 @@ class B_M4 : BaseStandardRifle {
 		obituary                     "%o was assaulted by %k.";
 		tag                          "M4";
 		inventory.icon               "M4RPA0";
-
 		BHDWeapon.BHeatDrain         12;
 		BHDWeapon.BBulletClass       "HDB_556";
 		BHDWeapon.BAmmoClass         "B556Ammo";
@@ -48,7 +47,6 @@ class B_M4 : BaseStandardRifle {
 		BHDWeapon.BFrontOffsetY      7;
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
-
 		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
 		BHDWeapon.bScopeMount        "NATO_RAILS";
 		BHDWeapon.bMiscMount         "NATO_RAILS";
@@ -57,11 +55,12 @@ class B_M4 : BaseStandardRifle {
 	states {
 		Spawn:
 			M4RP A -1 GetMagState();
-
+			Stop; 
+			
 		Ready:
 			M4RG A 1 GetAttachmentState();
 			Goto Super::Ready;
-
+			
 		Select0:
 			M4RG A 0 GetAttachmentState();
 			M4RG A 0 { 
@@ -79,4 +78,3 @@ class B_M4 : BaseStandardRifle {
 
 	}
 }
-

@@ -31,12 +31,33 @@ class B_ACOG_Red : BaseScopeAttachment {
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 0;
 		BaseAttachment.MountId "NATO_RAILS";
-		BaseSightAttachment.FrontImage "rdot";
+		BaseSightAttachment.FrontImage "acogcr";
 		BaseSightAttachment.BackImage "acogsg2";
-		BaseSightAttachment.FrontOffY 2;
-		//BaseSightAttachment.BackOffY 45;
-		BaseSightAttachment.BackOffY 0;
-		BaseScopeAttachment.ScopeImage "acog1sg";
+		BaseSightAttachment.FrontOffY 15;
+		BaseSightAttachment.BackOffY 15;
+		//BaseSightAttachment.DotThreshold 30;
+
+		BaseScopeAttachment.ScopeImage "acog2sg";
+		BaseScopeAttachment.SightImage "acog1";
+
+		BaseScopeAttachment.XScaleCam        0.31;
+		BaseScopeAttachment.YScaleCam        0.31;
+		BaseScopeAttachment.XPosCam          0;
+		BaseScopeAttachment.YPosCam          63;
+		BaseScopeAttachment.ScaledWidth      57;
+		BaseScopeAttachment.XClipCam         -28;
+		BaseScopeAttachment.YClipCam         35;
+		BaseScopeAttachment.ScopeHoleX       0;
+		BaseScopeAttachment.ScopeHoleY       62;
+		BaseScopeAttachment.ScopeScaleX      0.78;
+		BaseScopeAttachment.ScopeScaleY      0.78;
+		BaseScopeAttachment.ScopeImageX      0;
+		BaseScopeAttachment.ScopeImageY      70;
+		BaseScopeAttachment.ScopeImageScaleX 1;
+		BaseScopeAttachment.ScopeImageScaleY 1;
+		BaseScopeAttachment.ScopeBackX       0;
+		BaseScopeAttachment.ScopeBackY       63;
+
 		HDPickup.Bulk 1;
 		HDPickup.RefId "ACOG1SIG";
 		Tag "ACOG Sight (Red)";
@@ -61,12 +82,34 @@ class B_ACOG_Green : BaseScopeAttachment {
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 2;
 		BaseAttachment.MountId "NATO_RAILS";
-		BaseSightAttachment.FrontImage "gdot";
+		BaseSightAttachment.FrontImage "acogcr";
 		BaseSightAttachment.BackImage "acogsg2";
-		BaseSightAttachment.FrontOffY 2;
-		BaseSightAttachment.BackOffY 0;
+		BaseSightAttachment.FrontOffY 15;
+		BaseSightAttachment.BackOffY 15;
 		//BaseSightAttachment.DotThreshold 30;
+
 		BaseScopeAttachment.ScopeImage "acog2sg";
+		BaseScopeAttachment.SightImage "acog2";
+
+		BaseScopeAttachment.XScaleCam        0.31;
+		BaseScopeAttachment.YScaleCam        0.31;
+		BaseScopeAttachment.XPosCam          0;
+		BaseScopeAttachment.YPosCam          63;
+		BaseScopeAttachment.ScaledWidth      57;
+		BaseScopeAttachment.XClipCam         -28;
+		BaseScopeAttachment.YClipCam         35;
+		BaseScopeAttachment.ScopeHoleX       0;
+		BaseScopeAttachment.ScopeHoleY       62;
+		BaseScopeAttachment.ScopeScaleX      0.78;
+		BaseScopeAttachment.ScopeScaleY      0.78;
+		BaseScopeAttachment.ScopeImageX      0;
+		BaseScopeAttachment.ScopeImageY      70;
+		BaseScopeAttachment.ScopeImageScaleX 1;
+		BaseScopeAttachment.ScopeImageScaleY 1;
+		BaseScopeAttachment.ScopeBackX       0;
+		BaseScopeAttachment.ScopeBackY       63;
+
+
 		HDPickup.Bulk 1;
 		HDPickup.RefId "ACOG1SIG";
 		Tag "ACOG Sight (Green)";
@@ -94,8 +137,11 @@ class B_Sight_Rdot : BaseSightAttachment {
 		BaseSightAttachment.FrontImage "rdot";
 		BaseSightAttachment.BackImage "rdotsg";
 		BaseSightAttachment.FrontOffY 1;
-		BaseSightAttachment.BackOffY 4;
-		BaseSightAttachment.DotThreshold 180;
+		BaseSightAttachment.BackOffY 14;
+
+		//BaseSightAttachment.DotThreshold 180;
+
+
 		HDPickup.Bulk 1;
 		HDPickup.RefId "SIG1SIT";
 		Tag "Red-dot Sight";
@@ -125,7 +171,7 @@ class B_Sight_Gdot : BaseSightAttachment {
 		BaseSightAttachment.FrontImage "gdot";
 		BaseSightAttachment.BackImage "rdotsg";
 		BaseSightAttachment.FrontOffY 1;
-		BaseSightAttachment.BackOffY 4;
+		BaseSightAttachment.BackOffY 14;
 		BaseSightAttachment.DotThreshold 180;
 		HDPickup.Bulk 1;
 		HDPickup.RefId "SIG1SIT";

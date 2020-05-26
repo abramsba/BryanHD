@@ -48,7 +48,6 @@ class B_M16 : BaseStandardRifle {
 		BHDWeapon.BFrontOffsetY      7;
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
-
 		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
 		BHDWeapon.bScopeMount        "NONE";
 		BHDWeapon.bMiscMount         "NATO_RAILS";
@@ -76,7 +75,6 @@ class B_M16 : BaseStandardRifle {
 			M16G A 0 { 
 				return ResolveState("Deselect0Small"); 
 			}
-
 	}
 }
 
