@@ -28,7 +28,7 @@ class BaseAttachment : HDPickup {
 			BHDWeapon wep = BHDWeapon(owner.player.readyWeapon);
 			bool attached = AttemptAttach(wep, owner.player.mo);
 			if (!attached) {
-				console.printf("Failed to attach.");
+				//console.printf("Failed to attach.");
 				owner.player.SetPSprite(PSP_WEAPON, owner.player.readyWeapon.FindState("Nope"));
 			}
 			else {
@@ -60,6 +60,7 @@ class BaseBarrelAttachment : BaseAttachment {
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
 		if (weapon.bBarrelMount != self.MountId) {
+			console.printf("\cgFailed to attach barrel. Attachment is incompatible.");
 			return false;
 		}
 
@@ -113,6 +114,7 @@ class BaseSightAttachment : BaseAttachment {
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
 		if (weapon.bScopeMount != self.MountId) {
+			console.printf("\cgFailed to attach sight. Attachment is incompatible.");
 			return false;
 		}
 
@@ -193,6 +195,7 @@ class BaseMiscAttachment : BaseAttachment {
 	override bool AttemptAttach(BHDWeapon weapon, PlayerPawn player) {
 		AttachmentManager mgr = AttachmentManager(EventHandler.find("AttachmentManager"));
 		if (weapon.bMiscMount != self.MountId) {
+			console.printf("\cgFailed to attach misc. Attachment is incompatible.");
 			return false;
 		}
 

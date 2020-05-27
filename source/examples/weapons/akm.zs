@@ -48,8 +48,8 @@ class B_AKM : BHDWeapon {
 		BHDWeapon.BFrontOffsetY      6;
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
-		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
-		BHDWeapon.bScopeMount        "NATO_RAILS"; // test
+		BHDWeapon.bBarrelMount       "NONE";
+		BHDWeapon.bScopeMount        "NONE"; // test
 		BHDWeapon.bMiscMount         "NONE";
 	}
 

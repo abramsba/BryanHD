@@ -5,7 +5,7 @@ class B_M16 : BaseStandardRifle {
 		+hdweapon.fitsinbackpack
 		weapon.selectionorder        20;
 		weapon.slotnumber            4;
-		weapon.slotpriority          3;
+		weapon.slotpriority          1;
 		inventory.pickupsound        "misc/w_pkup";
 		inventory.pickupmessage      "You got the m16.";
 		scale                        0.7;

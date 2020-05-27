@@ -4,8 +4,8 @@ class B_MP5K : BaseStandardRifle {
 	default {
 		+hdweapon.fitsinbackpack
 		weapon.selectionorder        20;
-		weapon.slotnumber            4;
-		weapon.slotpriority          3;
+		weapon.slotnumber            3;
+		weapon.slotpriority          1;
 		inventory.pickupsound        "misc/w_pkup";
 		inventory.pickupmessage      "You got the MP5K.";
 		scale                        0.7;
