@@ -75,26 +75,40 @@ class B_AKM : BHDWeapon {
 			AKMG A 0 { 
 				return ResolveState("Deselect0Small"); 
 			}
-
 	}
 
 }
 
-class AkmSilencerOffset : BarrelOffset {
+class B_AKM_PICRAIL : B_AKM {
 	default {
-		Offset.WeaponClass "B_AKM";
-		Offset.WeaponOverlay "B_M16_Silencer";
-		Offset.OffX 0;
-		Offset.OffY -9;
+		inventory.pickupmessage      "You got the AKM with rails.";
+		tag                          "AKMPR";
+		inventory.icon               "AKPPA0";
+		BHDWeapon.BSpriteWithMag     "AKPPA0";
+		BHDWeapon.BSpriteWithoutMag  "AKPPB0";
+		BHDWeapon.bScopeMount        "NATO_RAILS"; // test
 	}
-}
+	states {
+		Spawn:
+			AKPP A -1 GetMagState();
 
+		Ready:
+			AKPG A 1 GetAttachmentState();
+			Goto BHDWeapon::Ready;
 
-class AkmExtenderOffset : BarrelOffset {
-	default {
-		Offset.WeaponClass "B_AKM";
-		Offset.WeaponOverlay "B_M16_Extender";
-		Offset.OffX 0;
-		Offset.OffY -9;
+		Select0:
+			AKPG A 0 GetAttachmentState();
+			AKPG A 0 { 
+				return ResolveState("Select0Small"); 
+			}
+
+		deselect:
+			AKPG A 0 A_StartDeselect();
+
+		Deselect0:
+			AKPG A 0 GetAttachmentState();
+			AKPG A 0 { 
+				return ResolveState("Deselect0Small"); 
+			}
 	}
 }

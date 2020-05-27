@@ -1,18 +1,20 @@
 
 // Constants
-const I_FLAGS = 0;
-const I_MAG   = 1;
-const I_AUTO  = 2;
-const I_ZOOM  = 3;
-const I_HEAT  = 4;
-CONST I_BORE  = 6;
-CONST I_GRIME = 7;
+const I_FLAGS   = 0;
+const I_MAG     = 1;
+const I_AUTO    = 2;
+const I_ZOOM    = 3;
+const I_HEAT    = 4;
+CONST I_BORE    = 6;
+CONST I_GRIME   = 7;
+CONST I_GRENADE = 8;
 
 CONST I_3RD  = 31;
 
 const F_CHAMBER        = 1;
 const F_CHAMBER_BROKE  = 2;
 const F_NO_FIRE_SELECT = 32;
+const F_GL_MODE        = 64;
 const F_UNLOAD_ONLY    = 128;
 
 

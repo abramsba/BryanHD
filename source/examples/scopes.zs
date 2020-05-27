@@ -29,7 +29,7 @@ class B_ACOG_Red : BaseScopeAttachment {
 	default {
 		BaseAttachment.SerialId 2;
 		BaseAttachment.BaseSprite "SCOP";
-		BaseAttachment.BaseFrame 1;
+		BaseAttachment.BaseFrame 0;
 		BaseAttachment.MountId "NATO_RAILS";
 		BaseSightAttachment.FrontImage "acogcr";
 		BaseSightAttachment.BackImage "acogsg2";
@@ -57,6 +57,7 @@ class B_ACOG_Red : BaseScopeAttachment {
 		BaseScopeAttachment.ScopeImageScaleY 1;
 		BaseScopeAttachment.ScopeBackX       0;
 		BaseScopeAttachment.ScopeBackY       63;
+
 
 		HDPickup.Bulk 1;
 		HDPickup.RefId "ACOG1SIG";

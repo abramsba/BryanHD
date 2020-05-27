@@ -6,6 +6,8 @@ class BHDWeapon : HDWeapon {
 
 	default {
 		BHDWeapon.SoundClass "chicken";
+		BHDWeapon.BSpriteWithFrame 0;
+		BHDWeapon.BSpriteWithoutFrame 1;
 	}
 
 	property SoundClass: soundClass;
@@ -35,8 +37,14 @@ class BHDWeapon : HDWeapon {
 	property BSpriteWithMag: bSpriteWithMag;
 	string bSpriteWithMag;
 
+	property BSpriteWithFrame: bSpriteWithFrame;
+	int bSpriteWithFrame;
+
 	property BSpriteWithoutMag: bSpriteWithoutMag;
 	string bSpriteWithoutMag;
+
+	property BSpriteWithoutFrame: bSpriteWithoutFrame;
+	int bSpriteWithoutFrame; 
 
 	property BMagazineSprite: bMagazineSprite;
 	string bMagazineSprite;
@@ -786,14 +794,16 @@ class BHDWeapon : HDWeapon {
 			}
 
 		SpawnMag:
-			#### A -1 {
+			#### # -1 {
 				sprite = GetSpriteIndex(invoker.BSpriteWithMag);
+				frame = invoker.BSpriteWithFrame;
 			}
 			Goto Super::Spawn;
 
 		SpawnNoMag:
-			#### B -1 {
+			#### # -1 {
 				sprite = GetSpriteIndex(invoker.BSpriteWithoutMag);
+				frame = invoker.BSpriteWithoutFrame;
 			}
 			Goto Super::Spawn;
 
