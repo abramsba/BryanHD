@@ -54,7 +54,7 @@ class AttachmentManager : EventHandler {
 
 		//owner.player.readyWeapon.FindState("Nope")
 
-		if (info.readyWeapon is "NullWeapon") {
+		if (!(info.readyWeapon is "BHDWeapon")) {
 			info.mo.A_OverlayOffset(LAYER_BARREL, 999, 999);
 			return;
 		}
