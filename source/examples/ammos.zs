@@ -1,119 +1,29 @@
 
-class B556Ammo : HDRoundAmmo {
-
+class B556Ammo : BRoundAmmo {
 	default {
-		+inventory.ignoreskill
-		+hdpickup.cheatnogive
-		+hdpickup.multipickup
-		xscale 0.5; 
-		yscale 0.6;
-		tag "5.56mm NATO round";
-		hdpickup.refid HDLD_556MAG;
+		tag "5.56 round";
+		hdpickup.refid "HDLD_556MAG";
 		hdpickup.bulk ENC_556;
-		inventory.icon "RCLSA3A7";
 	}
-
 	override string pickupmessage(){
-		return "Picked up a stray 5.56 NATO round.";
-	}
-
-	override void splitpickup(){
-		int amm = min(amount, random(4, 26));
-		while(amount > amm) {
-			int ld = min(amount, random(4, 26));
-			actor a = spawn("B556Ammo", pos);
-			a.vel += vel + (frandom(-1,1), frandom(-1,1), frandom(-1,1));
-			a.angle = frandom(0, 360);
-			inventory(a).amount = ld;
-			amount -= ld;
-		}
-		if(amount < 1){
-			destroy();
-			return;
-		}
-		scale.y = getdefaultbytype(getclass()).scale.y * max(1., amount*0.3);
-		if(amount > 1) {
-			frame = 1;
-		}
-	}
-
-	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("M16_AssaultRifle");
-	}
-
-	states(actor) {
-		spawn:
-			RCLS A -1;
-			stop;
+		return "Picked up a stray 5.56 round.";
 	}
 }
 
-class B556Brass : HDAmmo {
+class B556Brass : BRoundShell {
 	default {
-		+inventory.ignoreskill
-		+forcexybillboard
-		+cannotpush
-		+hdpickup.multipickup
-		+hdpickup.cheatnogive
-		height 16;
-		radius 8;
-		tag "5.56mm NATO Casing";
-		HDPickUp.RefId "B556Casing";
+		tag "5.56 brass";
+		HDPickUp.RefId "B556Brass";
 		HdPickup.Bulk 1;
-		XScale 0.7;
-		YScale 0.8;
-		Inventory.PickupMessage "Picked up some brass.";
-	}
-	states {
-		spawn:
-			RBRS A -1;
-			Stop;
+		Inventory.PickupMessage "Picked up some 5.56 brass.";
 	}
 }
 
-class B556Spent : HDUPK {
-	override void postbeginplay(){
-		super.postbeginplay();
-		A_ChangeVelocity(frandom(-3,3), frandom(-0.4,0.4), 0, CVF_RELATIVE);
-	}
-
+class B556Spent : BRoundSpent {
 	default {
-		+Missile
-		+HDUPK.multipickup
-		Height 4;
-		Radius 2;
-		BounceType "Doom";
+		BRoundSpent.ShellClass "B556Brass";
 		HDUPK.PickupType "B556Brass";
-		HDUPK.PickupMessage "Picked up some brass.";
-
-		bouncesound "misc/casing";
-		xscale 0.7;
-		yscale 0.8;
-		maxstepheight 0.6;
-	}
-
-	states {
-		spawn:
-			RBRS A 2 {
-				angle+=45;
-				if(floorz==pos.z&&!vel.z)A_Countdown();
-			}
-			Wait;
-
-		death:
-			RBRS A -1 {
-				actor p=spawn("B556Brass",self.pos,ALLOW_REPLACE);
-				p.vel = self.vel;
-				p.vel.xy*=3;
-				p.angle=angle;
-				if(p.vel!=(0,0,0)){
-					p.A_FaceMovementDirection();
-					p.angle+=90;
-				}
-				destroy();
-			}
-			Stop;
-
+		HDUPK.PickupMessage "Picked up some 5.56 brass.";
 	}
 }
 
@@ -125,51 +35,69 @@ class B556Spent : HDUPK {
 
 
 
-class B762Ammo : HDRoundAmmo {
-
+class B762Ammo : BRoundAmmo {
 	default {
-		+inventory.ignoreskill
-		+hdpickup.cheatnogive
-		+hdpickup.multipickup
-		xscale 0.5; 
-		yscale 0.6;
-		tag "7.62mm round";
+		tag "7.62 round";
+		hdpickup.refid "HDLD_762MAG";
+		hdpickup.bulk ENC_762;
+	}
+	override string pickupmessage(){
+		return "Picked up a stray 7.62 round.";
+	}
+}
+
+class B762Brass : BRoundShell {
+	default {
+		tag "7.62 brass";
+		HDPickUp.RefId "B762Casing";
+		HdPickup.Bulk 1;
+		Inventory.PickupMessage "Picked up some 7.62 brass.";
+	}
+}
+
+class B762Spent : BRoundSpent {
+	default {
+		BRoundSpent.ShellClass "B762Brass";
+		HDUPK.PickupType "B762Brass";
+		HDUPK.PickupMessage "Picked up some 7.62 brass.";
+	}
+}
+
+
+
+
+
+
+
+
+class B792Ammo : BRoundAmmo {
+	default {
+		tag "7.92 round";
 		hdpickup.refid HDLD_762MAG;
 		hdpickup.bulk ENC_762;
-		inventory.icon "RCLSA3A7";
 	}
-
-	override string pickupmessage(){
-		return "Picked up a stray 7.76 round.";
-	}
-
-	override void splitpickup(){
-		int amm = min(amount, random(4, 26));
-		while(amount > amm) {
-			int ld = min(amount, random(4, 26));
-			actor a = spawn("B762Ammo", pos);
-			a.vel += vel + (frandom(-1,1), frandom(-1,1), frandom(-1,1));
-			a.angle = frandom(0, 360);
-			inventory(a).amount = ld;
-			amount -= ld;
-		}
-		if(amount < 1){
-			destroy();
-			return;
-		}
-		scale.y = getdefaultbytype(getclass()).scale.y * max(1., amount*0.3);
-		if(amount > 1) {
-			frame = 1;
-		}
-	}
-
-	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("AKM_AssaultRifle");
-	}
-
-	states(actor) {
-		spawn:
-			RCLS A -1;
-			stop;
+	override string pickupmessage() {
+		return "Picked up a stray 7.92 round.";
 	}
 }
+
+class B792Brass : BRoundShell {
+	default {
+		tag "7.92 brass";
+		HdPickup.RefId "B792Casing";
+		HdPickup.Bulk 1;
+		Inventory.PickupMessage "Picked up some 7.92 brass";
+	}
+}
+
+class B792Spent : BRoundSpent {
+	default {
+		BRoundSpent.ShellClass "B792Brass";
+		HDUPK.PickupType "B792Brass";
+		HDUPK.PickupMessage "Picked up some 7.92 brass";
+	}
+}
+
+
+
+

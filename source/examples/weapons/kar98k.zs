@@ -1,5 +1,7 @@
 
+// WIP Bolt Rifles todo
 class B_KAR98K : BaseBoltRifle {
+
 		default {
 		+hdweapon.fitsinbackpack
 		weapon.selectionorder        20;
@@ -15,9 +17,9 @@ class B_KAR98K : BaseBoltRifle {
 		inventory.icon               "KR9GA0";
 
 		BHDWeapon.BHeatDrain         12;
-		BHDWeapon.BBulletClass       "HDB_556";
-		BHDWeapon.BAmmoClass         "B556Ammo";
-		BHDWeapon.BMagazineClass     "B556Mag";
+		BHDWeapon.BBulletClass       "HDB_792";
+		BHDWeapon.BAmmoClass         "B792Ammo";
+		BHDWeapon.BMagazineClass     "B792_KAR98_Clip";
 		BHDWeapon.BGunMass           6.2;
 		BHDWeapon.BCookOff           30;
 		BHDWeapon.BHeatLimit         255;
@@ -27,27 +29,28 @@ class B_KAR98K : BaseBoltRifle {
 		BHDWeapon.BWeaponBulk        90;
 		BHDWeapon.BMagazineBulk      19;
 		BHDWeapon.BBulletBulk        1;
-		BHDWeapon.BMagazineCapacity  30;
+		BHDWeapon.BMagazineCapacity  5;
 		BHDWeapon.BarrelLength       25;
 		BHDWeapon.BarrelWidth        1;
 		BHDWeapon.BarrelDepth        3;
 		BHDWeapon.BFireSound         "m16/fire";
 		BHDWeapon.BSFireSound        "m16/silfire";
 		BHDWeapon.BChamberSound      "weapons/rifchamber";
-		BHDWeapon.BBoltForwardSound  "akm/boltb";
-		BHDWeapon.BBoltBackwardSound "akm/boltf";
+		BHDWeapon.BBoltForwardSound  "kar/bolt";
+		BHDWeapon.BBoltBackwardSound "kar/bolt";
 		BHDWeapon.BClickSound        "weapons/rifleclick2";
 		BHDWeapon.BLoadSound         "weapons/rifleload";
 		BHDWeapon.BROF               1;
-		BHDWeapon.BBackSightImage    "m16sight";
+		BHDWeapon.BBackSightImage    "karsg";
 		BHDWeapon.BBackOffsetX       0;
-		BHDWeapon.BBackOffsetY       26;
-		BHDWeapon.BFrontSightImage   "m16iron";
+		BHDWeapon.BBackOffsetY       24;
+		BHDWeapon.BFrontSightImage   "karir";
 		BHDWeapon.BFrontOffsetX      0;
-		BHDWeapon.BFrontOffsetY      7;
+		BHDWeapon.BFrontOffsetY      4;
 		BHDWeapon.BSilentOffsetX     0;
 		BHDWeapon.BSilentOffsetY     0;
 		BHDWeapon.bBarrelMount       "KAR98K_BARREL";
+		BHDWeapon.EjectShellClass    "B792Spent";
 	}
 
 	states {
@@ -56,7 +59,7 @@ class B_KAR98K : BaseBoltRifle {
 
 		Ready:
 			KR98 A 1 GetAttachmentState();
-			Goto Super::Ready;
+			Goto BHDWeapon::Ready;
 
 		Select0:
 			KR98 A 0 GetAttachmentState();
@@ -76,3 +79,4 @@ class B_KAR98K : BaseBoltRifle {
 	}
 
 }
+

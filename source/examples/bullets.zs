@@ -18,7 +18,20 @@ class HDB_762 : HDBulletActor{
 		mass 35;
 		speed 1400;
 		accuracy 666;
-		stamina 426;
+		stamina 762;
+		woundhealth 40;
+		hdbulletactor.hardness 2;
+		hdbulletactor.distantsound "world/riflefar";
+	}
+}
+
+class HDB_792 : HDBulletActor{
+	default{
+		pushfactor 0.4;
+		mass 35;
+		speed 1400;
+		accuracy 666;
+		stamina 792;
 		woundhealth 40;
 		hdbulletactor.hardness 2;
 		hdbulletactor.distantsound "world/riflefar";

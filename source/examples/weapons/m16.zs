@@ -51,6 +51,7 @@ class B_M16 : BaseStandardRifle {
 		BHDWeapon.bBarrelMount       "556_NATO_BARREL";
 		BHDWeapon.bScopeMount        "NONE";
 		BHDWeapon.bMiscMount         "NATO_RAILS";
+		BHDWeapon.EjectShellClass    "B556Spent";
 	}
 
 	states {
@@ -134,6 +135,7 @@ class B_M16_M203 : BaseGLRifle {
 		BHDWeapon.bMiscMount         "NATO_RAILS";
 		BaseAltRifle.bAltMagClass    "HDRocketAmmo";
 		BaseAltRifle.BAltMagPicture  "ROQPA0";
+		BHDWeapon.EjectShellClass    "B556Spent";
 	}
 
 	states {

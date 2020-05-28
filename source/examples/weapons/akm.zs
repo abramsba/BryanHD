@@ -51,6 +51,7 @@ class B_AKM : BHDWeapon {
 		BHDWeapon.bBarrelMount       "NONE";
 		BHDWeapon.bScopeMount        "NONE"; // test
 		BHDWeapon.bMiscMount         "NONE";
+		BHDWeapon.EjectShellClass    "B762Spent";
 	}
 
 	states {

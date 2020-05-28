@@ -8,7 +8,11 @@ class BHDWeapon : HDWeapon {
 		BHDWeapon.SoundClass "chicken";
 		BHDWeapon.BSpriteWithFrame 0;
 		BHDWeapon.BSpriteWithoutFrame 1;
+		BHDWeapon.EjectShellClass "NULL";
 	}
+
+	property EjectShellClass: ejectShellClass;
+	String ejectShellClass;
 
 	property SoundClass: soundClass;
 	Name SoundClass;
@@ -893,7 +897,7 @@ class BHDWeapon : HDWeapon {
 				// Todo: Make it not constantly be in your face 
 				//       create property to spawn this bullet
 				A_SPawnItemEx(
-					"B556Spent", 
+					invoker.EjectShellClass,
 					cosp * 6, 
 					5, 
 					height - 8 - sin(pitch) * 6,

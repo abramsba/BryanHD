@@ -1,4 +1,5 @@
 
+// Out of date, won't work properly
 class B_AK47 : BHDWeapon {
 
 	default {

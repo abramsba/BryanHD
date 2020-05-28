@@ -6,7 +6,7 @@ class B556Mag : HDMagAmmo{
 		hdmagammo.roundbulk ENC_556_LOADED;
 		hdmagammo.magbulk ENC_556MAG_EMPTY;
 		hdpickup.refid HDLD_556MAG;
-		tag "5.56mm NATO STANAG magazine";
+		tag "5.56 NATO STANAG magazine";
 		inventory.pickupmessage "Picked up a 5.56mm NATO STANAG magazine.";
 		scale 0.8;
 	}
@@ -72,8 +72,8 @@ class B762_AK47_Mag : HDMagAmmo{
 		hdmagammo.roundbulk ENC_776_LOADED;
 		hdmagammo.magbulk ENC_776MAG_EMPTY;
 		hdpickup.refid HDLD_776RL;
-		tag "7.76 AK47 magazine";
-		inventory.pickupmessage "Picked up a 7.76 AK47 magazine.";
+		tag "7.62 AK47 magazine";
+		inventory.pickupmessage "Picked up a 7.62 AK47 magazine.";
 		scale 0.8;
 	}
 
@@ -125,6 +125,39 @@ class B762_AKM_Mag : HDMagAmmo{
 			stop;
 		spawnempty:
 			AKMC A -1{
+				brollsprite = true;
+				brollcenter = true;
+				roll = randompick(0, 0, 0, 0, 2, 2, 2, 2, 1, 3) * 90;
+			}
+			stop;
+	}
+}
+
+class B792_KAR98_Clip : HDMagAmmo{
+	default{
+		hdmagammo.maxperunit 5;
+		hdmagammo.roundtype "B792Ammo";
+		hdmagammo.roundbulk ENC_762_LOADED;
+		hdmagammo.magbulk ENC_762MAG_EMPTY;
+		hdpickup.refid HDLD_762MAG;
+		tag "7.92 clip";
+		inventory.pickupmessage "Picked up a 7.92 clip.";
+		scale 0.8;
+	}
+
+	override string,string,name,double getmagsprite(int thismagamt){
+		return "KR9AA0", "KR9A", "B792Ammo", 1.7;
+	}
+
+	override void GetItemsThatUseThis(){
+	}
+
+	states{
+		spawn:
+			KR9A A -1;
+			stop;
+		spawnempty:
+			KR9A B -1{
 				brollsprite = true;
 				brollcenter = true;
 				roll = randompick(0, 0, 0, 0, 2, 2, 2, 2, 1, 3) * 90;

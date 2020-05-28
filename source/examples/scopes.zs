@@ -1,30 +1,4 @@
 
-class B_Scope40mm : BaseSightAttachment {
-	default {
-		BaseAttachment.SerialId 1;
-		BaseAttachment.BaseSprite "SCOP";
-		BaseAttachment.BaseFrame 0;
-		BaseAttachment.MountId "NATO_RAILS";
-		BaseSightAttachment.FrontImage "TNT1A0";
-		BaseSightAttachment.BackImage "TNT1A0";
-		HDPickup.Bulk 1;
-		HDPickup.RefId "BM16SCOP";
-		Tag "4x40 M16 Scope";
-		Inventory.Icon "SCOPB0";
-		Inventory.PickupMessage "Picked up a 4x40 M16 Scope.";
-	}
-
-	States {
-		Spawn:
-			SCOP B -1;
-			Stop;
-
-		OverlayImage:
-			SCOP A -1;
-			Stop;
-	}
-}
-
 class B_ACOG_Red : BaseScopeAttachment {
 	default {
 		BaseAttachment.SerialId 2;

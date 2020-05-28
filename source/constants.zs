@@ -16,6 +16,7 @@ const F_CHAMBER_BROKE  = 2;
 const F_NO_FIRE_SELECT = 32;
 const F_GL_MODE        = 64;
 const F_UNLOAD_ONLY    = 128;
+const F_EMPTY_CHAMBER  = 256;
 
 
 const B_BARREL = 255;
