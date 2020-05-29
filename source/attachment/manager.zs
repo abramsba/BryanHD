@@ -24,8 +24,8 @@ class AttachmentManager : EventHandler {
 	Array<Class<ScopeOffset> > scopeOffsets;
 	Array<Class<MiscOffset> > miscOffsets;
 
+	// what was I thinking
 	Vector2 origin;
-
 	Weapon curr;
 	Weapon prev;
 
@@ -35,13 +35,6 @@ class AttachmentManager : EventHandler {
 			player.A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
 			player.A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
 			player.A_ClearOverlays(LAYER_MISC, LAYER_MISC);
-
-			//PlayerInfo 
-			//BHDWeapon weapon = BHDWeapon(e.thing.readyWeapon);
-
-			//info.mo.A_ClearOverlay(LAYER_BARREL, LAYER_BARREL);
-			//info.mo.A_ClearOverlay(LAYER_SCOPE, LAYER_SCOPE);
-			//info.me.A_ClearOverlay(LAYER_MISC, LAYER_MISC);
 		}
 	}
 
@@ -52,8 +45,6 @@ class AttachmentManager : EventHandler {
 			return;
 		}
 
-		//owner.player.readyWeapon.FindState("Nope")
-
 		if (!(info.readyWeapon is "BHDWeapon")) {
 			info.mo.A_OverlayOffset(LAYER_BARREL, 999, 999);
 			return;
@@ -61,10 +52,6 @@ class AttachmentManager : EventHandler {
 
 		if (info.readyWeapon is "BHDWeapon") {
 			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
-
-			//if (info.WeaponState & WF_WEAPONREADY) {
-			//	weapon.GetAttachmentState();
-			//}
 
 			if (weapon.barrelClass) {
 				if (!pawn.CountInv("BSilencerRemover")) {

@@ -1,6 +1,14 @@
-HD Configuration Options:
+# HD Loadout Options
 
-Options for assigning attachments in loadout coming soon.
+Example of a fully equip M4 M203 with magazines, explosives, and elite solider kit:
+
+```
+bw7 bs 6 ba 1 bm 1, m56 10, rkt 5, sol
+```
+
+![loadoutmgr](https://i.imgur.com/NtEH06T.png)
+
+## Weapons
 
 * `bw1`: M16
 * `bw2`: M16 M203
@@ -31,3 +39,61 @@ Options for assigning attachments in loadout coming soon.
 
 ![akm1](https://i.imgur.com/FX4ifqr.png)
 ![akm2](https://i.imgur.com/7Ewj39z.png)
+
+## Attachments
+
+Attachments are organized into three groups and stored by the `SerialId` property in the actor class. The ID you need to use in the loadout manager is dependent on which attachments you have loaded. If the class can't be found or the weapon is incompatible, no attachment will be set.
+
+* `ba`: ID for barrel attachment
+* `bs`: ID for scope attachment
+* `bm`: ID for misc attachment
+
+### SerialID's
+
+The ID's here I placed for convenience so you don't have to dive in the example code to find them. 
+
+#### Scopes
+
+* Red dot sight `1`
+
+![sight1](https://i.imgur.com/FfQp6r1.png)
+
+* ACOG red sight image `2`
+
+![sight2](https://i.imgur.com/IkmXUX6.png)
+
+* ACOG green sight image `3`
+
+![sight3](https://i.imgur.com/sg8Kf5P.png)
+
+* ACOG green with red dot sight `6`
+
+![sight4](https://i.imgur.com/IV0bvqq.png)
+
+* ACOG red with red dot sight `7`
+
+![sight5](https://i.imgur.com/73WHgMX.png)
+
+* Red dot sight `4`
+
+![sight6](https://i.imgur.com/0Eizxud.png)
+
+* Green dot sight `5`
+
+![sight7](https://i.imgur.com/fTrLgmo.png)
+
+#### Barrels
+
+* Sound Suppressor `1`
+
+![barrel1](https://i.imgur.com/2qGg8Mu.png)
+
+* Flash Suppressor `2`
+
+![barrel2](https://i.imgur.com/DDAF7ca.png)
+
+#### Misc
+
+* Flashlight `1`
+
+![flashlight1](https://i.imgur.com/SJKC3lS.png)

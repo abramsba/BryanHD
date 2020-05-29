@@ -97,7 +97,7 @@ class B_M16_M203 : BaseGLRifle {
 		weapon.bobrangex             0.22;
 		weapon.bobrangey             0.9;
 		obituary                     "%o was assaulted by %k.";
-		tag                          "M16GL";
+		tag                          "M16 M203";
 		inventory.icon               "M16PC0";
 
 		BHDWeapon.BHeatDrain         12;

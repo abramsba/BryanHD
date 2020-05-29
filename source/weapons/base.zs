@@ -324,11 +324,40 @@ class BHDWeapon : HDWeapon {
 	}
 
 	override void LoadoutConfigure(string input){
-		// ... ?
+		AttachmentManager mgr = AttachmentManager(EventHandler.Find("AttachmentManager"));
+		int barrelId = getLoadoutVar(input, "ba");
+		int scopeId = getLoadoutVar(input, "bs");
+		int miscId = getLoadoutVar(input, "bm");
+		
+		Class<BaseSightAttachment> bsClass = mgr.getScopeClass(scopeId);
+		if (bsClass) {
+			string bsMountId = GetDefaultByType(bsClass).mountId;
+			if (bsMountId == bScopeMount) {
+				setScopeSerialID(scopeId);
+				scopeClass = bsClass;
+			}
+		}
+
+		Class<BaseBarrelAttachment> baClass = mgr.getBarrelClass(barrelId);
+		if (baClass) {
+			string baMountId = GetDefaultByType(baClass).mountId;
+			if (baMountId == bBarrelMount) {
+				setBarrelSerialID(barrelId);
+				barrelClass = baClass;
+			}
+		}
+
+		Class<BaseMiscAttachment> bmClass = mgr.getMiscClass(miscId);
+		if (bmClass) {
+			string bmMountId = GetDefaultByType(bmClass).mountId;
+			if (bmMountId == bMiscMount) {
+				setMiscSerialID(miscId);
+				miscClass = bmClass;
+			}
+		}		
 	}
 
 	// HD Action Functions
-
 
 	action bool A_CheckCookoff() {
 		if (invoker.overheated() && !invoker.brokenChamber() && invoker.chambered()) {

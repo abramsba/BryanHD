@@ -277,7 +277,7 @@ class B_ACOG_red2 : BaseScopeAttachment {
 
 class B_Sight_CRdot : BaseSightAttachment {
 	default {
-		BaseAttachment.SerialId 6;
+		BaseAttachment.SerialId 1;
 		BaseAttachment.BaseSprite "SCOP";
 		BaseAttachment.BaseFrame 10;
 		BaseAttachment.MountId "NATO_RAILS";
