@@ -52,6 +52,7 @@ class B_AKM : BHDWeapon {
 		BHDWeapon.bScopeMount        "NONE"; // test
 		BHDWeapon.bMiscMount         "NONE";
 		BHDWeapon.EjectShellClass    "B762Spent";
+		hdweapon.refid               "bw4";
 	}
 
 	states {
@@ -88,6 +89,7 @@ class B_AKM_PICRAIL : B_AKM {
 		BHDWeapon.BSpriteWithMag     "AKPPA0";
 		BHDWeapon.BSpriteWithoutMag  "AKPPB0";
 		BHDWeapon.bScopeMount        "NATO_RAILS"; // test
+		hdweapon.refid               "bw5";
 	}
 	states {
 		Spawn:

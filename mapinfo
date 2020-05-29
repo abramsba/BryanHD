@@ -45,4 +45,5 @@ DoomEdNums {
 	18005 = B_Sight_Gdot
 	18006 = B_ACOG_Green2
 	18007 = B_ACOG_Red2
+	18008 = B_Sight_CRdot
 }

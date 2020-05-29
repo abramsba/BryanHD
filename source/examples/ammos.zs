@@ -2,7 +2,7 @@
 class B556Ammo : BRoundAmmo {
 	default {
 		tag "5.56 round";
-		hdpickup.refid "HDLD_556MAG";
+		hdpickup.refid "b56";
 		hdpickup.bulk ENC_556;
 	}
 	override string pickupmessage(){
@@ -38,7 +38,7 @@ class B556Spent : BRoundSpent {
 class B762Ammo : BRoundAmmo {
 	default {
 		tag "7.62 round";
-		hdpickup.refid "HDLD_762MAG";
+		hdpickup.refid "b76";
 		hdpickup.bulk ENC_762;
 	}
 	override string pickupmessage(){
@@ -73,7 +73,7 @@ class B762Spent : BRoundSpent {
 class B792Ammo : BRoundAmmo {
 	default {
 		tag "7.92 round";
-		hdpickup.refid HDLD_762MAG;
+		hdpickup.refid "b79";
 		hdpickup.bulk ENC_762;
 	}
 	override string pickupmessage() {

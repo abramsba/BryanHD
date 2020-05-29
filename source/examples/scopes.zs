@@ -273,3 +273,33 @@ class B_ACOG_red2 : BaseScopeAttachment {
 			Stop;
 	}
 }
+
+
+class B_Sight_CRdot : BaseSightAttachment {
+	default {
+		BaseAttachment.SerialId 6;
+		BaseAttachment.BaseSprite "SCOP";
+		BaseAttachment.BaseFrame 10;
+		BaseAttachment.MountId "NATO_RAILS";
+		BaseSightAttachment.FrontImage "rdot";
+		BaseSightAttachment.BackImage "rdssg";
+		BaseSightAttachment.FrontOffY 1;
+		BaseSightAttachment.BackOffY -2;
+		BaseSightAttachment.DotThreshold 180;
+		HDPickup.Bulk 1;
+		HDPickup.RefId "acr";
+		Tag "Red-dot round sight";
+		Inventory.Icon "SCOPG0";
+		Inventory.PickupMessage "Picked up a red-dot round sight.";
+	}
+
+	States {
+		Spawn:
+			SCOP G -1;
+			Stop;
+
+		OverlayImage:
+			SCOP K -1;
+			Stop;
+	}
+}

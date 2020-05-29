@@ -51,6 +51,8 @@ class B_KAR98K : BaseBoltRifle {
 		BHDWeapon.BSilentOffsetY     0;
 		BHDWeapon.bBarrelMount       "KAR98K_BARREL";
 		BHDWeapon.EjectShellClass    "B792Spent";
+		hdweapon.refid               "bw3";
+		BHDWeapon.bScopeMount        "NATO_RAILS";
 	}
 
 	states {
@@ -80,3 +82,11 @@ class B_KAR98K : BaseBoltRifle {
 
 }
 
+class KarScopeOffset1 : ScopeOffset {
+	default {
+		Offset.WeaponClass "B_KAR98K";
+		Offset.WeaponOverlay "B_Sight_CRdot";
+		Offset.OffX -1;
+		Offset.OffY 10;
+	}
+}

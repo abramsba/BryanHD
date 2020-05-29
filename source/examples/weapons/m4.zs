@@ -51,6 +51,7 @@ class B_M4 : BaseStandardRifle {
 		BHDWeapon.bScopeMount        "NATO_RAILS";
 		BHDWeapon.bMiscMount         "NATO_RAILS";
 		BHDWeapon.EjectShellClass    "B556Spent";
+		hdweapon.refid               "bw6";
 	}
 
 	states {
@@ -137,6 +138,7 @@ class B_M4_M203 : BaseGLRifle {
 		BaseAltRifle.bAltMagClass    "HDRocketAmmo";
 		BaseAltRifle.BAltMagPicture  "ROQPA0";
 		BHDWeapon.EjectShellClass    "B556Spent";
+		hdweapon.refid               "bw7";
 
 	}
 

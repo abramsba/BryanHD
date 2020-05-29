@@ -52,6 +52,7 @@ class B_M16 : BaseStandardRifle {
 		BHDWeapon.bScopeMount        "NONE";
 		BHDWeapon.bMiscMount         "NATO_RAILS";
 		BHDWeapon.EjectShellClass    "B556Spent";
+		hdweapon.refid               "bw1";
 	}
 
 	states {
@@ -77,6 +78,10 @@ class B_M16 : BaseStandardRifle {
 				return ResolveState("Deselect0Small"); 
 			}
 	}
+
+	
+
+	
 }
 
 class B_M16_M203 : BaseGLRifle {
@@ -136,6 +141,7 @@ class B_M16_M203 : BaseGLRifle {
 		BaseAltRifle.bAltMagClass    "HDRocketAmmo";
 		BaseAltRifle.BAltMagPicture  "ROQPA0";
 		BHDWeapon.EjectShellClass    "B556Spent";
+		hdweapon.refid               "bw2";
 	}
 
 	states {

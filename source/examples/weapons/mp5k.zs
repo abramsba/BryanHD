@@ -50,6 +50,7 @@ class B_MP5K : BaseStandardRifle {
 		BHDWeapon.BSilentOffsetY     0;
 		BHDWeapon.bBarrelMount       "9MM_MP5K_BARREL";
 		BHDWeapon.bScopeMount        "NATO_RAILS";
+		hdweapon.refid               "bw6";
 	}
 
 	states {
