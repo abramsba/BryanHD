@@ -32,14 +32,6 @@ bw7 bs 6 ba 1 bm 1, m56 10, rkt 5, sol
 
 ![kar98k](https://i.imgur.com/UA2Fk8h.png)
 
-* `bw5`: AKM with pic rail
-* `bw4`: AKM no rail
-	* `b76`: 7.62 round
-	* `mak`: 7.62 AKM magazine
-
-![akm1](https://i.imgur.com/FX4ifqr.png)
-![akm2](https://i.imgur.com/7Ewj39z.png)
-
 ## Attachments
 
 Attachments are organized into three groups and stored by the `SerialId` property in the actor class. The ID you need to use in the loadout manager is dependent on which attachments you have loaded. If the class can't be found or the weapon is incompatible, no attachment will be set.
