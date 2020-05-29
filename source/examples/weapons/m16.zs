@@ -77,6 +77,23 @@ class B_M16 : BaseStandardRifle {
 			M16G A 0 { 
 				return ResolveState("Deselect0Small"); 
 			}
+
+		Flash:
+			TNT1 A 0 {
+				if (!(invoker.barrelClass is "BaseFlashAttachment") && !(invoker.barrelClass is "BaseSilencerAttachment")) {
+					let psp = players[consoleplayer].FindPSprite(-1000);
+					if (psp) {
+						psp.sprite = GetSpriteIndex("FLSHA0");
+						psp.frame = 0;
+					}
+				}
+			}
+			Goto super::flash;
+
+		Flashes:
+			FLSH A -1;
+			FLSH B -1;
+
 	}
 
 	
@@ -166,5 +183,22 @@ class B_M16_M203 : BaseGLRifle {
 			M16G A 0 { 
 				return ResolveState("Deselect0Small"); 
 			}
+
+		Flash:
+			TNT1 A 0 {
+				if (!(invoker.barrelClass is "BaseFlashAttachment") && !(invoker.barrelClass is "BaseSilencerAttachment")) {
+					let psp = players[consoleplayer].FindPSprite(-1000);
+					if (psp) {
+						psp.sprite = GetSpriteIndex("FLSHA0");
+						psp.frame = random(0, 1);
+					}
+				}
+			}
+			Goto super::flash;
+	
+		Flashes:
+			FLSH A -1;
+			FLSH B -1;
+
 	}
 }

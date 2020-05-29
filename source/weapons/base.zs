@@ -884,7 +884,7 @@ class BHDWeapon : HDWeapon {
 					return ResolveState("Chamber_Manual");
 				}
 				else {
-					A_Overlay(0, "Flash");
+					A_Overlay(-1000, "Flash");
 					A_WeaponReady(WRF_NONE);
 					if (invoker.weaponStatus[I_AUTO] >= 2) {
 						invoker.weaponStatus[I_AUTO]++;
@@ -899,7 +899,7 @@ class BHDWeapon : HDWeapon {
 			}
 
 		Flash:
-			TNT1 A 1 {
+			#### # 1 Bright {
 				if (!(invoker.barrelClass is "BaseFlashAttachment") && !(invoker.barrelClass is "BaseSilencerAttachment")) {
 					A_Light1();
 					HDFlashAlpha(-16);
@@ -1323,7 +1323,6 @@ class BHDWeapon : HDWeapon {
 			#### A 0 {
 				return ResolveState("Ready");
 			}
-
 
 	}
 

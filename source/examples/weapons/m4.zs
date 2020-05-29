@@ -78,6 +78,22 @@ class B_M4 : BaseStandardRifle {
 				return ResolveState("Deselect0Small"); 
 			}
 
+		Flash:
+			TNT1 A 0 {
+				if (!(invoker.barrelClass is "BaseFlashAttachment") && !(invoker.barrelClass is "BaseSilencerAttachment")) {
+					let psp = players[consoleplayer].FindPSprite(-1000);
+					if (psp) {
+						psp.sprite = GetSpriteIndex("FLSHA0");
+						psp.frame = random(0, 1);
+					}
+				}
+			}
+			Goto super::flash;
+
+		Flashes:
+			FLSH A -1;
+			FLSH B -1;
+
 	}
 }
 
@@ -165,6 +181,25 @@ class B_M4_M203 : BaseGLRifle {
 			M4RG A 0 { 
 				return ResolveState("Deselect0Small"); 
 			}
+
+		Flash:
+			TNT1 A 0 {
+				if (!(invoker.barrelClass is "BaseFlashAttachment") && !(invoker.barrelClass is "BaseSilencerAttachment")) {
+					let psp = players[consoleplayer].FindPSprite(-1000);
+					if (psp) {
+						psp.sprite = GetSpriteIndex("FLSHA0");
+						psp.frame = random(0, 4);
+					}
+				}
+			}
+			Goto super::flash;
+
+		Flashes:
+			FLSH A -1;
+			FLSH B -1;
+			FLSH C -1;
+			FLSH D -1;
+			FLSH E -1;
 
 	}
 }
