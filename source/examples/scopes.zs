@@ -3,7 +3,7 @@ class B_ACOG_Red : BaseScopeAttachment {
 	default {
 		BaseAttachment.SerialId 2;
 		BaseAttachment.BaseSprite "SCOP";
-		BaseAttachment.BaseFrame 0;
+		BaseAttachment.BaseFrame 2;
 		BaseAttachment.MountId "NATO_RAILS";
 		BaseSightAttachment.FrontImage "acogcr";
 		BaseSightAttachment.BackImage "acogsg2";
@@ -46,7 +46,7 @@ class B_ACOG_Red : BaseScopeAttachment {
 			Stop;
 
 		OverlayImage:
-			SCOP A -1;
+			SCOP C -1;
 			Stop;
 	}
 }
@@ -226,7 +226,7 @@ class B_ACOG_red2 : BaseScopeAttachment {
 	default {
 		BaseAttachment.SerialId 7;
 		BaseAttachment.BaseSprite "SCOP";
-		BaseAttachment.BaseFrame 0;
+		BaseAttachment.BaseFrame 2;
 		BaseAttachment.MountId "NATO_RAILS";
 		BaseSightAttachment.FrontImage "rdot";
 		BaseSightAttachment.BackImage "rdotsg";
@@ -269,7 +269,7 @@ class B_ACOG_red2 : BaseScopeAttachment {
 			Stop;
 
 		OverlayImage:
-			SCOP A -1;
+			SCOP C -1;
 			Stop;
 	}
 }
