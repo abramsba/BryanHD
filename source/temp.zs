@@ -8,7 +8,7 @@ class BSilencerRemover : HDPickup {
 	}
 
 	override bool Use(bool pickup) {
-		PlayerInfo info = players[consoleplayer];
+		PlayerInfo info = players[owner.playerNumber()];
 		if (info.readyWeapon && info.readyWeapon is "BHDWeapon") {
 			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
 			if (weapon.getBarrelSerialID() > 0) {
@@ -43,7 +43,7 @@ class BScopeRemover : HDPickup {
 	}
 
 	override bool Use(bool pickup) {
-		PlayerInfo info = players[consoleplayer];
+		PlayerInfo info = players[owner.playerNumber()];
 		if (info.readyWeapon && info.readyWeapon is "BHDWeapon") {
 			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
 			if (weapon.getScopeSerialID() > 0) {
@@ -75,7 +75,7 @@ class BMiscRemover : HDPickup {
 	}
 
 	override bool Use(bool pickup) {
-		PlayerInfo info = players[consoleplayer];
+		PlayerInfo info = players[owner.playerNumber()];
 		if (info.readyWeapon && info.readyWeapon is "BHDWeapon") {
 			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
 			if (weapon.getMiscSerialID() > 0) {

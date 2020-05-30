@@ -81,7 +81,7 @@ class B_M16 : BaseStandardRifle {
 		Flash:
 			TNT1 A 0 {
 				if (!(invoker.barrelClass is "BaseFlashAttachment") && !(invoker.barrelClass is "BaseSilencerAttachment")) {
-					let psp = players[consoleplayer].FindPSprite(-1000);
+					let psp = player.FindPSprite(-1000);
 					if (psp) {
 						psp.sprite = GetSpriteIndex("FLSHA0");
 						psp.frame = 0;
@@ -187,7 +187,7 @@ class B_M16_M203 : BaseGLRifle {
 		Flash:
 			TNT1 A 0 {
 				if (!(invoker.barrelClass is "BaseFlashAttachment") && !(invoker.barrelClass is "BaseSilencerAttachment")) {
-					let psp = players[consoleplayer].FindPSprite(-1000);
+					let psp = player.FindPSprite(-1000);
 					if (psp) {
 						psp.sprite = GetSpriteIndex("FLSHA0");
 						psp.frame = random(0, 1);

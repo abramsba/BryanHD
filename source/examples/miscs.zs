@@ -109,8 +109,8 @@ class FlashLightManager : EventHandler {
 	void createLight(BHDWeapon weapon, PlayerPawn player) const {
 		let newPos = player.pos + (0, 0, 48);
 		let light = FlashSpotLight(player.Spawn("FlashSpotLight", player.pos));
-		light.playerOwner = consoleplayer;
-		spotLights[consoleplayer] = light;
+		light.playerOwner = player.PlayerNumber();
+		spotLights[player.PlayerNumber()] = light;
 		light.args[0] = 205;
 		light.args[1] = 221;
 		light.args[2] = 238;
@@ -119,7 +119,7 @@ class FlashLightManager : EventHandler {
 	}
 
 	void destroyLight(BHDWeapon weapon, PlayerPawn player) const {
-		SpotLight light = spotLights[consoleplayer];
+		SpotLight light = spotLights[player.PlayerNumber()];
 		if (light) {
 			light.destroy();
 		}

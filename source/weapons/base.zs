@@ -245,7 +245,7 @@ class BHDWeapon : HDWeapon {
 	// DOom Overrides
 	override void PostBeginPlay() {
 		super.PostBeginPlay();
-		player = Players[consoleplayer];
+		//player = Players[consoleplayer];
 	}
 
 
@@ -398,7 +398,7 @@ class BHDWeapon : HDWeapon {
 		bSpecial = bSolid = false;
 		if (miscActive) {
 			FlashLightManager mgr = FlashLightManager(EventHandler.Find("FlashLightManager"));
-			mgr.destLight(consoleplayer);
+			//mgr.destLight(owner.player.PlayerNumber());
 		}
 		miscActive = false;
 		let copyWeapon = super.CreateTossable(amt);
@@ -608,7 +608,7 @@ class BHDWeapon : HDWeapon {
 			}
 
 			if (invoker.getBarrelSerialID() > 0) {
-				let psp = players[consoleplayer].FindPSprite(LAYER_BARREL);
+				let psp = player.FindPSprite(LAYER_BARREL);
 				if (!psp) {
 					A_Overlay(LAYER_BARREL, "BarrelOverlay");
 				}
@@ -660,7 +660,7 @@ class BHDWeapon : HDWeapon {
 			}
 
 			if (invoker.getScopeSerialID() > 0) {
-				let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
+				let psp = player.FindPSprite(LAYER_SCOPE);
 				if (!psp) {
 					A_Overlay(LAYER_SCOPE, "ScopeOverlay");
 				}
@@ -711,7 +711,7 @@ class BHDWeapon : HDWeapon {
 			}
 
 			if (invoker.getMiscSerialID() > 0) {
-				let psp = players[consoleplayer].FindPSprite(LAYER_MISC);
+				let psp = player.FindPSprite(LAYER_MISC);
 				if (!psp) {
 					A_Overlay(LAYER_MISC, "MiscOverlay");
 				}
@@ -749,7 +749,7 @@ class BHDWeapon : HDWeapon {
 				if (invoker.barrelClass) {
 					string sp = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseSprite;
 					int idx = GetDefaultByType((Class<BaseBarrelAttachment>)(invoker.barrelClass)).BaseFrame;
-					let psp = players[consoleplayer].FindPSprite(LAYER_BARREL);
+					let psp = player.FindPSprite(LAYER_BARREL);
 					if (psp) {
 							psp.sprite = GetSpriteIndex(sp);
 							psp.frame = idx;
@@ -764,7 +764,7 @@ class BHDWeapon : HDWeapon {
 				if (invoker.scopeClass) {
 					string sp = GetDefaultByType((Class<BaseSightAttachment>)(invoker.scopeClass)).BaseSprite;
 					int idx = GetDefaultByType((Class<BaseSightAttachment>)(invoker.scopeClass)).BaseFrame;
-					let psp = players[consoleplayer].FindPSprite(LAYER_SCOPE);
+					let psp = player.FindPSprite(LAYER_SCOPE);
 					if (psp) {
 							psp.sprite = GetSpriteIndex(sp);
 							psp.frame = idx;
@@ -789,7 +789,7 @@ class BHDWeapon : HDWeapon {
 						idx = GetDefaultByType((Class<BaseMiscAttachment>)(invoker.miscClass)).OnFrame;
 					}
 
-					let psp = players[consoleplayer].FindPSprite(LAYER_MISC);
+					let psp = player.FindPSprite(LAYER_MISC);
 					if (psp) {
 							psp.sprite = GetSpriteIndex(sp);
 							psp.frame = idx;

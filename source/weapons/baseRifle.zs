@@ -130,8 +130,8 @@ class BaseAltRifle : BHDWeapon {
 
 		LoadAlt:
 			---- A 4 offset(10, 50) A_StartSound("weapons/pocket", CHAN_WEAPON, CHANF_OVERLAP);
-			---- AAA 8 offset(10, 50) A_MuzzleClimb(frandom(-0.2, 0.8), frandom(-0.2, 0.4));
-			---- A 18 offset(8, 50) {
+			---- AAA 2 offset(10, 50) A_MuzzleClimb(frandom(-0.2, 0.8), frandom(-0.2, 0.4));
+			---- A 10 offset(8, 50) {
 				A_TakeInventory(invoker.bAltMagClass, 1, TIF_NOTAKEINFINITE);
 				invoker.weaponStatus[I_FLAGS] |= I_GRENADE;
 				A_StartSound("weapon/grenreload", CHAN_WEAPON);
@@ -231,7 +231,6 @@ class BaseBoltRifle : BaseStandardRifle {
 				else {
 					A_StartSound("weapons/rifleclick2", 8);
 					invoker.weaponStatus[I_MAG]--;
-					console.printf("%i", invoker.weaponStatus[I_MAG]);
 					if (invoker.weaponStatus[I_MAG] > -1) {
 						if (A_JumpIfInventory(invoker.bMagazineClass, 0, "null")) {
 							A_SpawnItemEx(

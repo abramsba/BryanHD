@@ -39,24 +39,55 @@ class AttachmentManager : EventHandler {
 	}
 
 	override void WorldTick() {
-		PlayerInfo info = players[consoleplayer];
-		PlayerPawn pawn = info.mo;
-		if (!pawn) {
-			return;
-		}
 
-		if (!(info.readyWeapon is "BHDWeapon")) {
-			info.mo.A_OverlayOffset(LAYER_BARREL, 999, 999);
-			return;
-		}
+		for(int i = 0; i < 8; i++) {
+			PlayerInfo info = players[i];
+			PlayerPawn pawn = info.mo;
+			if (!pawn) {
+				return;
+			}
 
-		if (info.readyWeapon is "BHDWeapon") {
-			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
+			if (!(info.readyWeapon is "BHDWeapon")) {
+				info.mo.A_OverlayOffset(LAYER_BARREL, 999, 999);
+				return;
+			}
 
-			if (weapon.barrelClass) {
-				if (!pawn.CountInv("BSilencerRemover")) {
-					pawn.GiveInventoryType("BSilencerRemover");
+			if (info.readyWeapon is "BHDWeapon") {
+				BHDWeapon weapon = BHDWeapon(info.readyWeapon);
+
+				if (weapon.barrelClass) {
+					if (!pawn.CountInv("BSilencerRemover")) {
+						pawn.GiveInventoryType("BSilencerRemover");
+					}
 				}
+				else {
+					if (pawn.CountInv("BSilencerRemover")) {
+						pawn.TakeInventory("BSilencerRemover", 1);
+					}
+				}
+
+				if (weapon.scopeClass) {
+					if (!pawn.CountInv("BScopeRemover")) {
+						pawn.GiveInventoryType("BScopeRemover");
+					}
+				}
+				else {
+					if (pawn.CountInv("BScopeRemover")) {
+						pawn.TakeInventory("BScopeRemover", 1);
+					}
+				}
+
+				if (weapon.miscClass) {
+					if (!pawn.CountInv("BMiscRemover")) {
+						pawn.GiveInventoryType("BMiscRemover");
+					}
+				}
+				else {
+					if (pawn.CountInv("BMiscRemover")) {
+						pawn.TakeInventory("BMiscRemover", 1);
+					}
+				}
+
 			}
 			else {
 				if (pawn.CountInv("BSilencerRemover")) {
@@ -64,34 +95,8 @@ class AttachmentManager : EventHandler {
 				}
 			}
 
-			if (weapon.scopeClass) {
-				if (!pawn.CountInv("BScopeRemover")) {
-					pawn.GiveInventoryType("BScopeRemover");
-				}
-			}
-			else {
-				if (pawn.CountInv("BScopeRemover")) {
-					pawn.TakeInventory("BScopeRemover", 1);
-				}
-			}
-
-			if (weapon.miscClass) {
-				if (!pawn.CountInv("BMiscRemover")) {
-					pawn.GiveInventoryType("BMiscRemover");
-				}
-			}
-			else {
-				if (pawn.CountInv("BMiscRemover")) {
-					pawn.TakeInventory("BMiscRemover", 1);
-				}
-			}
-
 		}
-		else {
-			if (pawn.CountInv("BSilencerRemover")) {
-				pawn.TakeInventory("BSilencerRemover", 1);
-			}
-		}
+
 
 	}
 

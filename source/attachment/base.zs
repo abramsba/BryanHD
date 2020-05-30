@@ -65,7 +65,7 @@ class BaseBarrelAttachment : BaseAttachment {
 		}
 
 		if (weapon.getBarrelSerialID() > 0) {
-			PlayerInfo info = players[consoleplayer];
+			PlayerInfo info = players[owner.playerNumber()];
 			owner.player.SetPSprite(PSP_WEAPON, info.readyWeapon.FindState("BarrelAttachmentRemove"));
 			player.GiveInventory(weapon.barrelClass, 1);
 			OnDettach(weapon, player);
