@@ -245,7 +245,6 @@ class BHDWeapon : HDWeapon {
 	// DOom Overrides
 	override void PostBeginPlay() {
 		super.PostBeginPlay();
-		//player = Players[consoleplayer];
 	}
 
 
@@ -398,7 +397,8 @@ class BHDWeapon : HDWeapon {
 		bSpecial = bSolid = false;
 		if (miscActive) {
 			FlashLightManager mgr = FlashLightManager(EventHandler.Find("FlashLightManager"));
-			//mgr.destLight(owner.player.PlayerNumber());
+			PlayerPawn pawn = PlayerPawn(owner);
+			mgr.destLight(pawn.PlayerNumber());
 		}
 		miscActive = false;
 		let copyWeapon = super.CreateTossable(amt);
