@@ -72,11 +72,11 @@ class B_M16 : BaseStandardRifle {
 		deselect:
 			M16G A 0 A_StartDeselect();
 
-		Deselect0:
-			M16G A 0 GetAttachmentState();
-			M16G A 0 { 
-				return ResolveState("Deselect0Small"); 
-			}
+		//Deselect0:
+		//	M16G A 0 GetAttachmentState();
+		//	M16G A 0 { 
+		//		return ResolveState("Deselect0Small"); 
+		//	}
 
 		Flash:
 			TNT1 A 0 {
@@ -178,11 +178,11 @@ class B_M16_M203 : BaseGLRifle {
 		deselect:
 			M16G A 0 A_StartDeselect();
 
-		Deselect0:
-			M16G A 0 GetAttachmentState();
-			M16G A 0 { 
-				return ResolveState("Deselect0Small"); 
-			}
+		//Deselect0:
+		//	M16G A 0 GetAttachmentState();
+		//	M16G A 0 { 
+		//		return ResolveState("Deselect0Small"); 
+		//	}
 
 		Flash:
 			TNT1 A 0 {

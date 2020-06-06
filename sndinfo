@@ -1,8 +1,10 @@
-m16/fire M16GFIR
+m16/fire M16FIRE
 m16/silfire M16SIL
 ak47/fire AK47FIR
 akm/fire AKMFFIRE
 akm/boltb AKMBOLTB
 akm/boltf AKMBOLTF
 mp5k/fire MP5KFIR
-kar/bolt DSPOP
+kar/boltb KARBLT1
+kar/boltf KARBLT2
+kar/fire KARFIRE

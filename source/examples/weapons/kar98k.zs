@@ -33,11 +33,11 @@ class B_KAR98K : BaseBoltRifle {
 		BHDWeapon.BarrelLength       25;
 		BHDWeapon.BarrelWidth        1;
 		BHDWeapon.BarrelDepth        3;
-		BHDWeapon.BFireSound         "m16/fire";
-		BHDWeapon.BSFireSound        "m16/silfire";
+		BHDWeapon.BFireSound         "kar/fire";
+		BHDWeapon.BSFireSound        "kar/fire";
 		BHDWeapon.BChamberSound      "weapons/rifchamber";
-		BHDWeapon.BBoltForwardSound  "kar/bolt";
-		BHDWeapon.BBoltBackwardSound "kar/bolt";
+		BHDWeapon.BBoltForwardSound  "kar/boltb";
+		BHDWeapon.BBoltBackwardSound "kar/boltf";
 		BHDWeapon.BClickSound        "weapons/rifleclick2";
 		BHDWeapon.BLoadSound         "weapons/rifleload";
 		BHDWeapon.BROF               1;

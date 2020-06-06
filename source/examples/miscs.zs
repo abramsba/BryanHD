@@ -36,6 +36,11 @@ class FlashSpotLight : SpotLight {
 	double pitchNow;
 	double pitchDirection;
 
+	double prev;
+	double bTarget;
+	double bNow;
+	double bDirection;
+
 	void adjustPitch() {
 		pitchNow += pitchDirection;
 		if (pitchDirection > 0 && pitchNow > pitchTarget) {
@@ -46,6 +51,26 @@ class FlashSpotLight : SpotLight {
 		}
 	}
 
+	void setLightTarget(double target) {
+		if (target < bTarget) {
+			bDirection = 1;
+		}
+		else if (target > bTarget) {
+			bDirection = -1;
+		}
+		bTarget = target * -1;
+	}
+
+	void adjustLightTarget() {
+		bNow += bDirection;
+		if (bDirection > 0 && bNow > bTarget) {
+			bNow = bTarget;
+		}
+		else if (bDirection < 0 && bNow < bTarget) {
+			bNow = bTarget;
+		}
+	}
+
 	override void BeginPlay() {
 		playerOwner = -1;
 	}
@@ -53,6 +78,10 @@ class FlashSpotLight : SpotLight {
 	override void Tick() {
 		if (playerOwner > -1) {
 			PlayerInfo info = players[playerOwner];
+			if (!info.mo) {
+				return;
+			}
+
 			HDPlayerPawn ply = HDPlayerPawn(info.mo);
 			BHDWeapon weapon = BHDWeapon(info.readyWeapon);
 			if (info.mo) {
@@ -60,7 +89,7 @@ class FlashSpotLight : SpotLight {
 					self.destroy();
 					return;
 				}
-				let newPos = info.mo.pos + (0, 0, 40);
+				let newPos = info.mo.pos + (0, 0, info.mo.height);
 				newPos.z -= (ply.hudbob.y / 2.0);
 				SetOrigin(newPos, true);
 				A_SetAngle(info.mo.angle - ply.hudbob.x, SPF_INTERPOLATE);

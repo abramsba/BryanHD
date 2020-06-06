@@ -245,6 +245,8 @@ class BHDWeapon : HDWeapon {
 	// DOom Overrides
 	override void PostBeginPlay() {
 		super.PostBeginPlay();
+		weaponStatus[I_FLAGS] |= F_CHAMBER;
+		weaponStatus[I_MAG]--;
 	}
 
 
@@ -742,6 +744,14 @@ class BHDWeapon : HDWeapon {
 		GetAttachmentStateMisc(mgr);
 	}
 
+	action void GetMiscState() {
+		PlayerInfo info = players[invoker.PlayerNumber()];
+		if (!(info.cmd.buttons & BT_SPEED)) {
+			FlashLightManager mgr = FlashLightManager(EventHandler.Find("FlashLightManager"));
+			mgr.destLight(invoker.PlayerNumber());	
+		}
+	}
+
 	states {
 
 		BarrelOverlay:
@@ -1194,9 +1204,46 @@ class BHDWeapon : HDWeapon {
 			Goto super::select0small;
 
 		Deselect0:
-			M16G A 0 GetAttachmentState();
+			//#### A 0 GetMiscState();
+			#### A 0 GetAttachmentState();
 			Goto super::deselect0small;
 
+/*
+	deselect0:
+		#### A 0 {
+			console.printf("00");
+		}
+		//---- A 0 GetAttachmentState();
+		#### A 0 A_Lower();
+		wait;	
+
+	deselect0small:
+		---- A 0 {
+			console.printf("0");
+		}
+		---- A 0 A_JumpIfInventory("NulledWeapon",1,"deselect1small");
+		---- A 1 A_Lower(1);
+		---- AA 1 A_Lower(2);
+		---- AA 1 A_Lower();
+		---- A 1 A_Lower(12);
+		---- A 1 A_Lower(30);
+		---- A 1 A_Lower(36);
+		---- A 1 A_Lower();
+		wait;
+
+	deselect1small:
+
+		---- A 0 {
+			console.printf("1");
+		}
+		---- A 1 A_Lower(1);
+		---- A 1 A_Lower();
+		---- A 1 A_Lower(12);
+		---- A 1 A_Lower(24);
+		---- A 1 A_Lower(30);
+		---- A 1 A_Lower(36);
+		wait;
+*/
 
 		AttachmentStart:
 			#### A 1 A_WeaponBusy();

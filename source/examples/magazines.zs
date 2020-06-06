@@ -6,8 +6,8 @@ class B556Mag : HDMagAmmo{
 		hdmagammo.roundbulk ENC_556_LOADED;
 		hdmagammo.magbulk ENC_556MAG_EMPTY;
 		hdpickup.refid "m56";
-		tag "5.56 NATO STANAG magazine";
-		inventory.pickupmessage "Picked up a 5.56mm NATO STANAG magazine.";
+		tag "5.56x45mm NATO STANAG magazine";
+		inventory.pickupmessage "Picked up a 5.56x45mm NATO STANAG magazine.";
 		scale 0.8;
 	}
 
@@ -39,8 +39,8 @@ class B9mm_MP5K_MAG : HDMagAmmo {
 		hdmagammo.roundbulk ENC_556_LOADED;
 		hdmagammo.magbulk ENC_556MAG_EMPTY;
 		hdpickup.refid "mmp";
-		tag "9mm MP5K Magazine";
-		inventory.pickupmessage "Picked up a 9mm MP5K magazine.";
+		tag "MP5K Magazine";
+		inventory.pickupmessage "Picked up a MP5K magazine.";
 		scale 0.8;
 	}
 
@@ -72,8 +72,8 @@ class B762_AK47_Mag : HDMagAmmo{
 		hdmagammo.roundbulk ENC_776_LOADED;
 		hdmagammo.magbulk ENC_776MAG_EMPTY;
 		
-		tag "7.62 AK47 magazine";
-		inventory.pickupmessage "Picked up a 7.62 AK47 magazine.";
+		tag "7.62x39mm AK47 magazine";
+		inventory.pickupmessage "Picked up a 7.62x39mm AK47 magazine.";
 		scale 0.8;
 	}
 
@@ -106,8 +106,8 @@ class B762_AKM_Mag : HDMagAmmo{
 		hdmagammo.roundbulk ENC_762_LOADED;
 		hdmagammo.magbulk ENC_762MAG_EMPTY;
 		hdpickup.refid "mak";
-		tag "7.62 AKM magazine";
-		inventory.pickupmessage "Picked up a 7.62 AKM magazine.";
+		tag "7.62x39mm AKM magazine";
+		inventory.pickupmessage "Picked up a 7.62x39mm AKM magazine.";
 		scale 0.8;
 	}
 
@@ -140,8 +140,8 @@ class B792_KAR98_Clip : HDMagAmmo{
 		hdmagammo.roundbulk ENC_762_LOADED;
 		hdmagammo.magbulk ENC_762MAG_EMPTY;
 		hdpickup.refid "mka";
-		tag "7.92 clip";
-		inventory.pickupmessage "Picked up a 7.92 clip.";
+		tag "7.92x57mm clip";
+		inventory.pickupmessage "Picked up a 7.92x57mm clip.";
 		scale 0.8;
 	}
 

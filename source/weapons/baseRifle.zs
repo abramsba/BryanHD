@@ -56,6 +56,12 @@ class BaseAltRifle : BHDWeapon {
 			Goto super::fire;
 
 		FireAlt:
+			---- A 0 {
+				if (!(invoker.weaponStatus[I_FLAGS] & I_GRENADE)) {
+					return ResolveState("Nope");
+				}
+				return ResolveState(NULL);
+			}
 			---- A 2;
 			---- A 3 A_GunFlash("AltFlash");
 			---- A 0 {

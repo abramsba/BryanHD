@@ -35,10 +35,23 @@ class AttachmentManager : EventHandler {
 			player.A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
 			player.A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
 			player.A_ClearOverlays(LAYER_MISC, LAYER_MISC);
+			PlayerInfo info = players[player.PlayerNumber()];
+			if (info.readyWeapon && info.readyWeapon is "BHDWeapon") {
+				BHDWeapon wep = BHDWeapon(info.readyWeapon);
+				//wep.scopeClass = null;
+				wep.setScopeSerialId(0);
+				wep.setBarrelSerialId(0);
+				wep.setMiscSerialId(0);
+				//player.A_ClearOverlays(LAYER_BARREL, LAYER_BARREL);
+				//layer.A_ClearOverlays(LAYER_SCOPE, LAYER_SCOPE);
+				//player.A_ClearOverlays(LAYER_MISC, LAYER_MISC);
+			}
 		}
 	}
 
 	override void WorldTick() {
+
+
 
 		for(int i = 0; i < 8; i++) {
 			PlayerInfo info = players[i];

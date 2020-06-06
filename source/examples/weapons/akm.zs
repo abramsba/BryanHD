@@ -72,11 +72,11 @@ class B_AKM : BHDWeapon {
 		deselect:
 			AKMG A 0 A_StartDeselect();
 
-		Deselect0:
-			AKMG A 0 GetAttachmentState();
-			AKMG A 0 { 
-				return ResolveState("Deselect0Small"); 
-			}
+		//Deselect0:
+		//	AKMG A 0 GetAttachmentState();
+		//	AKMG A 0 { 
+		//		return ResolveState("Deselect0Small"); 
+		//	}
 	}
 
 }
@@ -108,10 +108,10 @@ class B_AKM_PICRAIL : B_AKM {
 		deselect:
 			AKPG A 0 A_StartDeselect();
 
-		Deselect0:
-			AKPG A 0 GetAttachmentState();
-			AKPG A 0 { 
-				return ResolveState("Deselect0Small"); 
-			}
+		//Deselect0:
+		//	AKPG A 0 GetAttachmentState();
+		//	AKPG A 0 { 
+		//		return ResolveState("Deselect0Small"); 
+		//	}
 	}
 }

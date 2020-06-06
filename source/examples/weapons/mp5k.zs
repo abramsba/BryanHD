@@ -71,11 +71,11 @@ class B_MP5K : BaseStandardRifle {
 		deselect:
 			MP5K A 0 A_StartDeselect();
 
-		Deselect0:
-			MP5K A 0 GetAttachmentState();
-			MP5K A 0 { 
-				return ResolveState("Deselect0Small"); 
-			}
+		//Deselect0:
+		//	MP5K A 0 GetAttachmentState();
+		//	MP5K A 0 { 
+		//		return ResolveState("Deselect0Small"); 
+		//	}
 	}
 }
 

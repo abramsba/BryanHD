@@ -3,7 +3,9 @@ class PlayerEvents : EventHandler {
 
 	override void PlayerEntered(PlayerEvent e) {
 		PlayerPawn pawn = players[e.PlayerNumber].mo;
-		pawn.GiveInventoryType("MiscAttachmentInput");
+		if (pawn) {
+			pawn.GiveInventoryType("MiscAttachmentInput");
+		}
 		//pawn.GiveInventoryType("BSilencerRemover");
 		//pawn.GiveInventoryType("BScopeRemover");
 		//pawn.GiveInventoryType("BMiscRemover");
@@ -30,15 +32,21 @@ class PlayerEvents : EventHandler {
 	void adjustPosition(int index) {
 		PlayerInfo info = players[index];
 		PlayerPawn pawn = info.mo;
-		lightNear.setXYZ(pawn.pos + (0, 0, 16));
-		lightCone.setXYZ(pawn.pos + (0, 0, 48));
-		lightCone.angle = pawn.angle;
-		lightCone.pitch = pawn.pitch;
+		if (pawn) {
+			lightNear.setXYZ(pawn.pos + (0, 0, 16));
+			lightCone.setXYZ(pawn.pos + (0, 0, 48));
+			lightCone.angle = pawn.angle;
+			lightCone.pitch = pawn.pitch;
+		}
 	}
 
 	void checkPlayer(int index) {
 		PlayerInfo info = players[index];
 		PlayerPawn pawn = info.mo;
+		if (!pawn) {
+			return;
+		}
+
 		if (info.ReadyWeapon is "BHDWeapon") {
 			BHDWeapon wep = BHDWeapon(info.ReadyWeapon);
 			if (wep.flashlight && wep.flashlightOn) {
