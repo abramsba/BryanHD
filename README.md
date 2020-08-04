@@ -1,3 +1,8 @@
+This repository is deprecated.
+
+New repository available at: https://github.com/abramsba/hdest-weapons
+
+
 # Bryan's HD extensions
 
 This extension pack includes
